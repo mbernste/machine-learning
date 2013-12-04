@@ -6,12 +6,12 @@ import data.DataSet;
 import data.arff.ArffReader;
 import data.attribute.Attribute;
 import data.instance.Instance;
-import bayes_network.BNQuery;
 import bayes_network.BayesianNetwork;
 import bayes_network.builders.NaiveBayesBuilder;
 import bayes_network.builders.TANBuilder;
 import bayes_network.classification.ClassificationResult;
 import bayes_network.classification.NaiveBayesClassifier;
+import bayes_network.cpd.CPDQuery;
 import bayes_network.cpd.CPDTree;
 import bayes_network.cpd.CPDTreeBuilder;
 
@@ -209,7 +209,7 @@ public class Test
 		Attribute classA = data.getAttributeByName("class");
 		Integer neg = classA.getNominalValueId("positive");
 		
-		BNQuery query = new BNQuery();
+		CPDQuery query = new CPDQuery();
 		query.addQueryItem(color, red);
 		query.addQueryItem(classA, neg);
 		query.addQueryItem(sex, male);

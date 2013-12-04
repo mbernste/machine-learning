@@ -9,14 +9,14 @@ import data.DataSet;
 import data.attribute.Attribute;
 import data.instance.Instance;
 import bayes_network.BNNode;
-import bayes_network.BNQuery;
 import bayes_network.BayesianNetwork;
 import bayes_network.builders.NaiveBayesBuilder;
 import bayes_network.builders.TANBuilder;
+import bayes_network.cpd.CPDQuery;
 
 /**
- * Objects of this class are used for performing a classification using a
- *  Naive Bayesian Network.
+ * A classifier for performing a classification task using a Naive Bayesian 
+ * network.
  * 
  *  @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
@@ -34,14 +34,24 @@ public class NaiveBayesClassifier
 	 */
 	private BNNode classNode;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param data the DataSet used to construct the classifier
+	 * @param laplaceCount the Laplace count to use when generating the
+	 * Bayesian network
+	 * @param tan true if we want to use the TAN algorithm for creating
+	 * a maximal spanning tree among the attributes that are not the class
+	 * attribute
+	 */
 	public NaiveBayesClassifier(DataSet data, Integer laplaceCount, boolean tan)
 	{
-		if (tan)
+		if (tan) 	// Build with tree augmentation
 		{
 			TANBuilder tBuilder = new TANBuilder();
 			this.bayesNet = tBuilder.buildNetwork(data, laplaceCount);
 		}
-		else
+		else		// Build standard bayes net
 		{
 			NaiveBayesBuilder nBuilder = new NaiveBayesBuilder();
 			this.bayesNet = nBuilder.buildNetwork(data, laplaceCount);
@@ -67,14 +77,17 @@ public class NaiveBayesClassifier
 		ArrayList<Pair<Integer, Double>> resultList = 
 				new ArrayList<Pair<Integer, Double>>();
 		
-		// TODO REMOVE THIS
-		int count = 0;
-		
+		/*
+		 *	Classify each instance in the test dataset 
+		 */
 		for (Instance instance : testData.getInstanceSet().getInstanceList())
 		{
 			resultList.add( this.classifyInstance(instance) );
 		}
 		
+		/*
+		 *	Process the results 
+		 */
 		ClassificationResult result = new ClassificationResult(resultList,
 															   testData);
 		
@@ -164,7 +177,9 @@ public class NaiveBayesClassifier
 	/**
 	 * Given that Bayes Theorem is:
 	 * <br>
+	 * <br>
 	 * P(Y|X) = P(X|Y) / P(X)
+	 * <br>
 	 * <br>
 	 * This method calculates the numerator P(X|Y)
 	 * 
@@ -183,14 +198,16 @@ public class NaiveBayesClassifier
 	/**
 	 * Given that Bayes Theorem is:
 	 * <br>
+	 * <br>
 	 * P(Y|X) = P(X|Y) / P(X)
+	 * <br>
 	 * <br>
 	 * This method calculates the denominator P(X)
 	 * 
 	 * @param instance the instance for which were are calculating the
 	 * probability of a given Y
-	 * @param nomValueId the nominal value ID of Y
-	 * @return the value of the numerator
+	 * @param nomValueId the nominal value ID of the Y attribute
+	 * @return the value of the denominator, P(X)
 	 */
 	private Double calculateBayesDenominator(Instance instance)
 	{
@@ -232,7 +249,7 @@ public class NaiveBayesClassifier
 		Double result = 1.0;
 		
 		// Create query for P(Y)
-		BNQuery query = new BNQuery();
+		CPDQuery query = new CPDQuery();
 		query.addQueryItem(classNode.getAttribute(), classValueId);
 					
 		// Calculate P(Y)
@@ -251,7 +268,7 @@ public class NaiveBayesClassifier
 				
 				// Create a new query with this node's attribute and the 
 				// instant's value for that attribute
-				query = new BNQuery();
+				query = new CPDQuery();
 				query.addQueryItem(nodeAttr, instValue);
 				
 				// Iterate over this node's parents in order to build the query 

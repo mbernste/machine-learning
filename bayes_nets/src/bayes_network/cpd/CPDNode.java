@@ -5,10 +5,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import bayes_network.BNQuery;
 
 import data.attribute.Attribute;
 
+/**
+ * A single node in a CPD tree.  Each node splits the instances in the training
+ * set on a certain value of a certain attribute.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class CPDNode 
 {
 	/**
@@ -124,14 +130,18 @@ public class CPDNode
 	 * @return the probability of this query as calculated by the CPD tree
 	 * rooted at this node
 	 */
-	public Double calculateProbability(BNQuery query)
+	public Double calculateProbability(CPDQuery query)
 	{
 		Double result = 0.0;
 		
-		// Get the query value for this node's attribute
+		/*
+		 *  Get the query value for this node's attribute
+		 */
 		Integer queryValue = query.getValueForQueryAttribute(this.attribute);
 		
-		// Determine whether to sum over children or to return zero
+		/*
+		 *  Determine whether to sum over children or to return zero
+		 */
 		if (queryValue == null || queryValue == this.nodeValue)
 		{
 			for (CPDNode child : this.children.values())
@@ -147,6 +157,11 @@ public class CPDNode
 		return result;
 	}
 	
+	/**
+	 * Set the parent node of this node.
+	 * 
+	 * @param parent this node's parent
+	 */
 	protected void setParent(CPDNode parent)
 	{
 		this.parent = parent;

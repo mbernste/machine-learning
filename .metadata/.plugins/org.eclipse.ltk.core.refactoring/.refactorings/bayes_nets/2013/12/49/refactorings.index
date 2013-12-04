@@ -1,3 +1,6 @@
 1386196843078	Copy package
 1386196879836	Copy file
 1386196913065	Delete element
+1386198231113	Rename method 'getTypeName'
+1386200661679	Rename type 'BNQuery'
+1386200667864	Move compilation unit

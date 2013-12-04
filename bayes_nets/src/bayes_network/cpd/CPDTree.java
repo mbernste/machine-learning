@@ -1,17 +1,35 @@
 package bayes_network.cpd;
 
-import bayes_network.BNQuery;
 import data.attribute.AttributeSet;
 
+/**
+ * A tree data structure used for representing and storing the 
+ * conditional probability distribution (CPD) for a specific node in a
+ * Bayesian network.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ * 
+ */
 public class CPDTree 
 {
+	/**
+	 * Total instances in the training data set used for generating this CPD
+	 */
 	protected static Integer totalInstances;
 	
+	/**
+	 * The set of attributes in the training set used for generating this CPD
+	 */
 	protected AttributeSet attributeSet;
 	
+	/**
+	 * The root node of the CPD tree
+	 */
 	protected CPDNode root;
 	
-	
+	/**
+	 * @return the root node of this CPD tree
+	 */
 	public CPDNode getRoot()
 	{
 		return root;
@@ -53,17 +71,24 @@ public class CPDTree
 		{
 			String result = "";
 			
-			// Print the indentated "|" characters
+			/*
+			 *  Print the indentated "|" characters
+			 */
 			for (int i = 0; i < depth; i++)
 			{
 				result += "|     ";
 			}
 			
-			// Print the value at the current node
+			/*
+			 *  Print the value at the current node
+			 */
 			result += node;
 	
 			result += "\n";
 			
+			/*
+			 *	Generate the string for the child nodes of this node 
+			 */
 			for (CPDNode child : node.getChildren())
 			{
 				result += getString(child, depth + 1);
@@ -73,7 +98,13 @@ public class CPDTree
 		}
 	}
 	
-	public Double query(BNQuery query)
+	/**
+	 * Make a query on this CPD tree
+	 * 
+	 * @param query the query object
+	 * @return the probability of this query given this CPD
+	 */
+	public Double query(CPDQuery query)
 	{
 		return this.root.calculateProbability(query);
 	}

@@ -5,23 +5,40 @@ import java.util.ArrayList;
 import data.DataSet;
 import data.attribute.Attribute;
 
+/**
+ * Used for creating a new {@code CPDTree} object
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class CPDTreeBuilder 
-{
-	public CPDTreeBuilder()
-	{
-		
-	}
-	
+{	
+	/**
+	 * Build a CPD tree 
+	 * 
+	 * @param data the data set used to construct the tree
+	 * @param cpdAttrs the attributes in the CPD tree
+	 * @param laplaceCount the Laplace count used when calculating each 
+	 * probability
+	 * @return the constructed CPD tree
+	 */
 	public CPDTree buildCPDTree(DataSet data, 
 								ArrayList<Attribute> cpdAttrs,
 								Integer laplaceCount)
 	{
-		// Create tree
+		/*
+		 *  Create tree
+		 */
 		CPDTree tree = new CPDTree();
 		
-		// Set total instances
+		/*
+		 *  Set total instances
+		 */
 		CPDTree.totalInstances = data.getNumInstances();
 		
+		/*
+		 * Build the tree
+		 */
 		tree.root = makeSubTree(data, 
 				null, 
 				null,
@@ -56,14 +73,18 @@ public class CPDTreeBuilder
 	{		
 		CPDNode newNode = null;
 
-		// Check for stopping criteria
+		/*
+		 *  Check for stopping criteria
+		 */
 		boolean stoppingCriteria = checkStoppingCriteria(data,  
 														 availAttributes
 														 );
 				
 		
-		// If the stopping criteria is met, create a leaf node with a 
-		// probability of the condition being met
+		/*
+		 *  If the stopping criteria is met, create a leaf node with a 
+		 *	probability of the condition being met
+		 */
 		if (stoppingCriteria)
 		{
 			CPDLeaf leaf = new CPDLeaf(attribute, 
@@ -76,28 +97,38 @@ public class CPDTreeBuilder
 		{
 			newNode = new CPDNode(attribute, value, data.getNumInstances());
 
-			// Create the split on the current attribute
+			/*
+			 *  Create the split on the current attribute
+			 */
 			Split split = Split.createSplitNominal(availAttributes.get(0),
 												   data);
 			
-			// For each branch of the best split, create a new node that 
-			// roots a subtree
+			/*
+			 *  For each branch of the best split, create a new node that 
+			 *	roots a subtree
+			 */
 			for (SplitBranch branch : split.getSplitBranches())
 			{	
-				// Create a subset of the data with only the instances that
-				// have filtered down to this node
+				/*
+				 * Create a subset of the data with only the instances that
+				 * have filtered down to this node
+				 */
 				DataSet subsetData = new DataSet();
 				subsetData.setAttributeSet(data.getAttributeSet());
 				subsetData.setInstanceSet(branch.getInstanceSet());
 				subsetData.setClassAttribute(data.getClassAttribute().getName());
 
-				// Remove the attribute we just split on
+				/*
+				 *  Remove the attribute we just split on
+				 */
 				ArrayList<Attribute> newAvailAttributes;
 				newAvailAttributes = removeAttributeById(availAttributes,
 														 split.getAttribute().getId());
 				
 					
-				// Make the recursive call to make a subtree at each child node
+				/*
+				 *  Make the recursive call to make a subtree at each child node
+				 */
 			    CPDNode child = makeSubTree(subsetData,
 										    split.getAttribute(),
 										    branch.getValue().intValue(),
@@ -130,29 +161,19 @@ public class CPDTreeBuilder
 										  ArrayList<Attribute> availableAttributes
 										  )
 	{
-	
-		// ********************************************************************
-		// ****  1. Check that we still have available attributes 			***
-		// ****     to split on			  									***
-		// ********************************************************************
-		
+		/*
+		 * Check that we still have available attributes 
+		 * to split on	
+		 */
 		if (availableAttributes.size() < 1)
 		{
 				return true;
 		}
 		
-		// ********************************************************************
-		// ****  2. Check that number of instances is not less than our   *****
-		// ****     threshold			 							 	  *****
-		// ********************************************************************
 		/*
-		if (data.getNumInstances() < 1)
-		{
-			return true;
-		}*/
-		
-		// If none of the conditions are met, we have not met the stopping 
-		// criteria
+		 *  If none of the conditions are met, we have not met the stopping 
+		 *	criteria
+		 */
 		return false;
 	}
 	

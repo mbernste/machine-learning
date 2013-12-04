@@ -8,6 +8,12 @@ import java.util.Map;
 import data.DataSet;
 import data.attribute.Attribute;
 
+/**
+ * Objects of this class encapsulate a complete Bayesian Network.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class BayesianNetwork 
 {
 	/**
@@ -129,8 +135,11 @@ public class BayesianNetwork
 		return 0;
 	}
 
-	
-	private String getTypeName()
+	/**
+	 * @return the name of the algorithm that was used to infer this Bayes 
+	 * network's structure
+	 */
+	private String getNetInferenceName()
 	{
 		String result = "";
 		

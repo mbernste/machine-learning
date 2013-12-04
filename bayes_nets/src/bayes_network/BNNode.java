@@ -2,10 +2,16 @@ package bayes_network;
 
 import java.util.ArrayList;
 
+import bayes_network.cpd.CPDQuery;
 import bayes_network.cpd.CPDTree;
 
 import data.attribute.Attribute;
 
+/**
+ * A single node in a {@code BayesianNetwork} object
+ * 
+ * @author Matthew Bernstien - matthewb@cs.wisc.edu
+ */
 public class BNNode 
 {	
 	/**
@@ -117,7 +123,7 @@ public class BNNode
 	 * @return the probability of this query given by this node's conditional
 	 * probability table
 	 */
-	public Double query(BNQuery query)
+	public Double query(CPDQuery query)
 	{
 		return this.cpd.query(query);
 	}
