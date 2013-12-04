@@ -1,4 +1,4 @@
 machine-learning
 ================
 
-A library of machine learning algorithm implementation
+A Java library of implemented machine learning algorithms.
