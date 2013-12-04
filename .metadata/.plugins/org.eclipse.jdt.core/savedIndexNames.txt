@@ -1,0 +1,15 @@
+INDEX VERSION 1.126+/Users/matthewbernstein/Development/machine-learning/.metadata/.plugins/org.eclipse.jdt.core
+1866360331.index
+151282615.index
+3766319427.index
+131033424.index
+4050098727.index
+859006571.index
+1132540654.index
+3577949970.index
+3928986380.index
+1733745735.index
+2855751764.index
+4066660790.index
+304478734.index
+798851247.index

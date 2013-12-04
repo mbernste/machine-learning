@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="lib/data.jar"/>
 	<classpathentry kind="lib" path="lib/bimap.jar"/>
 	<classpathentry kind="lib" path="lib/data_structures.jar"/>
+	<classpathentry kind="lib" path="lib/graph.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
