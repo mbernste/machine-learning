@@ -6,154 +6,156 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import core.Edge;
+
 import pair.Pair;
 
+/**
+ * Implements Prim's algorithm for finding the maximal/minimum spanning tree
+ * in a directed graph.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class Prim 
-{
-	public final static Double NO_EDGE = -1.0;
+{	
+	/**
+	 * Denotes a non-existant edge in the adjacency matrix
+	 */
+	public final static Double NO_EDGE = null;
+	
+	/**
+	 * Denotes the ID of the first vertex to use when constructing the tree
+	 */
 	public final static int FIRST_VERTEX = 0;
 	
-	private Double[][] graph; 
-	
+	/**
+	 * Run Prim's algorithm on a graph to find the maximal/minimal spanning 
+	 * tree.
+	 * 
+	 * @param graph an adjacency matrix representing the existing graph. Weights
+	 * are specified by Double objects.  Null objects represent non-existant
+	 * edges.
+	 * @return a list of edges representing the resulting spanning tree.
+	 */
 	public static ArrayList<Edge> runPrims(Double[][] graph)
 	{
-		Set<Integer> verticesInTree = new HashSet<Integer>();
-		verticesInTree.add(FIRST_VERTEX);
+		/*
+		 * Stores all vertices currently in the tree
+		 */
+		Set<Integer> vInTree = new HashSet<Integer>();
 		
-		PriorityQueue<Edge> existingEdges = 
+		/*
+		 * Add first vertex to the tree
+		 */
+		vInTree.add(FIRST_VERTEX);
+		
+		/*
+		 * Create a priority queue for storing potential edges
+		 */
+		PriorityQueue<Edge> potentialEdges = 
 				new PriorityQueue<Edge>(graph.length * graph.length,
 									    Edge.EDGE_ORDER);
 		
-		// Add all edges of the first node to the priority queue
-		addAllEdges(graph, FIRST_VERTEX, verticesInTree, existingEdges);
+		/*
+		 *  Add all edges of the first node to the queue of potential edges
+		 */
+		addPotentialEdges(graph, FIRST_VERTEX, vInTree, potentialEdges);
 		
-		// Create the set of Edges that constitute the spanning tree
-		PriorityQueue<Edge> newEdges = new  PriorityQueue<Edge>(2 * graph.length,
-		        											Edge.EDGE_ORDER);
+		/*
+		 *  Initialize the set of Edges that constitute the spanning tree
+		 */
+		Set<Edge> edgesInTree = new  HashSet<Edge>();
 		
-		while (verticesInTree.size() < graph.length)
+		/*
+		 * While there are vertices that have not yet been added to the tree
+		 * keep adding edges to the spanning tree.
+		 */
+		while (vInTree.size() < graph.length)
 		{		
-			Edge newEdge;
+			Edge potentialEdge;
 			Integer newVertex = -1;
 			
-			boolean isInTree = true;
+			boolean isInTree = true; // true if the current edge is already in
+									 // in the tree
+			
 			while (isInTree)
 			{				
-				newEdge = existingEdges.remove();
+				potentialEdge = potentialEdges.remove();
 				
-				if ( ! (verticesInTree.contains( newEdge.getFirstVertex() ) &&
-					    verticesInTree.contains( newEdge.getSecondVertex() ))  )
+				/*
+				 * Add the new edge to the tree only if both vertices of this
+				 * edge are not already in the tree.  We then add the new vertex
+				 * to the tree.
+				 */
+				if ( ! (vInTree.contains( potentialEdge.getFirstVertex() ) &&
+					    vInTree.contains( potentialEdge.getSecondVertex() ))  )
 				{					
-					newEdges.add(newEdge);
+					edgesInTree.add(potentialEdge);
+					
 					isInTree = false;
 					
-					if (!verticesInTree.contains(newEdge.getFirstVertex()))
+					if (!vInTree.contains(potentialEdge.getFirstVertex()))
 					{
-						newVertex = newEdge.getFirstVertex();
+						newVertex = potentialEdge.getFirstVertex();
 					}
 					else
 					{
-						newVertex = newEdge.getSecondVertex();
+						newVertex = potentialEdge.getSecondVertex();
 					}
 				}	
 			}
 			
-			verticesInTree.add(newVertex);
-			addAllEdges(graph, newVertex, verticesInTree, existingEdges);
+			vInTree.add(newVertex);
+			addPotentialEdges(graph, newVertex, vInTree, potentialEdges);
 		}
 		
-		return new ArrayList<Edge>(newEdges);
+		return new ArrayList<Edge>(edgesInTree);
 		
 	}
 	
-	public static void addAllEdges(Double[][] graph, 
+	/**
+	 * Adds all edges incident to a new vertex in the spanning tree to the queue
+	 * containing all potential edges that may be added to the spanning tree
+	 * in the future.
+	 * 
+	 * @param graph - the original graph
+	 * @param newVertex - the new vertex to the spanning tree
+	 * @param vInTree - a set of all vertices already in the spanning tree
+	 * @param potentialEdges - the set of potential edges to the spanning tree
+	 */
+	public static void addPotentialEdges(Double[][] graph, 
 								   Integer newVertex,
-								   Set<Integer> verticesInTree,
-								   PriorityQueue<Edge> existingEdges)
+								   Set<Integer> vInTree,
+								   PriorityQueue<Edge> potentialEdges)
 	{
-		for (int c = 0; c < graph.length; c++)
+		
+		/*
+		 * Iterate through all adjacent vertices to the new vertice, create
+		 * each edge, and add each edge to the set of potential edges. 
+		 */
+		for (int currVertex = 0; currVertex < graph.length; currVertex++)
 		{
-			if (graph[newVertex][c] != NO_EDGE)
+			if (graph[newVertex][currVertex] != NO_EDGE)
 			{
-				// Set the nodes that make up the edge (i.e the new vertex
-				// and current column
+				/*
+				 *  Create edge
+				 */
 				Pair<Integer, Integer> nodes = new Pair<Integer, Integer>();
 				nodes.setFirst(newVertex);
-				nodes.setSecond(c);
+				nodes.setSecond(currVertex);
 				
-				// Set the weight of this edge as specified in the graph
-				Double weight = graph[newVertex][c];
+				/*
+				 *  Set weight
+				 */
+				Double weight = graph[newVertex][currVertex];
 				
-				// Create the Edge and add it to the priority queue
+				/*
+				 *  Add to potential edges
+				 */
 				Edge e = new Edge(nodes, weight);
-				existingEdges.add(e);
+				potentialEdges.add(e);
 			}
-		}
-	}
-	
-	public static class Edge
-	{
-		Pair<Integer, Integer> vertices;
-		Double weight;
-		
-		public static final Comparator<Edge> EDGE_ORDER = 
-	            new Comparator<Edge>() 
-	            {
-					public int compare(Edge e1, Edge e2) 
-					{
-						if (e1.weight == e2.weight)
-						{
-							return 0;
-						}
-						else if (e1.weight < e2.weight)
-						{
-							return 1;
-						}
-						else
-						{
-							return -1;
-						}
-					}
-	            };
-		
-		public Edge(Pair<Integer, Integer> nodes, Double weight)
-		{
-			this.vertices = nodes;
-			this.weight = weight;
-		}
-		
-		public Double getWeight()
-		{
-			return this.weight;
-		}
-		
-		public Pair<Integer, Integer> getVertices()
-		{
-			return this.vertices;
-		}
-		
-		public Integer getFirstVertex()
-		{
-			return this.vertices.getFirst();
-		}
-		
-		public Integer getSecondVertex()
-		{
-			return this.vertices.getSecond();
-		}
-		
-		@Override
-		public String toString()
-		{
-			String result = "<";
-			result += this.vertices.getFirst();
-			result += "--";
-			result += this.weight;
-			result += "--";
-			result += this.vertices.getSecond();
-			result += ">";
-			
-			return result;
 		}
 	}
 	

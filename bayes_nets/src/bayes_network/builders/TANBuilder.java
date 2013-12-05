@@ -105,7 +105,7 @@ public class TANBuilder extends NetworkBuilder
 				}
 				else
 				{
-					condMutualInfo[r][c] = -1.0;
+					condMutualInfo[r][c] = null;
 				}
 			}
 		}

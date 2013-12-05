@@ -1,20 +1,11 @@
 package main;
 
-import java.io.File;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 
-import pair.Pair;
-
-import bayes_network.BayesianNetwork;
-import bayes_network.builders.NaiveBayesBuilder;
 import bayes_network.classification.ClassificationResult;
 import bayes_network.classification.NaiveBayesClassifier;
 
 import data.DataSet;
 import data.arff.ArffReader;
-import data.attribute.Attribute;
-import data.instance.Instance;
 
 public class MainNaiveBayes 
 {

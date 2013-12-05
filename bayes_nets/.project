@@ -3,6 +3,8 @@
 	<name>bayes_nets</name>
 	<comment></comment>
 	<projects>
+		<project>data</project>
+		<project>graph_algorithms</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
