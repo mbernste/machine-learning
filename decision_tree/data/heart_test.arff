@@ -1,0 +1,119 @@
+@relation cleveland-14-heart-disease
+@attribute 'age' real
+@attribute 'sex' { female, male}
+@attribute 'cp' { typ_angina, asympt, non_anginal, atyp_angina}
+@attribute 'trestbps' real
+@attribute 'chol' real
+@attribute 'fbs' { t, f}
+@attribute 'restecg' { left_vent_hyper, normal, st_t_wave_abnormality}
+@attribute 'thalach' real
+@attribute 'exang' { no, yes}
+@attribute 'oldpeak' real
+@attribute 'slope' { up, flat, down}
+@attribute 'ca' real
+@attribute 'thal' { fixed_defect, normal, reversable_defect}
+@attribute 'class' { negative, positive}
+@data
+50,female,atyp_angina,120,244,f,normal,162,no,1.1,up,0,normal,negative
+50,female,asympt,110,254,f,left_vent_hyper,159,no,0,up,0,normal,negative
+64,female,asympt,180,325,f,normal,154,yes,0,up,0,normal,negative
+57,male,non_anginal,150,126,t,normal,173,no,0.2,up,1,reversable_defect,negative
+64,female,non_anginal,140,313,f,normal,133,no,0.2,up,0,reversable_defect,negative
+43,male,asympt,110,211,f,normal,161,no,0,up,0,reversable_defect,negative
+55,male,atyp_angina,130,262,f,normal,155,no,0,up,0,normal,negative
+37,female,non_anginal,120,215,f,normal,170,no,0,up,0,normal,negative
+41,male,non_anginal,130,214,f,left_vent_hyper,168,no,2,flat,0,normal,negative
+56,male,typ_angina,120,193,f,left_vent_hyper,162,no,1.9,flat,0,reversable_defect,negative
+46,female,atyp_angina,105,204,f,normal,172,no,0,up,0,normal,negative
+46,female,asympt,138,243,f,left_vent_hyper,152,yes,0,flat,0,normal,negative
+64,female,asympt,130,303,f,normal,122,no,2,flat,2,normal,negative
+59,male,asympt,138,271,f,left_vent_hyper,182,no,0,up,0,normal,negative
+41,female,non_anginal,112,268,f,left_vent_hyper,172,yes,0,up,0,normal,negative
+54,female,non_anginal,108,267,f,left_vent_hyper,167,no,0,up,0,normal,negative
+39,female,non_anginal,94,199,f,normal,179,no,0,up,0,normal,negative
+34,female,atyp_angina,118,210,f,normal,192,no,0.7,up,0,normal,negative
+47,male,asympt,112,204,f,normal,143,no,0.1,up,0,normal,negative
+67,female,non_anginal,152,277,f,normal,172,no,0,up,1,normal,negative
+52,female,non_anginal,136,196,f,left_vent_hyper,169,no,0.1,flat,0,normal,negative
+74,female,atyp_angina,120,269,f,left_vent_hyper,121,yes,0.2,up,1,normal,negative
+54,female,non_anginal,160,201,f,normal,163,no,0,up,1,normal,negative
+49,female,atyp_angina,134,271,f,normal,162,no,0,flat,0,normal,negative
+42,male,atyp_angina,120,295,f,normal,162,no,0,up,0,normal,negative
+41,male,atyp_angina,110,235,f,normal,153,no,0,up,0,normal,negative
+41,female,atyp_angina,126,306,f,normal,163,no,0,up,0,normal,negative
+49,female,asympt,130,269,f,normal,163,no,0,up,0,normal,negative
+60,female,non_anginal,120,178,t,normal,96,no,0,up,0,normal,negative
+62,male,atyp_angina,128,208,t,left_vent_hyper,140,no,0,up,0,normal,negative
+57,male,asympt,110,201,f,normal,126,yes,1.5,flat,0,fixed_defect,negative
+64,male,asympt,128,263,f,normal,105,yes,0.2,flat,1,reversable_defect,negative
+51,female,non_anginal,120,295,f,left_vent_hyper,157,no,0.6,up,0,normal,negative
+43,male,asympt,115,303,f,normal,181,no,1.2,flat,0,normal,negative
+42,female,non_anginal,120,209,f,normal,173,no,0,flat,0,normal,negative
+67,female,asympt,106,223,f,normal,142,no,0.3,up,2,normal,negative
+76,female,non_anginal,140,197,f,st_t_wave_abnormality,116,no,1.1,flat,0,normal,negative
+70,male,atyp_angina,156,245,f,left_vent_hyper,143,no,0,up,0,normal,negative
+44,female,non_anginal,118,242,f,normal,149,no,0.3,flat,1,normal,negative
+60,female,typ_angina,150,240,f,normal,171,no,0.9,up,0,normal,negative
+44,male,non_anginal,120,226,f,normal,169,no,0,up,0,normal,negative
+42,male,non_anginal,130,180,f,normal,150,no,0,up,0,normal,negative
+66,male,asympt,160,228,f,left_vent_hyper,138,no,2.3,up,0,fixed_defect,negative
+71,female,asympt,112,149,f,normal,125,no,1.6,flat,0,normal,negative
+64,male,typ_angina,170,227,f,left_vent_hyper,155,no,0.6,flat,0,reversable_defect,negative
+66,female,non_anginal,146,278,f,left_vent_hyper,152,no,0,flat,1,normal,negative
+39,female,non_anginal,138,220,f,normal,152,no,0,flat,0,normal,negative
+58,female,asympt,130,197,f,normal,131,no,0.6,flat,0,normal,negative
+47,male,non_anginal,130,253,f,normal,179,no,0,up,0,normal,negative
+35,male,atyp_angina,122,192,f,normal,174,no,0,up,0,normal,negative
+58,male,atyp_angina,125,220,f,normal,144,no,0.4,flat,0,reversable_defect,negative
+56,male,atyp_angina,130,221,f,left_vent_hyper,163,no,0,up,0,reversable_defect,negative
+56,male,atyp_angina,120,240,f,normal,169,no,0,down,0,normal,negative
+55,female,atyp_angina,132,342,f,normal,166,no,1.2,up,0,normal,negative
+41,male,atyp_angina,120,157,f,normal,182,no,0,up,0,normal,negative
+38,male,non_anginal,138,175,f,normal,173,no,0,up,0,normal,negative
+38,male,non_anginal,138,175,f,normal,173,no,0,up,0,normal,negative
+50,male,asympt,144,200,f,left_vent_hyper,126,yes,0.9,flat,0,reversable_defect,positive
+62,female,asympt,150,244,f,normal,154,yes,1.4,flat,0,normal,positive
+38,male,typ_angina,120,231,f,normal,182,yes,3.8,flat,0,reversable_defect,positive
+66,female,asympt,178,228,t,normal,165,yes,1,flat,2,reversable_defect,positive
+52,male,asympt,112,230,f,normal,160,no,0,up,1,normal,positive
+53,male,asympt,123,282,f,normal,95,yes,2,flat,2,reversable_defect,positive
+63,female,asympt,108,269,f,normal,169,yes,1.8,flat,2,normal,positive
+54,male,asympt,110,206,f,left_vent_hyper,108,yes,0,flat,1,normal,positive
+66,male,asympt,112,212,f,left_vent_hyper,132,yes,0.1,up,1,normal,positive
+55,female,asympt,180,327,f,st_t_wave_abnormality,117,yes,3.4,flat,0,normal,positive
+49,male,non_anginal,118,149,f,left_vent_hyper,126,no,0.8,up,3,normal,positive
+54,male,asympt,122,286,f,left_vent_hyper,116,yes,3.2,flat,2,normal,positive
+56,male,asympt,130,283,t,left_vent_hyper,103,yes,1.6,down,0,reversable_defect,positive
+46,male,asympt,120,249,f,left_vent_hyper,144,no,0.8,up,0,reversable_defect,positive
+61,male,typ_angina,134,234,f,normal,145,no,2.6,flat,2,normal,positive
+67,male,asympt,120,237,f,normal,71,no,1,flat,0,normal,positive
+58,male,asympt,100,234,f,normal,156,no,0.1,up,1,reversable_defect,positive
+47,male,asympt,110,275,f,left_vent_hyper,118,yes,1,flat,1,normal,positive
+52,male,asympt,125,212,f,normal,168,no,1,up,2,reversable_defect,positive
+58,male,asympt,146,218,f,normal,105,no,2,flat,1,reversable_defect,positive
+57,male,atyp_angina,124,261,f,normal,141,no,0.3,up,0,reversable_defect,positive
+58,female,atyp_angina,136,319,t,left_vent_hyper,152,no,0,up,2,normal,positive
+61,male,asympt,138,166,f,left_vent_hyper,125,yes,3.6,flat,1,normal,positive
+42,male,asympt,136,315,f,normal,125,yes,1.8,flat,0,fixed_defect,positive
+52,male,asympt,128,204,t,normal,156,yes,1,flat,0,normal,positive
+59,male,non_anginal,126,218,t,normal,134,no,2.2,flat,1,fixed_defect,positive
+40,male,asympt,152,223,f,normal,181,no,0,up,0,reversable_defect,positive
+61,male,asympt,140,207,f,left_vent_hyper,138,yes,1.9,up,1,reversable_defect,positive
+46,male,asympt,140,311,f,normal,120,yes,1.8,flat,2,reversable_defect,positive
+59,male,typ_angina,134,204,f,normal,162,no,0.8,up,2,normal,positive
+57,male,atyp_angina,154,232,f,left_vent_hyper,164,no,0,up,1,normal,positive
+57,male,asympt,110,335,f,normal,143,yes,3,flat,1,reversable_defect,positive
+55,female,asympt,128,205,f,st_t_wave_abnormality,130,yes,2,flat,1,reversable_defect,positive
+61,male,asympt,148,203,f,normal,161,no,0,up,1,reversable_defect,positive
+58,male,asympt,114,318,f,st_t_wave_abnormality,140,no,4.4,down,3,fixed_defect,positive
+58,female,asympt,170,225,t,left_vent_hyper,146,yes,2.8,flat,2,fixed_defect,positive
+67,male,non_anginal,152,212,f,left_vent_hyper,150,no,0.8,flat,0,reversable_defect,positive
+44,male,asympt,120,169,f,normal,144,yes,2.8,down,0,fixed_defect,positive
+63,male,asympt,140,187,f,left_vent_hyper,144,yes,4,up,2,reversable_defect,positive
+63,female,asympt,124,197,f,normal,136,yes,0,flat,0,normal,positive
+59,male,asympt,164,176,t,left_vent_hyper,90,no,1,flat,2,fixed_defect,positive
+57,female,asympt,140,241,f,normal,123,yes,0.2,flat,0,reversable_defect,positive
+45,male,typ_angina,110,264,f,normal,132,no,1.2,flat,0,reversable_defect,positive
+68,male,asympt,144,193,t,normal,141,no,3.4,flat,2,reversable_defect,positive
+57,male,asympt,130,131,f,normal,115,yes,1.2,flat,1,reversable_defect,positive
+57,female,atyp_angina,130,236,f,left_vent_hyper,174,no,0,flat,1,normal,positive
