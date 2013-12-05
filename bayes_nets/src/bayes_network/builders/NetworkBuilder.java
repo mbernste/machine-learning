@@ -32,7 +32,9 @@ abstract class NetworkBuilder
      */
     public BayesianNetwork buildNetwork(DataSet data, Integer laplaceCount)
     {
-        // Set laplace count
+        /*
+         *  Set laplace count
+         */
         this.laplaceCount = laplaceCount;
 
         BayesianNetwork net = new BayesianNetwork();
@@ -70,21 +72,30 @@ abstract class NetworkBuilder
         {
             ArrayList<Attribute> cpdAttributes = new ArrayList<Attribute>();
 
-            // Get parent's associated attribute
+            /*
+             *  Get parent node's associated attribute
+             */
             for (BNNode parent : node.getParents())
             {
                 cpdAttributes.add(parent.getAttribute());
             }
 
-            // Add the current node's attribute
+            /*
+             *  Add the current node's attribute
+             */
             cpdAttributes.add(node.getAttribute());
 
-            // Build the CPD at this node
+            /*
+             *  Build the CPD at this node
+             */
             CPDTreeBuilder treeBuilder = new CPDTreeBuilder();
             CPDTree cpdTree = treeBuilder.buildCPDTree(data, 
                     cpdAttributes,
                     this.laplaceCount);
-            // Set the CPD Tree
+            
+            /*
+             *  Set the CPD Tree
+             */
             node.setCPDTree( cpdTree );
         }
     }

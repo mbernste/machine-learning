@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import data.DataSet;
 import data.attribute.Attribute;
 
 /**
@@ -24,13 +23,13 @@ public class BayesianNetwork
     /**
      * Network structure inference algorithms
      */
-    public static final int NAIVE_BAYES = 0;
-    public static final int TAN = 1;
+    public static enum Type { NAIVE_BAYES, TAN };
+  
 
     /**
      * The algorithm used to build the network
      */
-    private int netInference;
+    private Type netInference;
 
     Map<Attribute, BNNode> nodes;
 
@@ -42,7 +41,7 @@ public class BayesianNetwork
         this.nodes = new HashMap<Attribute, BNNode>();
     }
 
-    public void setNetInference(int netInference)
+    public void setNetInference(BayesianNetwork.Type netInference)
     {
         this.netInference = netInference;
     }
@@ -145,10 +144,10 @@ public class BayesianNetwork
 
         switch(netInference)
         {
-        case(NAIVE_BAYES):
+        case NAIVE_BAYES:
             result = "Naive Bayes";
         break;
-        case(TAN):
+        case TAN:
             result = "TAN";
         break;
         }
@@ -160,7 +159,7 @@ public class BayesianNetwork
      * @param netInference the algorithm used to create the network's
      * structure
      */
-    protected void setInference(int netInference)
+    protected void setInference(BayesianNetwork.Type netInference)
     {
         this.netInference = netInference;
     }

@@ -188,7 +188,7 @@ public class CPDTreeBuilder
      */
     private ArrayList<Attribute> removeAttributeById(ArrayList<Attribute> currAttributes, 
                                                      Integer attrId)
-            {
+    {
         ArrayList<Attribute> newAttributes = new ArrayList<Attribute>();
 
         for (Attribute attr : currAttributes)
@@ -200,5 +200,5 @@ public class CPDTreeBuilder
         }
 
         return newAttributes;
-            }
+    }
 }
