@@ -9,9 +9,9 @@ Decision Trees:
     
 Bayesian Networks:
    
-    Naive Bayes classifier
+    Naïve Bayes classifier
     
-    Tree Augmented Naive (TAN) Bayes classifier
+    Tree Augmented Naïve (TAN) Bayes classifier
     
 
 
