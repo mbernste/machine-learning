@@ -14,39 +14,68 @@ import data.instance.Instance;
 import data.instance.InstanceSet;
 
 
+/**
+ * Reads an Attribute-Relation File Format (ARFF) file and extracts the
+ * attributes and instances in the file.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class ArffReader 
 {
+	/**
+	 * Stores the attribute set extracted from the ARFF file
+	 */
 	private AttributeSet attributeSet;
+	
+	/**
+	 * Stores the instances extracted from the ARFF file
+	 */
 	private InstanceSet instanceSet;
 	
+	/**
+	 * Constructor
+	 */
 	public ArffReader()
 	{
 		attributeSet = new AttributeSet();
 		instanceSet = new InstanceSet();
 	}
 	
+	/**
+	 * Read and extract a data set from an ARFF file
+	 * 
+	 * @param file a path to the ARFF file
+	 * @return a data set storing all data in the file
+	 */
 	public DataSet readFile(String file) 
 	{
 		attributeSet = new AttributeSet();
 		instanceSet = new InstanceSet();
 		
-		
 		try
 		{
 			Scanner scan = new Scanner(new FileInputStream(file));
 
+			/*
+			 *	Process every line in the file
+			 */
 		    String line = null;
 		    while (scan.hasNextLine()) 
 		    {
 		    	line = scan.nextLine();
 	    		parseLine(line);
 		    }
+		    
 		} 
 		catch (FileNotFoundException x) 
 		{
 		    System.err.format("FileNotFountException: %s%n", x);
 		}
 				
+		/*
+		 * Create the final data set
+		 */
 		DataSet dataSet = new DataSet();
 		dataSet.setAttributeSet(attributeSet);
 		dataSet.setInstanceSet(instanceSet);
@@ -55,8 +84,8 @@ public class ArffReader
 	}
 	
 	/**
-	 * Processes a single line in an ARFF file.  This method shoudl be called on each
-	 * line of the ARFF file being read.
+	 * Processes a single line in an ARFF file.  This method should be called 
+	 * on each line of the ARFF file being read.
 	 * 
 	 * @param arffLine - any line from the ARFF file 
 	 */
@@ -67,12 +96,13 @@ public class ArffReader
 			return;
 		}
 		
-		if (arffLine.charAt(0) == '@')
+		if (arffLine.charAt(0) == '@') // The line is a header line
 		{
 			parseHeaderLine(arffLine);
 		}
-		else if (arffLine.charAt(0) != '%') 
-		{
+		else if (arffLine.charAt(0) != '%') // The line is not a header nor 
+		{									// comment
+			
 			instanceSet.addInstance( createInstance(arffLine) );
 		}
 	}
@@ -85,7 +115,14 @@ public class ArffReader
 	 */
 	private void parseHeaderLine(String arffLine)
 	{
+		/*
+		 * Tokenize the line
+		 */
 		String[] tokens = arffLine.split(" ");
+		
+		/*
+		 * If line represents an attribute, process the attribute 
+		 */
 		if (tokens[0].equals("@attribute"))
 		{
 			addAttribute(arffLine);
@@ -97,7 +134,8 @@ public class ArffReader
 	 * This method is called to process a line in a ARFF file with the
 	 * first token being "@attribute"
 	 * 
-	 * @param arffLine - A line from the ARFF file where the first token is "@attribute"
+	 * @param arffLine - A line from the ARFF file where the first token is 
+	 * "@attribute"
 	 */
 	private void addAttribute(String arffLine)
 	{
@@ -107,10 +145,14 @@ public class ArffReader
 		Integer attrType = 0;
 		String[] attributeValues = null;
 		
-		// Parse attribute name
+		/*
+		 * Parse attribute name
+		 */
 		attrName = tokens[1].split("'")[1];
 		
-		// Parse attribute type (continuous or nominal)
+		/*
+		 *  Parse attribute type (continuous or nominal)
+		 */
 		if (tokens[2].equals("real"))
 		{
 			attrType =  Attribute.CONTINUOUS;
@@ -120,8 +162,9 @@ public class ArffReader
 			attrType = Attribute.NOMINAL;
 		}
 	
-		
-		// Get nominal values for this attribute if it is nominal
+		/*
+		 *  Get nominal values for this attribute if it is nominal
+		 */
 		if (attrType == Attribute.NOMINAL)
 		{
 			attributeValues = getNominalAttributeValues(arffLine);
@@ -140,23 +183,30 @@ public class ArffReader
 	 */
 	private String[] getNominalAttributeValues(String arffLine)
 	{
-		// The pattern finds the string contained in curly braces
+		/*
+		 *  The pattern finds the string contained in curly braces
+		 */
 		String pattern = "\\{(.*)\\}";
 		
-		// Compile regex pattern and match it in our ARFF line
+		/*
+		 *  Compile regex pattern and match it in our ARFF line
+		 */
 		Pattern regexPattern = Pattern.compile(pattern);
 		Matcher regexMatcher = regexPattern.matcher(arffLine);
 		regexMatcher.find();
 		
-		// Tokenize the string inside the curly braces
-		String[] attributeValues = trimAllStrings( regexMatcher.group(1).split(",") );
+		/*
+		 *  Tokenize the string inside the curly braces
+		 */
+		String[] attributeValues
+						= trimAllStrings( regexMatcher.group(1).split(",") );
 		
 		return attributeValues;
 	}
 	
 	/**
-	 * Create an Instance object from a line in the ARFF file that corresponds to an 
-	 * instance
+	 * Create an Instance object from a line in the ARFF file that corresponds 
+	 * to an instance
 	 * 
 	 * @param arffLine a line in the ARFF file that corresponds to an instance
 	 * @return
@@ -170,7 +220,9 @@ public class ArffReader
 		for (int index=0; index < tokens.length; index++)
 		{
 			
-			// Find attribute at this index
+			/*
+			 *  Find attribute at this index
+			 */
 			Attribute currAttribute = attributeSet.getAttributeById(index);
 
 			if (tokens[index].equals("?"))
@@ -179,14 +231,18 @@ public class ArffReader
 			}
 			else
 			{			
-				// Parse value of attribute
+				/*
+				 *  Parse value of attribute
+				 */
 				if (currAttribute.getType() == Attribute.CONTINUOUS)
 				{
 					newInstance.addAttributeInstance(index, Double.parseDouble(tokens[index]));
 				}
 				else if (currAttribute.getType() == Attribute.NOMINAL)
 				{
-					Integer nominalValueId = currAttribute.getNominalValueId(tokens[index]);
+					Integer nominalValueId 
+							= currAttribute.getNominalValueId(tokens[index]);
+					
 					newInstance.addAttributeInstance(index, nominalValueId.doubleValue());
 				}
 			}
@@ -195,6 +251,13 @@ public class ArffReader
 		return newInstance;
 	}
 	
+	/**
+	 * Trim all Strings in an array of Strings of any proceeding and 
+	 * preceding white space.
+	 * 
+	 * @param rawStrings the array of Strings
+	 * @return an array of these trimmed Strings
+	 */
 	private String[] trimAllStrings(String[] rawStrings)
 	{
 		String[] trimmedStrings = new String[rawStrings.length];

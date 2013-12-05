@@ -3,6 +3,12 @@ package data.instance;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a single instance
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class Instance 
 {	
 	/**
@@ -11,6 +17,9 @@ public class Instance
 	 */
 	private Map<Integer, Double> attributes;
 	
+	/**
+	 * Constructor
+	 */
 	public Instance()
 	{
 		attributes = new HashMap<Integer, Double>();

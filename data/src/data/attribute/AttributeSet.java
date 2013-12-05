@@ -5,13 +5,37 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * Stores a set of attributes.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ * 
+ */
 public class AttributeSet 
 {
+	/**
+	 * Maps the name of an attribute to its unique integer ID
+	 */
 	Map<String, Integer> nameIdMapping;
+	
+	/**
+	 * All of the attributes in this attribute set
+	 */
 	ArrayList<Attribute> attributes;
+	
+	/**
+	 * Total number of attributes in this set
+	 */
 	private int attrCount = 0;
+	
+	/**
+	 * The attribute that denotes the "class" or "concept"
+	 */
 	private String classAttribute;
 	
+	/**
+	 * Constructor
+	 */
 	public AttributeSet()
 	{
 		nameIdMapping = new HashMap<String, Integer>();
@@ -31,10 +55,13 @@ public class AttributeSet
 			if (attr.getType() == Attribute.NOMINAL)
 			{
 				System.out.println("Nominal Values:");
-				Map<String, Integer> nominalValueEntryMap = attr.getNominalValueMap();
+				Map<String, Integer> nominalValueEntryMap 
+												= attr.getNominalValueMap();
+				
 				for (Entry<String, Integer> element : nominalValueEntryMap.entrySet())
 				{
-					System.out.println(element.getKey() + ", " + element.getValue());
+					System.out.println(element.getKey() + ", " 
+														+ element.getValue());
 				}
 			}
 			else if (attr.getType() == Attribute.CONTINUOUS)
@@ -50,10 +77,12 @@ public class AttributeSet
 	 * 
 	 * @param attrName - the name of the attribute
 	 * @param attrType - the type of attribute (i.e. nominal or continuous)
-	 * @param nominalValues - all nominal values if this is a nominal attribute. Set to null if 
-	 * this attribute is continuous
+	 * @param nominalValues - all nominal values if this is a nominal attribute. 
+	 * Set to null if this attribute is continuous
 	 */
-	public void addAttribute(String attrName, Integer attrType, String[] nominalValues)
+	public void addAttribute(String attrName, 
+							Integer attrType, 
+							String[] nominalValues)
 	{
 		nameIdMapping.put(attrName, attrCount);
 		attributes.add(new Attribute(attrName, attrCount, attrType, nominalValues));
@@ -83,12 +112,14 @@ public class AttributeSet
 		return attributes.get(attrId);
 	}
 	
-	/*
-	public Integer getAttributeId(String attrName)
-	{
-		return attributeMapping.getValue(attrName).getId();
-	}*/
-	
+	/**
+	 * Get the nominal value ID for a specific attribute name and nominal
+	 * value of that attribute
+	 * 
+	 * @param attrName the name of the target attribute
+	 * @param attrValue the name of the target nominal value
+	 * @return the unique integer ID of that nominal value
+	 */
 	public Integer getNominalValueId(String attrName, String attrValue)
 	{
 		Integer attrId = nameIdMapping.get(attrName);
@@ -100,11 +131,17 @@ public class AttributeSet
 		return attributes.get(attrId).getNominalValueId(attrValue);
 	}
 	
+	/**
+	 * @return
+	 */
 	public Integer getNumAttributes()
 	{
 		return attributes.size();
 	}
 	
+	/**
+	 * @return a list of all attributes in the attribute set
+	 */
 	public ArrayList<Attribute> getAttributes()
 	{
 		return attributes;
@@ -123,26 +160,34 @@ public class AttributeSet
 		}
 		else
 		{
-			throw new RuntimeException("Trying to set an invalid attribute, " + attrName +
-					" as the class attribute.");
+			throw new RuntimeException("Trying to set an invalid attribute, " + 
+						attrName + " as the class attribute.");
 		}
 	}
 	
+	/**
+	 * @return the unique integer ID of the attribute denoted as the "class" 
+	 * or "concept" attribute
+	 */
 	public Integer getClassAttrId()
 	{
 		return nameIdMapping.get(classAttribute);
 	}
 	
+	/**
+	 * @return the name of the attribute denoted as the "class" or "concept" 
+	 * attribute
+	 */
 	public String getClassAttrName()
 	{
 		return classAttribute;
 	}
 	
-	
 	/**
 	 * Determines whether a given attribute name is in the attribute set.
 	 * 
-	 * @param attrName The name of the attribute for which we are checking is valid
+	 * @param attrName The name of the attribute for which we are checking is 
+	 * valid
 	 */
 	public Boolean contains(String attrName)
 	{

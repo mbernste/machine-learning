@@ -4,18 +4,47 @@ import java.util.Map;
 
 import bimap.BiMap;
 
+/**
+ * Represents a single attribute that an instance can have.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class Attribute 
 {
+	/**
+	 * Codes for nominal type attribute
+	 */
 	public final static int NOMINAL = 0;
+	
+	/**
+	 * Codes for continuous type attribute
+	 */
 	public final static int CONTINUOUS = 1;
 	
+	/**
+	 * Attribute name
+	 */
 	private String name;
+	
+	/**
+	 * This maps a name of a nominal value for this attribute to a unique
+	 * nominal value integer ID
+	 */
 	BiMap<String, Integer> nominalValueMap = null;
+	
+	/**
+	 * This Attribute's type (e.g. nominal)
+	 */
 	private int type;
+	
+	/**
+	 * This Attribute's unique integer ID
+	 */
 	private int id;
 	
 	/**
-	 * Attribute constructor
+	 * Constructor
 	 * 
 	 * @param name - name of the attribute
 	 * @param id - integer id of the attribute 
@@ -27,6 +56,10 @@ public class Attribute
 		this.id = id;
 		this.type = type;
 		
+		/*
+		 * If this attribute is a nominal attribute, create its nominal value
+		 * mapping
+		 */
 		if (type == NOMINAL)
 		{
 			nominalValueMap = new BiMap<String, Integer>();
