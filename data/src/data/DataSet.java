@@ -43,7 +43,7 @@ public class DataSet
 	 * Assign the Attribute that labels the class of each instance in the data
 	 * set.
 	 * 
-	 * @param attrName the name of the attribute used to lable the data
+	 * @param attrName the name of the attribute used to label the data
 	 */
 	public void setClassAttribute(String attrName)
 	{
