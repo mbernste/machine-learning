@@ -14,43 +14,43 @@ import data.attribute.Attribute;
  */
 public class NaiveBayesBuilder extends NetworkBuilder
 {
-	/**
-	 * Builds Bayesian network with a Naive bayes structure.
-	 * 
-	 * @param data the data set used to construct the parameters.  This 
-	 * DataSet's class attribute must be set to a valid attribute.
-	 */
-	@Override
-	public BayesianNetwork buildNetwork(DataSet data, Integer laplaceCount)
-	{
-		/*
-		 * Create a new network
-		 */
-		BayesianNetwork net = super.buildNetwork(data, laplaceCount);
-		net.setNetInference(BayesianNetwork.NAIVE_BAYES);
-		
-		/*
-		 *  Get the Node that represents the class attribute
-		 */
-		Attribute classAttr = data.getClassAttribute();
-		BNNode classAttrNode = net.getNode(classAttr);
-		
-		/*
-		 *  Create edges from the class Node to all other nodes
-		 */
-		for (BNNode node : net.getNodes())
-		{
-			if (!node.equals( classAttrNode ))
-			{
-				net.createEdge(classAttrNode, node);
-			}
-		}
-		
-		/*
-		 * Build the conditional probability tables
-		 */
-		super.buildCPD(net, data);
-		
-		return net;
-	}	
+    /**
+     * Builds Bayesian network with a Naive bayes structure.
+     * 
+     * @param data the data set used to construct the parameters.  This 
+     * DataSet's class attribute must be set to a valid attribute.
+     */
+    @Override
+    public BayesianNetwork buildNetwork(DataSet data, Integer laplaceCount)
+    {
+        /*
+         * Create a new network
+         */
+        BayesianNetwork net = super.buildNetwork(data, laplaceCount);
+        net.setNetInference(BayesianNetwork.NAIVE_BAYES);
+
+        /*
+         *  Get the Node that represents the class attribute
+         */
+        Attribute classAttr = data.getClassAttribute();
+        BNNode classAttrNode = net.getNode(classAttr);
+
+        /*
+         *  Create edges from the class Node to all other nodes
+         */
+        for (BNNode node : net.getNodes())
+        {
+            if (!node.equals( classAttrNode ))
+            {
+                net.createEdge(classAttrNode, node);
+            }
+        }
+
+        /*
+         * Build the conditional probability tables
+         */
+        super.buildCPD(net, data);
+
+        return net;
+    }	
 }

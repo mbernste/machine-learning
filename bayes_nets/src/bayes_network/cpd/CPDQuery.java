@@ -15,92 +15,92 @@ import pair.Pair;
  */
 public class CPDQuery 
 {
-	
-	/**
-	 * Each query item is a pair of integers where the first integer refers
-	 * to an Attribute ID and the second integer refers to a nominal value ID
-	 * of the attribute.
-	 * <br>
-	 * <br>
-	 * For example, a list of pairs (color, blue), (shape, square) will query
-	 * a specific CPD tree for the joint probability that...
-	 *	
-	 *			FINISH THIS DESCRIPTION
-	 *
-	 */
-	private ArrayList<Pair<Integer, Integer>> queryItems;
-	
-	/**
-	 * Constructor
-	 */
-	public CPDQuery()
-	{
-		this.queryItems = new ArrayList<Pair<Integer, Integer>>();
-	}
-	
-	/**
-	 * Add a query item to this query
-	 * 
-	 * @param attr the Attribute this query is querying for
-	 * @param nominalValueId the nominal value ID specified for this Attribute
-	 */
-	public void addQueryItem(Attribute attr, Integer nomValueId)
-	{		
-		Pair<Integer, Integer> newItem = 
-				new Pair<Integer, Integer>(attr.getId(), nomValueId);
-		
-		queryItems.add(newItem);
-	}
-	
-	/**
-	 * Determines whether this BNQuery includes the value of a specific
-	 * attribute
-	 * 
-	 * @param attr the target Attribute
-	 * @return true if this query is specifying a value for this specific 
-	 * Attribute
-	 */
-	public Boolean containsAttribute(Attribute attr)
-	{
-		// Linear Search for a match in Attribute ID's
-		for (Pair<Integer, Integer> item : queryItems)
-		{
-			if (item.getFirst() == attr.getId())
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * Gets the value for a specific query attribute. If this attribute
-	 * is not specified by this query, this method returns null.
-	 *  
-	 * @param attr the target Attribute
-	 * @return the value of target Attribute specified in this query.  null if
-	 * this Attribute is not specified in this query
-	 */
-	public Integer getValueForQueryAttribute(Attribute attr)
-	{
-		if (attr == null)
-		{
-			return null;
-		}
-		
-		/*
-		 *  Linear search for the attribute
-		 */
-		for (Pair<Integer, Integer> item : queryItems)
-		{
-			if (item.getFirst() == attr.getId())
-			{
-				return item.getSecond();
-			}
-		}
-		
-		return null;
-	}
-	
+
+    /**
+     * Each query item is a pair of integers where the first integer refers
+     * to an Attribute ID and the second integer refers to a nominal value ID
+     * of the attribute.
+     * <br>
+     * <br>
+     * For example, a list of pairs (color, blue), (shape, square) will query
+     * a specific CPD tree for the joint probability that...
+     *	
+     *			FINISH THIS DESCRIPTION
+     *
+     */
+    private ArrayList<Pair<Integer, Integer>> queryItems;
+
+    /**
+     * Constructor
+     */
+    public CPDQuery()
+    {
+        this.queryItems = new ArrayList<Pair<Integer, Integer>>();
+    }
+
+    /**
+     * Add a query item to this query
+     * 
+     * @param attr the Attribute this query is querying for
+     * @param nominalValueId the nominal value ID specified for this Attribute
+     */
+    public void addQueryItem(Attribute attr, Integer nomValueId)
+    {		
+        Pair<Integer, Integer> newItem = 
+                new Pair<Integer, Integer>(attr.getId(), nomValueId);
+
+        queryItems.add(newItem);
+    }
+
+    /**
+     * Determines whether this BNQuery includes the value of a specific
+     * attribute
+     * 
+     * @param attr the target Attribute
+     * @return true if this query is specifying a value for this specific 
+     * Attribute
+     */
+    public Boolean containsAttribute(Attribute attr)
+    {
+        // Linear Search for a match in Attribute ID's
+        for (Pair<Integer, Integer> item : queryItems)
+        {
+            if (item.getFirst() == attr.getId())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets the value for a specific query attribute. If this attribute
+     * is not specified by this query, this method returns null.
+     *  
+     * @param attr the target Attribute
+     * @return the value of target Attribute specified in this query.  null if
+     * this Attribute is not specified in this query
+     */
+    public Integer getValueForQueryAttribute(Attribute attr)
+    {
+        if (attr == null)
+        {
+            return null;
+        }
+
+        /*
+         *  Linear search for the attribute
+         */
+        for (Pair<Integer, Integer> item : queryItems)
+        {
+            if (item.getFirst() == attr.getId())
+            {
+                return item.getSecond();
+            }
+        }
+
+        return null;
+    }
+
 }
