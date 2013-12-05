@@ -11,7 +11,7 @@ Bayesian Networks:
    
     Naive Bayes classifier
     
-    TAN Bayes classifier
+    Tree Augmented Naive (TAN) Bayes classifier
     
 
 
