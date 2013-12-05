@@ -8,8 +8,8 @@ import data.attribute.Attribute;
 import pair.Pair;
 
 /**
- * Objects of this class are used to store the results of a classification 
- * experiment.
+ * Objects of this class are used to store the results of a single 
+ * classification experiment.
  * 
  * @author Matthew Bernstein - matthewb@cs.wisc.edu
  */
@@ -57,7 +57,9 @@ public class ClassificationResult
 								.getInstanceAt(i)
 								.getAttributeValue(classAttr.getId()).intValue();
 			
-			// Check for correct classification
+			/*
+			 *  Check for correct classification
+			 */
 			if (classification == truth)
 			{
 				correctCount++;
@@ -77,6 +79,14 @@ public class ClassificationResult
 		// Set metrics
 		this.testDataSize = testData.getNumInstances();
 		this.accuracy = (double) correctCount / this.testDataSize;
+	}
+	
+	/**
+	 * @return the classification accuracy from this experiment
+	 */
+	public Double getAccuracy()
+	{
+		return this.accuracy;
 	}
 	
 	@Override

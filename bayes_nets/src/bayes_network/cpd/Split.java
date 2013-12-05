@@ -7,6 +7,12 @@ import data.attribute.Attribute;
 import data.instance.Instance;
 import data.instance.InstanceSet;
 
+/**
+ * Splits all instances along a specific attribute.
+ * 
+ * @author Matthew Bernstien - matthewb@cs.wisc.edu
+ *
+ */
 public class Split 
 {
 	/**
@@ -23,11 +29,6 @@ public class Split
 	 */
 	private Attribute attribute;
 	
-	/**
-	 *	The information gain on this split
-	 */
-	private Double infoGain;
-	
 	public Split(Attribute attribute)
 	{
 		branches = new ArrayList<SplitBranch>();
@@ -39,16 +40,12 @@ public class Split
 		return attribute;
 	}
 	
-	public Double getInfoGain()
-	{
-		return infoGain;
-	}
-	
-	public void setInfoGain(Double infoGain)
-	{
-		this.infoGain = infoGain;
-	}
-	
+	/**
+	 * Split a set of instances along this split's attribute.  Each split is 
+	 * stored in one of this Split's SplitBranch objects
+	 * 
+	 * @param instances the set of instances we wish to split
+	 */
 	public void splitInstances(InstanceSet instances)
 	{
 		for (Instance instance : instances.getInstanceList())
@@ -60,11 +57,19 @@ public class Split
 		}
 	}
 	
+	/**
+	 * @return all of this split's branches
+	 */
 	public ArrayList<SplitBranch> getSplitBranches()
 	{
 		return branches;
 	}
 	
+	/**
+	 * Add a branch to the split
+	 * 
+	 * @param newBranch the new branch
+	 */
 	public void addBranch(SplitBranch newBranch)
 	{
 		branches.add(newBranch);

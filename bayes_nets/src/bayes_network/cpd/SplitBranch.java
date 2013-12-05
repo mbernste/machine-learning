@@ -4,11 +4,19 @@ import data.attribute.Attribute;
 import data.instance.Instance;
 import data.instance.InstanceSet;
 
+/**
+ * This class stores all instances for which a specific attribute matches a 
+ * specific value. 
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class SplitBranch 
 {
 
 	/**
-	 * The value that an instance is tested against to make this split
+	 * The value that an instance's attribute (the attribute determined by this
+	 * SplitBranch's attribute) is tested against to make this split.
 	 */
 	private Double branchValue; 
 	
@@ -22,6 +30,13 @@ public class SplitBranch
 	 */
 	private InstanceSet instanceSet;
 		
+	/**
+	 * Constructor
+	 * 
+	 * @param attribute the attribute this branch tests
+	 * @param branchValue the value that an instance's attribute (this 
+	 * SplitBranch's attribute) is tested against to make this split.
+	 */
 	public SplitBranch(Attribute attribute, Double branchValue)
 	{
 		this.instanceSet = new InstanceSet();
@@ -48,6 +63,9 @@ public class SplitBranch
 		}
 	}
 	
+	/**
+	 * @return the attribute this branch tests
+	 */
 	public Attribute getAttribute() 
 	{ 
 		return attribute;
@@ -61,6 +79,14 @@ public class SplitBranch
 		return branchValue;
 	}
 	
+	/**
+	 * Tests whether an instance makes this split branch.  
+	 * 
+	 * @param instance the instance we are testing whether or not it makes
+	 * this SplitBranch
+	 * @return true if the instance's attribute's value matches this 
+	 * SplitBranch's value
+	 */
 	public Boolean doesInstanceMakeSplit(Instance instance)
 	{		
 		Double instanceAttrValue = 

@@ -4,3 +4,5 @@
 1386198231113	Rename method 'getTypeName'
 1386200661679	Rename type 'BNQuery'
 1386200667864	Move compilation unit
+1386214611460	Move package
+1386214640072	Rename type 'Main'
