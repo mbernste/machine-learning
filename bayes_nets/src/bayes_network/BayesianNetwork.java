@@ -3,7 +3,9 @@ package bayes_network;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import pair.Pair;
 
@@ -25,7 +27,8 @@ public class BayesianNetwork
     /**
      * Network structure inference algorithms
      */
-    public static enum Type { NAIVE_BAYES, TAN };
+    public static enum Type { TEST, NAIVE_BAYES, TAN, HILL_CLIMBING,
+                               SPARSE_CANDIDATE };
   
 
     /**
@@ -172,7 +175,73 @@ public class BayesianNetwork
     //TODO: CALCULATE THE JOINT PROBABILITY
     public Double queryJointProbability(BNJointQuery query)
     {
+        /*
+         * Contains all nodes for which we need to make a query into their
+         * CPD table
+         */
+        ArrayList<BNNode> allNodes = new ArrayList<BNNode>();
+        
+        /*
+         * Retrieve all nodes we need to consider in the calculation
+         */
+        for (Pair<Attribute, Integer> variable : query.getVariables())
+        {
+            BNNode queryNode = this.getNode(variable.getFirst());
+            
+            /*
+             *  Get a list of all nodes that precede each variable node in the 
+             *  network's DAG structure
+             */
+            allNodes.addAll( getNodesAbove(queryNode)  );
+            Set<BNNode> uniqueNodes = new HashSet<BNNode>(allNodes);
+            allNodes = new ArrayList<BNNode>(uniqueNodes);            
+        }
+        
         return null;
+    }
+    
+    /**
+     * Gets all nodes above a certain node in the network DAG structure
+     * including the node itself.
+     * <br>
+     * <br>
+     * Example: if we have a network with the following adjacency-list:
+     * <br>
+     * <br>
+     * A -> B <br>
+     * D -> A <br>
+     * E -> A <br>
+     * <br>
+     * <br>
+     * This method would return B,A,E,D for the node B.<br>
+     * This method would return A,E,D for the node A. <br> 
+     * 
+     * @param node the query node
+     * @return all nodes above the query node in the DAG structure of the net
+     */
+    public ArrayList<BNNode> getNodesAbove(BNNode node)
+    {
+        ArrayList<BNNode> aboveNode = new ArrayList<BNNode>();
+        aboveNode.add(node);
+        
+        if (node.getParents().size() == 0)  // Stopping Criteria
+        {
+            return aboveNode;
+        }
+        else                        
+        {
+            for (BNNode parent : node.getParents())
+            {
+                /*
+                 *  Recursive call to each parent of the query node 
+                 */
+                aboveNode.addAll( getNodesAbove(parent) );
+                
+                Set<BNNode> uniqueNodes = new HashSet<BNNode>(aboveNode);
+                aboveNode = new ArrayList<BNNode>(uniqueNodes);
+            }
+            return aboveNode;
+        }
     }
 
     /**
