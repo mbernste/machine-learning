@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import pair.Pair;
+
 import data.attribute.Attribute;
 
 /**
@@ -31,6 +33,9 @@ public class BayesianNetwork
      */
     private Type netInference;
 
+    /**
+     * A mapping of attributes to their corresponding node in the network.
+     */
     Map<Attribute, BNNode> nodes;
 
     /**
@@ -129,9 +134,45 @@ public class BayesianNetwork
         return result;
     }
 
-    public double makeQuery()
+    /**
+     * Query for a conditional probability in the Bayes net.  This method
+     * returns the probability for the value of a specific attribute in the 
+     * network conditioned on a set of values for other variables in the
+     * network.  For example, this method is used for calculated probabilities
+     * of the form P(A = a | E = e, D = d).
+     *   
+     * @param query
+     * @return
+     */
+    public Double queryConditionalProbability(BNConditionalQuery query)
     {
-        return 0;
+        ArrayList<BNNode> aboveTargetNode = new ArrayList<BNNode>();
+        
+        /*
+         * The conditional probability P(A = a | E = e, D = d) is found by
+         * calculated P(B = b, E = e, D = d) / P(E = e, D = d).  
+         * 
+         * Calculate the numerator of this calculation.
+         */
+        BNJointQuery allVarJointQuery 
+                      = new BNJointQuery( query.getAllVariableSet() );
+                                           
+        Double numerator = queryJointProbability(allVarJointQuery);
+        
+        /*
+         * Calculate the denominator of the previously described calculation.
+         */
+        BNJointQuery conditionVarJointQuery 
+                       = new BNJointQuery( query.getConditionalVariableSet() );
+        Double denominator = queryJointProbability(conditionVarJointQuery);
+        
+        return numerator / denominator;
+    }
+    
+    //TODO: CALCULATE THE JOINT PROBABILITY
+    public Double queryJointProbability(BNJointQuery query)
+    {
+        return null;
     }
 
     /**
