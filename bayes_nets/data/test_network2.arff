@@ -1,0 +1,10 @@
+@relation cleveland-14-heart-disease
+@attribute 'A' { a1, a2}
+@attribute 'B' { b1, b2, b3}
+@attribute 'C' { c1, c2}
+@attribute 'D' { d1, d2}
+@data
+a1,b1,c1,d1
+a1,b2,c1,d2
+a2,b3,c1,d2
+a2,b3,c2,d2

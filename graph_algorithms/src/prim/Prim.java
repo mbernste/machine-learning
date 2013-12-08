@@ -1,7 +1,6 @@
 package prim;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
@@ -54,8 +53,7 @@ public class Prim
          * Create a priority queue for storing potential edges
          */
         PriorityQueue<Edge> potentialEdges = 
-                new PriorityQueue<Edge>(graph.length * graph.length,
-                        Edge.EDGE_ORDER);
+                new PriorityQueue<Edge>(graph.length * graph.length, Edge.EDGE_ORDER);
 
         /*
          *  Add all edges of the first node to the queue of potential edges
@@ -77,7 +75,7 @@ public class Prim
             Integer newVertex = -1;
 
             boolean isInTree = true; // true if the current edge is already in
-            // in the tree
+                                     // in the tree
 
             while (isInTree)
             {				
@@ -125,9 +123,9 @@ public class Prim
      * @param potentialEdges - the set of potential edges to the spanning tree
      */
     public static void addPotentialEdges(Double[][] graph, 
-            Integer newVertex,
-            Set<Integer> vInTree,
-            PriorityQueue<Edge> potentialEdges)
+                                         Integer newVertex,
+                                         Set<Integer> vInTree,
+                                         PriorityQueue<Edge> potentialEdges)
     {
 
         /*
