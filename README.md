@@ -23,11 +23,11 @@ Bayesian Networks:
     
 Hidden Markov Models:
    
-   Forward Algorithm (in progress)
+    Forward Algorithm (in progress)
    
-   Viterbi Algorithm (in progress)
+    Viterbi Algorithm (in progress)
    
-   Backward Algorithm (in progress)
+    Backward Algorithm (in progress)
    
     
 Generic Graph Theory Algorithms:
