@@ -6,6 +6,7 @@ import java.util.Set;
 import data.DataSet;
 import data.arff.ArffReader;
 import data.attribute.Attribute;
+import bayes_network.BNConditionalQuery;
 import bayes_network.BNJointQuery;
 import bayes_network.BNNode;
 import bayes_network.BayesianNetwork;
@@ -17,7 +18,35 @@ public class BayesianNetwork_Test
     public static void main(String[] args)
     {  
         //testAllNodesAbove(data);
-        testJointProbabilityQuery2();
+        //testJointProbabilityQuery2();
+        testConditionalProbabilityQuery();
+    }
+    
+    public static void testConditionalProbabilityQuery()
+    {
+        /*
+         *  Read the training data from the arff file
+         */
+        ArffReader reader = new ArffReader();
+        DataSet data = reader.readFile("./data/test_network2.arff");
+        data.setClassAttribute("D");
+        
+        BayesianNetwork net = buildTestNetwork2(data);
+        System.out.println(net);
+        
+        
+        Attribute A = data.getAttributeByName("A");
+        Integer valA = A.getNominalValueId("a1");
+        
+        Attribute D = data.getAttributeByName("C");
+        Integer valD = D.getNominalValueId("c1");
+        
+        BNConditionalQuery query = new BNConditionalQuery();
+        query.setTargetVariable(A, valA);
+        query.addConditionVariable(D, valD);
+        
+        Double p = net.queryConditionalProbability(query);
+        System.out.println("Conditional Probability: " + p);
     }
     
     public static void  testJointProbabilityQuery1(DataSet data)

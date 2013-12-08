@@ -174,10 +174,19 @@ public class BayesianNetwork
                        = new BNJointQuery( query.getConditionalVariableSet() );
         Double denominator = queryJointProbability(conditionVarJointQuery);
         
+        System.out.println("Numerator: " + numerator);
+        System.out.println("Denominator: " + denominator);
+        
         return numerator / denominator;
     }
     
-    //TODO: CALCULATE THE JOINT PROBABILITY
+   /**
+    * Query for a joint probability in the bayes net.  This method computes a 
+    * probability of the form P(A = a, E = e, D = d).
+    *  
+    * @param query the joint probability query
+    * @return the resulting probability
+    */
     public Double queryJointProbability(BNJointQuery query)
     {
         /*
@@ -296,53 +305,63 @@ public class BayesianNetwork
      * @return the product of each term in the product
      */
     private Double calculateProbability(ArrayList<Pair<Attribute, Integer>> values)
-    {  
-        // TODO: DOCUMENT!    
-        
+    {          
         Double product = 1.0;
                 
         for (Pair<Attribute, Integer> pair : values)
         {
             
+            /*
+             * Given the current node and assignment, create a CPD query
+             * on this node
+             */
             BNNode node = this.getNode(pair.getFirst());
+            Integer nodeValue = pair.getSecond();
+            CPDQuery cpdQuery = buildCPDQuery(node, nodeValue, values);
             
-            CPDQuery cpdQuery = buildCPDQuery(node, values);
-            
+            // TODO: REMOVE THIS!
             System.out.print(" = " + node.query(cpdQuery) + " * " + "\n");
             
+            /*
+             * Make query update the current product
+             */
             product *= node.query(cpdQuery);
         }
         
+        // TODO: REMOVE!
         System.out.println("\n");
                
         return product;
     }
     
     /**
+     * Given a node and a set of attribute/value pairs, this method constructs
+     * the proper CPDQuery object where the query object queries for a 
+     * conditional probability of the target node given as assignemtn of this
+     * node's parents
      * 
-     * @param node
-     * @param queryDetails
-     * @return
+     * @param node the target node
+     * @param queryDetails a list of attribute/value pairs
+     * @return a query object querying for the conditional probability on the
+     * target node given an assigment of its parents variables.
      */
     private CPDQuery buildCPDQuery(BNNode node, 
+                                   Integer nodeValue,
                                    ArrayList<Pair<Attribute, Integer>> queryDetails )
     { 
-        // TODO: DOCUMENT THIS!
         
         String cpdStr = "P(" + node.getAttribute().getName() + " = ";
         
+        /*
+         * Create the query with the target node's attribute and assigned value
+         */
         CPDQuery query = new CPDQuery();
+        query.addQueryItem(node.getAttribute(), nodeValue);
         
-        for (Pair<Attribute, Integer> q : queryDetails)
-        {
-            if (q.getFirst().equals(node.getAttribute()))
-            {
-                query.addQueryItem(q.getFirst(), q.getSecond());
-                
-                cpdStr += q.getFirst().getNominalValueName(q.getSecond()) + " | ";
-            }
-        }
-        
+        /*
+         * Find all parent assignments in the list of attribute/value pairs
+         * and add them to the query object
+         */
         for (BNNode parent : node.getParents())
         {
             for (Pair<Attribute, Integer> q : queryDetails)

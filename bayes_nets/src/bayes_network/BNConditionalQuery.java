@@ -61,6 +61,19 @@ public class BNConditionalQuery
     {		
         conditionVariables.addVariable(attr, nomValueId);
     }
+    
+    /**
+     * Set the target variable for which this query wants to know the 
+     * probability of observing.  For example, if this query is of the following
+     * form: (A = a | B = b, E = e), then this method sets A = a
+     * 
+     * @param attr the attribute of the target variable
+     * @param nomValueId the value of the target variable
+     */
+    public void setTargetVariable(Attribute attr, Integer nomValueId)
+    {
+        targetVariable = new Pair<Attribute, Integer>(attr, nomValueId);
+    }
 
     /**
      * Determines whether this BNQuery includes the value of a specific
