@@ -13,19 +13,19 @@ Bayesian Networks:
     
     Tree Augmented Naïve (TAN) Bayes classifier
     
-    Hill Climbing Structure Search
+    Hill Climbing Structure Search (in progress)
     
-    Sparse Candidate Structure Search
+    Sparse Candidate Structure Search (in progress)
     
-    Chow-Liu Structure Search
+    Chow-Liu Structure Search (in progress)
     
-    Artificial Data Generation
+    Artificial Data Generation (in progress)
     
 Generic Graph Theory Algorithms:
     
     Prim's Algorithm
     
-    Topographical Sort on DAG
+    Topographical Sort on DAG (in progress)
 
 
 
