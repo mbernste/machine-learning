@@ -21,6 +21,15 @@ Bayesian Networks:
     
     Artificial Data Generation (in progress)
     
+Hidden Markov Models:
+   
+   Forward Algorithm (in progress)
+   
+   Viterbi Algorithm (in progress)
+   
+   Backward Algorithm (in progress)
+   
+    
 Generic Graph Theory Algorithms:
     
     Prim's Algorithm
