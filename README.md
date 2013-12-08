@@ -19,6 +19,8 @@ Bayesian Networks:
     
     Chow-Liu Structure Search
     
+    Artificial Data Generation
+    
 Generic Graph Theory Algorithms:
     
     Prim's Algorithm
