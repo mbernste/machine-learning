@@ -32,7 +32,8 @@ public class BNDataGenerator
     public static DataSet generateDataSet(BayesianNetwork net, int numInstances)
     {
         /*
-         * Create data set
+         * Create data set and set the net's attributes to the new 
+         * data set
          */
         DataSet generated = new DataSet();
         generated.setAttributeSet(net.nodes.getAttributeSet());
@@ -41,7 +42,6 @@ public class BNDataGenerator
          * Build instance set and set the instance set to the new data set
          */
         InstanceSet instances = new InstanceSet();
-        
         for (int i = 0; i < numInstances; i++)
         {
             Instance newInst = new Instance();
@@ -53,8 +53,7 @@ public class BNDataGenerator
             }
             
             instances.addInstance(newInst);
-        }
-        
+        } 
         generated.setInstanceSet(instances);
         
         return generated;   
@@ -75,8 +74,7 @@ public class BNDataGenerator
      * this method will throw an exception.
      */
     private static void setAttrInstance(BNNode node, Instance instance)
-    {
-        
+    {      
         /*
          * The current attribute
          */
@@ -96,7 +94,7 @@ public class BNDataGenerator
         ArrayList<Pair<Attribute, Integer>> parentValues
                                    = new ArrayList<Pair<Attribute, Integer>>();
         /*
-         * Find parent's attribute/value pairs
+         * Organize all parent's attribute/value pairs
          */
         for (BNNode parentNode : node.getParents())
         {
@@ -119,6 +117,11 @@ public class BNDataGenerator
             parentValues.add(valuePair);
         }
     
+        /*
+         * Build the CPD query for each nominal value of the current node's
+         * nominal value and query the node for the probability of that
+         * nominal value.
+         */
         for (Integer nominalValue : node.getAttribute().getNominalValueMap().values())
         {
             CPDQuery query = new CPDQuery();
@@ -128,17 +131,19 @@ public class BNDataGenerator
             }
             query.addQueryItem(node.getAttribute(), nominalValue);
             
+            // Add value/probability pair to the probability distribution
             valueProbabilities.put(nominalValue.doubleValue(), 
                                    node.query(query) );
         }
         
-        
+        /*
+         * Pick nominal value and assign it to the instance
+         */
         Double value = pickRandomValue(valueProbabilities);
-        System.out.println("PICKED " + thisAttr.getNominalValueName(value.intValue()));
-        
         instance.addAttributeInstance(thisAttr.getId(), value);
         
-        //TODO REMOVE THIS!
+        //TODO REMOVE ALL THIS DEBUG STUFF
+        System.out.println("PICKED " + thisAttr.getNominalValueName(value.intValue()));
         System.out.println("PROBABILITIES" + thisAttr.getName());
         for (Entry<Double, Double> entry : valueProbabilities.entrySet())
         {   
@@ -147,6 +152,14 @@ public class BNDataGenerator
         }
     }
     
+    /**
+     * Picks a nominal value for some attribute from a probability distribution.
+     * 
+     * @param valueProbabilities a mapping of nominal value ID's to 
+     * probabilities of picking that nominal value
+     * @return the nominal value ID chosen randomly from the given probability
+     * distribution
+     */
     public static Double pickRandomValue(Map<Double, Double> valueProbabilities)
     {
         Random rand = new Random();
