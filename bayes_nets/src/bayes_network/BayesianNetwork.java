@@ -4,14 +4,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Queue;
 import java.util.Set;
 
 import bayes_network.cpd.CPDQuery;
 
 import pair.Pair;
 
+import data.DataSet;
 import data.attribute.Attribute;
+import data.attribute.AttributeSet;
+import data.instance.Instance;
+import data.instance.InstanceSet;
 
 /**
  * Objects of this class encapsulate a complete Bayesian Network.
@@ -32,23 +39,22 @@ public class BayesianNetwork
     public static enum Type { TEST, NAIVE_BAYES, TAN, HILL_CLIMBING,
                                SPARSE_CANDIDATE };
   
-
     /**
      * The algorithm used to build the network
      */
     private Type netInference;
 
     /**
-     * A mapping of attributes to their corresponding node in the network.
+     * The set of nodes in the network
      */
-    Map<Attribute, BNNode> nodes;
+    BNNodeSet nodes;
 
     /**
      * Constructor
      */
     public BayesianNetwork()
     {
-        this.nodes = new HashMap<Attribute, BNNode>();
+        this.nodes = new BNNodeSet();
     }
 
     public void setNetInference(BayesianNetwork.Type netInference)
@@ -57,12 +63,12 @@ public class BayesianNetwork
     }
 
     /**
-     * @return an ArrayList holding all Node objects in the network
+     * @return an ArrayList holding all Node objects in the network sorted
+     * in topological order
      */
     public ArrayList<BNNode> getNodes()
     {
-        Collection<BNNode> col = nodes.values();
-        return new ArrayList<BNNode>(col);
+       return nodes.topologicallySorted();
     }
 
     /**
@@ -72,7 +78,7 @@ public class BayesianNetwork
      */
     public void addNode(BNNode newNode)
     {
-        this.nodes.put(newNode.getAttribute(), newNode);
+        this.nodes.addNode(newNode);
     }
 
     /**
@@ -83,7 +89,7 @@ public class BayesianNetwork
      */
     public BNNode getNode(Attribute attr)
     {
-        return this.nodes.get(attr);
+        return nodes.getNode(attr);
     }
 
     /**
@@ -94,8 +100,7 @@ public class BayesianNetwork
      */
     public void createEdge(BNNode parent, BNNode child)
     {
-        parent.addChild(child);
-        child.addParent(parent);
+        nodes.createEdge(parent, child);
     }
 
     /**
@@ -117,7 +122,7 @@ public class BayesianNetwork
         String result = "\n\n";
 
         // For each node, print its parents
-        for (BNNode node : nodes.values())
+        for (BNNode node : nodes.topologicallySorted())
         {	
             result += node.getAttribute().getName();
 
@@ -163,8 +168,7 @@ public class BayesianNetwork
          * Calculate the numerator.
          */
         BNJointQuery allVarJointQuery 
-                      = new BNJointQuery( query.getAllVariableSet() );
-                                           
+                      = new BNJointQuery( query.getAllVariableSet() );                                      
         Double numerator = queryJointProbability(allVarJointQuery);
         
         /*
@@ -174,6 +178,7 @@ public class BayesianNetwork
                        = new BNJointQuery( query.getConditionalVariableSet() );
         Double denominator = queryJointProbability(conditionVarJointQuery);
         
+        // TODO: REMOVE!
         System.out.println("Numerator: " + numerator);
         System.out.println("Denominator: " + denominator);
         
@@ -224,6 +229,7 @@ public class BayesianNetwork
          */
         Double jointProbability = runEnumeration(query.getVariables(), unspecified);
         
+        //TODO: REMOVE
         System.out.println("Joint Probability: " + jointProbability);
         
         return jointProbability;
@@ -301,8 +307,8 @@ public class BayesianNetwork
     /**
      * Calculate a single term in the enumeration
      * 
-     * @param values the attribute/value pairs in the term of the enumeration
-     * @return the product of each term in the product
+     * @param values attribute/value pairs in the term of the enumeration
+     * @return the resulting term
      */
     private Double calculateProbability(ArrayList<Pair<Attribute, Integer>> values)
     {          
@@ -350,6 +356,7 @@ public class BayesianNetwork
                                    ArrayList<Pair<Attribute, Integer>> queryDetails )
     { 
         
+        //TODO: REMOVE
         String cpdStr = "P(" + node.getAttribute().getName() + " = ";
         
         /*
@@ -370,12 +377,14 @@ public class BayesianNetwork
                 {
                     query.addQueryItem(q.getFirst(), q.getSecond());
                     
+                    // TODO: REMOVE!
                     cpdStr += q.getFirst().getName() + " = ";
                     cpdStr += q.getFirst().getNominalValueName(q.getSecond()) + " ";
                 }
             }
         }
         
+        //TODO: REMOVE!
         cpdStr += ")";
         
         System.out.print(cpdStr);
@@ -425,10 +434,22 @@ public class BayesianNetwork
     }
 
     /**
+     * This method produces an artificial data set generated from this Bayesian
+     * network.
+     * 
+     * @param numInstances the number of instances to be generated
+     * @return an artificial data set
+     */
+    public DataSet generateDataSet(int numInstances)
+    {
+       return BNDataGenerator.generateDataSet(this, numInstances);
+    }
+    
+    /**
      * @return the name of the algorithm that was used to infer this Bayes 
      * network's structure
      */
-    private String getNetInferenceName()
+    public String getNetInferenceName()
     {
         String result = "";
 
@@ -488,7 +509,7 @@ public class BayesianNetwork
         ArrayList<BNNode> unspecified = new ArrayList<BNNode>(nodes);
         
         /*
-         * Separate the collection into the two partions
+         * Separate the collection into the two partitions
          */
         for (Pair<Attribute, Integer> variable : query.getVariables())
         {

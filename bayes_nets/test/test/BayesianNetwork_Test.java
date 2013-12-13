@@ -19,7 +19,25 @@ public class BayesianNetwork_Test
     {  
         //testAllNodesAbove(data);
         //testJointProbabilityQuery2();
-        testConditionalProbabilityQuery();
+        //testConditionalProbabilityQuery();
+        testGenerateDataset();
+    }
+    
+    public static void testGenerateDataset()
+    {
+        /*
+         *  Read the training data from the arff file
+         */
+        ArffReader reader = new ArffReader();
+        DataSet data = reader.readFile("./data/test_network.arff");
+        data.setClassAttribute("D");
+        
+        BayesianNetwork net = buildTestNetwork1(data);
+        System.out.println(net);
+        
+        DataSet generated = net.generateDataSet(30);
+        
+        generated.toString();
     }
     
     public static void testConditionalProbabilityQuery()

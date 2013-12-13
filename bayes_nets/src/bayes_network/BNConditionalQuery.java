@@ -142,7 +142,6 @@ public class BNConditionalQuery
      * and the nominal value ID of the value of this attribute.  If this
      * query represents (A = a | E = e, D = d), this method returns
      * ((A,a), (E,e), (D,d))
-     * @return
      */
     public VariableSet getAllVariableSet()
     {
@@ -160,7 +159,6 @@ public class BNConditionalQuery
      * and the nominal value ID of the value of this attribute.  If this
      * query represents (A = a | E = e, D = d), this method returns
      * ((A,a), (E,e), (D,d))
-     * @return
      */
     public ArrayList<Pair<Attribute, Integer>> getAllVariableList()
     {

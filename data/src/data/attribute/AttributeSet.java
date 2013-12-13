@@ -90,6 +90,17 @@ public class AttributeSet
 	}
 	
 	/**
+	 * Add an already constructed attribute to the set of attributes.
+	 * 
+	 * @param newAttr the new attribute
+	 */
+	public void addAttribute(Attribute newAttr)
+	{
+	    attributes.add(newAttr);
+	    attrCount++;
+	}
+	
+	/**
 	 * Get an attribute by its attribute ID.
 	 * 
 	 * @param attrId - the attribute ID

@@ -12,13 +12,17 @@ import data.attribute.Attribute;
  * 
  * @author Matthew Bernstien - matthewb@cs.wisc.edu
  */
-public class BNNode 
+public class BNNode
 {	
     /**
-     * This nodes parents
+     * This node's parents
      */
-    private ArrayList<BNNode> parents;
-    private ArrayList<BNNode> children;
+    protected ArrayList<BNNode> parents;
+    
+    /**
+     * This node's children
+     */
+    protected ArrayList<BNNode> children;
 
     /**
      * The Conditional Probability Distribution at this Node
@@ -46,7 +50,7 @@ public class BNNode
         this.parents = new ArrayList<BNNode>();
         this.children = new ArrayList<BNNode>();
     }
-
+    
     /**
      * Add a parent Node to this Node's parents
      * 
@@ -56,7 +60,7 @@ public class BNNode
     {		
         this.parents.add(parent);
     }
-
+    
     /**
      * Add a child Node to this Node's parents
      * 
@@ -107,6 +111,14 @@ public class BNNode
         this.cpd = cpd;
     }
 
+    /**
+     * @return the name of the attribute that this node represents
+     */
+    public String getName()
+    {
+        return this.getAttribute().getName();
+    }
+    
     /**
      * @return the Conditional Probability Distribution (CPD) tree associated
      * with this Node
