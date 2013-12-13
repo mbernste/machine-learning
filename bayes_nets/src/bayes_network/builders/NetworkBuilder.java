@@ -1,11 +1,7 @@
 package bayes_network.builders;
 
-import java.util.ArrayList;
-
 import bayes_network.BayesianNetwork;
 import bayes_network.BNNode;
-import bayes_network.cpd.CPDTree;
-import bayes_network.cpd.CPDTreeBuilder;
 import data.DataSet;
 import data.attribute.Attribute;
 
@@ -20,7 +16,7 @@ abstract class NetworkBuilder
     /**
      * The Laplace count used when generating all parameters in the network
      */
-    private Integer laplaceCount;
+    protected Integer laplaceCount;
 
     /**
      * Builds a new Bayesian network given a dataset.
@@ -48,7 +44,7 @@ abstract class NetworkBuilder
             if (attr.getType() == Attribute.NOMINAL)
             {
                 BNNode newNode = new BNNode(attr);
-                net.addNode( newNode, data, laplaceCount );
+                net.addNode( newNode, data, this.laplaceCount );
             }
         }
 

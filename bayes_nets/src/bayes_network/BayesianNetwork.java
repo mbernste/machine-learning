@@ -56,7 +56,7 @@ public class BayesianNetwork
 
     /**
      * @return an ArrayList holding all Node objects in the network sorted
-     * in topological order
+     * in topological order in the DAG
      */
     public ArrayList<BNNode> getNodes()
     {
@@ -110,6 +110,22 @@ public class BayesianNetwork
                            Integer laplaceCount)
     {
         nodes.removeEdge(parent, child, data, laplaceCount);
+    }
+    
+    /**
+     * Reverse a directed in the network
+     * 
+     * @param parent the parent node of the edge to be reversed
+     * @param child the child node of the edge to be reverse
+     * @param data the dataset used to recompute the parameters of the model
+     * @param laplaceCount the laplace count to use in parameter estimation
+     */
+    public void reverseEdge(BNNode parent,
+                            BNNode child,
+                            DataSet data,
+                            Integer laplaceCount)
+    {
+        nodes.reverseEdge(parent, child, data, laplaceCount);
     }
 
     @Override

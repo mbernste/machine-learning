@@ -12,7 +12,9 @@ import data.attribute.Attribute;
 import data.attribute.AttributeSet;
 
 /**
- * Manages the nodes and all node operations in a Bayesian network.
+ * Manages the nodes and all node and edge operations in a Bayesian network
+ * such as adding/removing nodes and edges and updating the parameters in the
+ * model.
  * 
  * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
@@ -112,13 +114,13 @@ public class BNNodeManager
      * @param child the child node
      */
     public void removeEdge(BNNode parent, 
-                           BNNode child, 
-                           DataSet data, 
-                           Integer laplaceCount)
+                            BNNode child, 
+                            DataSet data, 
+                            Integer laplaceCount)
     {
         parent.removeChild(child);
         child.removeParent(parent);
-                
+        
         /*
          *  Rebuild the child's CPD
          */
@@ -129,6 +131,39 @@ public class BNNodeManager
          */
         topologicalSort();
     }
+    
+    /**
+     * Reverse a directed edge between two nodes
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     */
+    public void reverseEdge(BNNode parent, 
+                           BNNode child, 
+                           DataSet data, 
+                           Integer laplaceCount)
+    {
+        parent.removeChild(child);
+        child.removeParent(parent);
+        
+        child.addChild(parent);
+        parent.addParent(child);
+                
+        /*
+         *  Rebuild the child's CPD
+         */
+        buildCPD( child, data, laplaceCount );
+        buildCPD( parent, data, laplaceCount );
+        
+        /*
+         *  Resort the nodes topologically
+         */
+        topologicalSort();
+    }
+    
+   
+    
+    
     
     /**
      * Add a node to the network and sort the all nodes topologically
@@ -207,6 +242,7 @@ public class BNNodeManager
         /*
          * Cut all Nodes that don't have any parents from the graph 
          */
+        @SuppressWarnings("unchecked")
         ArrayList<BNNode> allNodesCopy = (ArrayList<BNNode>) sorted.clone();
         for (BNNode node : allNodesCopy)
         {
