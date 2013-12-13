@@ -27,8 +27,7 @@ public class BNNodeSet_Test
          *  The BNNodeSet 
          */
         BNNodeSet nodes = new BNNodeSet();
-        
-        
+         
         /*
          *  Create a node corresponding to each nominal attribute in the 
          *  dataset. Continuous attributes are ignored.
@@ -50,15 +49,13 @@ public class BNNodeSet_Test
         BNNode F = nodes.getNode(data.getAttributeByName("F"));
         BNNode G = nodes.getNode(data.getAttributeByName("G"));
         
-
         nodes.createEdge(B, G);
         nodes.createEdge(F, G);
         nodes.createEdge(C, F);
         nodes.createEdge(A, B);
         nodes.createEdge(A, C);
         nodes.createEdge(E, A);
-        nodes.createEdge(D, A);
-        
+        nodes.createEdge(D, A);   
     }
 
 }

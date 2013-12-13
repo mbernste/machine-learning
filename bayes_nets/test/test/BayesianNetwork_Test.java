@@ -37,7 +37,7 @@ public class BayesianNetwork_Test
         
         DataSet generated = net.generateDataSet(30);
         
-        generated.toString();
+        System.out.println(generated.getNumInstances() + " TOTAL INSTANCES");
     }
     
     public static void testConditionalProbabilityQuery()
