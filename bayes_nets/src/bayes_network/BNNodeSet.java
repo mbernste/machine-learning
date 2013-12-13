@@ -100,6 +100,31 @@ public class BNNodeSet
     }
     
     /**
+     * Remove a directed edge between two nodes
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     */
+    public void removeEdge(BNNode parent, 
+                           BNNode child, 
+                           DataSet data, 
+                           Integer laplaceCount)
+    {
+        parent.removeChild(child);
+        child.removeParent(parent);
+                
+        /*
+         *  Rebuild the child's CPD
+         */
+        buildCPD( child, data, laplaceCount );
+        
+        /*
+         *  Resort the nodes topologically
+         */
+        topologicalSort();
+    }
+    
+    /**
      * Add a node to the network and sort the all nodes topologically
      * 
      * @param newNode the new node

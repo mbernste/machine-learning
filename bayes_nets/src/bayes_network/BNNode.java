@@ -62,6 +62,16 @@ public class BNNode
     }
     
     /**
+     * Remove a parent node from this node's set of parents
+     * 
+     * @param parent the parent node
+     */
+    public void removeParent(BNNode parent)
+    {
+        this.parents.remove(parent);
+    }
+    
+    /**
      * Add a child Node to this Node's parents
      * 
      * @param parent the parent Node
@@ -71,6 +81,16 @@ public class BNNode
         this.children.add(child);
     }
 
+    /**
+     * Remove a child node from this node's set of children
+     * 
+     * @param child the child node
+     */
+    public void removeChild(BNNode child)
+    {
+        this.children.remove(child);
+    }
+    
     /**
      * @return this Node's parent Nodes
      */

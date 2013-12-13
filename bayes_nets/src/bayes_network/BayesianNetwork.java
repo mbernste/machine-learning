@@ -104,10 +104,12 @@ public class BayesianNetwork
      * @param parent the parent Node of the edge
      * @param child the child Node of the edge
      */
-    public void removeConnection(BNNode parent, BNNode child)
+    public void removeEdge(BNNode parent, 
+                           BNNode child,
+                           DataSet data,
+                           Integer laplaceCount)
     {
-        parent.getChildren().remove(child);
-        child.getParents().remove(parent);
+        nodes.removeEdge(parent, child, data, laplaceCount);
     }
 
     @Override
@@ -157,7 +159,6 @@ public class BayesianNetwork
          * 
          *  P(B = b, E = e, D = d) / P(E = e, D = d).  
          */
-        
         
         /*
          * Calculate the numerator.
