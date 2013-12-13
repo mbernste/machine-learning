@@ -11,7 +11,9 @@ import data.DataSet;
  * Implements a standard hill climbing search through the Bayes Nets structures
  * in order to optimize a scoring function.  Upon each iteration of the
  * search, this algorithm considers ALL possible operations on the network's 
- * structure:<br>
+ * structure:
+ * <br>
+ * <br>
  * 1. Add edge <br>
  * 2. Remove edge <br>
  * 3. Reverse edge <br>
