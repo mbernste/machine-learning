@@ -2,13 +2,12 @@ package bayes_network;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import bayes_network.cpd.CPDTree;
 import bayes_network.cpd.CPDTreeBuilder;
 
+import data.DataSet;
 import data.attribute.Attribute;
 import data.attribute.AttributeSet;
 
@@ -81,11 +80,22 @@ public class BNNodeSet
      * @param parent the parent node
      * @param child the child node
      */
-    public void createEdge(BNNode parent, BNNode child)
+    public void createEdge(BNNode parent, 
+                           BNNode child, 
+                           DataSet data, 
+                           Integer laplaceCount)
     {
         parent.addChild(child);
         child.addParent(parent);
                 
+        /*
+         *  Rebuild the child's CPD
+         */
+        buildCPD( child, data, laplaceCount );
+        
+        /*
+         *  Resort the nodes topologically
+         */
         topologicalSort();
     }
     
@@ -94,13 +104,57 @@ public class BNNodeSet
      * 
      * @param newNode the new node
      */
-    public void addNode(BNNode newNode)
+    public void addNode(BNNode newNode, DataSet data, Integer laplaceCount)
     {
         attributes.addAttribute(newNode.getAttribute());
         nodes.put(newNode.getAttribute(), newNode);
         sorted.add(newNode);
         
+        /*
+         * Resort the nodes topologically
+         */
         topologicalSort();
+        
+        buildCPD( newNode, data, laplaceCount);
+    }
+    
+    /**
+     * Build the CPD Tree for a single node
+     * 
+     * @param node the node for which we need to build the CPD tree
+     * @param data the data used to build the CPD
+     */
+    private void buildCPD(BNNode node, DataSet data, Integer laplaceCount)
+    { 
+        System.out.println("BUILDING CPD");
+        
+        ArrayList<Attribute> cpdAttributes = new ArrayList<Attribute>();
+
+        /*
+         *  Get parent node's associated attribute
+         */
+        for (BNNode parent : node.getParents())
+        {
+            cpdAttributes.add(parent.getAttribute());
+        }
+
+        /*
+         *  Add the current node's attribute
+         */
+        cpdAttributes.add(node.getAttribute());
+
+        /*
+         *  Build the CPD at this node
+         */
+        CPDTreeBuilder treeBuilder = new CPDTreeBuilder();
+        CPDTree cpdTree = treeBuilder.buildCPDTree(data, 
+                                                   cpdAttributes,
+                                                   laplaceCount);
+        
+        /*
+         *  Set the CPD Tree
+         */
+        node.setCPDTree( cpdTree );   
     }
     
     /**
@@ -122,7 +176,8 @@ public class BNNodeSet
         /*
          * Cut all Nodes that don't have any parents from the graph 
          */
-        for (BNNode node : sorted)
+        ArrayList<BNNode> allNodesCopy = (ArrayList<BNNode>) sorted.clone();
+        for (BNNode node : allNodesCopy)
         {
             if (node.getParents().isEmpty())
             {
@@ -132,16 +187,16 @@ public class BNNodeSet
         }
         for (BNNode node : toRemove)
         {
-            sorted.remove(node);
+            allNodesCopy.remove(node);
         }
         
         /*
          * Keep cutting nodes without parents from the graph until we have
          * processed every node.
          */
-        while(!sorted.isEmpty())
+        while(!allNodesCopy.isEmpty())
         {
-            topologicalSortIteration(cut);
+            topologicalSortIteration(cut, allNodesCopy);
         }
            
         /*
@@ -162,7 +217,8 @@ public class BNNodeSet
      * 
      * @return all nodes in the network that have no parents
      */
-    private ArrayList<BNNode> topologicalSortIteration(ArrayList<BNNode> cut)
+    private ArrayList<BNNode> topologicalSortIteration(ArrayList<BNNode> cut,
+                                                       ArrayList<BNNode> allNodesCopy)
     {   
         /*
          * All nodes that need to be removed from the DAG
@@ -173,7 +229,7 @@ public class BNNodeSet
          * Cut all parentless nodes from the list of nodes that are still in
          * the graph.  Add these cut nodes to the sorted list.
          */
-        for (BNNode node : sorted)
+        for (BNNode node : allNodesCopy)
         {            
             boolean cutThisNode = true;
             for (BNNode parent : node.getParents())
@@ -196,10 +252,9 @@ public class BNNodeSet
          */
         for (BNNode node : toRemove)
         {
-            sorted.remove(node);
+            allNodesCopy.remove(node);
         }
         
         return cut;
     }
-
 }

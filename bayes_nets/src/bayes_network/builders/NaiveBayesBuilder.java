@@ -42,15 +42,11 @@ public class NaiveBayesBuilder extends NetworkBuilder
         {
             if (!node.equals( classAttrNode ))
             {
-                net.createEdge(classAttrNode, node);
+                net.createEdge(classAttrNode, node, data, laplaceCount);
             }
         }
-
-        /*
-         * Build the conditional probability tables
-         */
-        super.buildCPD(net, data);
-
+        
         return net;
-    }	
+    }
+    
 }

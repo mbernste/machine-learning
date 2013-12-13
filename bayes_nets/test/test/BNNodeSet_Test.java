@@ -37,7 +37,7 @@ public class BNNodeSet_Test
             if (attr.getType() == Attribute.NOMINAL)
             {
                 BNNode newNode = new BNNode(attr);
-                nodes.addNode( newNode );
+                nodes.addNode( newNode, data, 1 );
             }
         }
              
@@ -49,13 +49,13 @@ public class BNNodeSet_Test
         BNNode F = nodes.getNode(data.getAttributeByName("F"));
         BNNode G = nodes.getNode(data.getAttributeByName("G"));
         
-        nodes.createEdge(B, G);
-        nodes.createEdge(F, G);
-        nodes.createEdge(C, F);
-        nodes.createEdge(A, B);
-        nodes.createEdge(A, C);
-        nodes.createEdge(E, A);
-        nodes.createEdge(D, A);   
+        nodes.createEdge(B, G, data, 1);
+        nodes.createEdge(F, G, data, 1);
+        nodes.createEdge(C, F, data, 1);
+        nodes.createEdge(A, B, data, 1);
+        nodes.createEdge(A, C, data, 1);
+        nodes.createEdge(E, A, data, 1);
+        nodes.createEdge(D, A, data, 1);   
     }
 
 }

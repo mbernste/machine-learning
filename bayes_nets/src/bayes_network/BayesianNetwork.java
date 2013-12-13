@@ -2,12 +2,7 @@ package bayes_network;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Queue;
 import java.util.Set;
 
 import bayes_network.cpd.CPDQuery;
@@ -16,9 +11,6 @@ import pair.Pair;
 
 import data.DataSet;
 import data.attribute.Attribute;
-import data.attribute.AttributeSet;
-import data.instance.Instance;
-import data.instance.InstanceSet;
 
 /**
  * Objects of this class encapsulate a complete Bayesian Network.
@@ -76,9 +68,9 @@ public class BayesianNetwork
      * 
      * @param newNode the new Node
      */
-    public void addNode(BNNode newNode)
+    public void addNode(BNNode newNode, DataSet data, Integer laplaceCount)
     {
-        this.nodes.addNode(newNode);
+        this.nodes.addNode(newNode, data, laplaceCount);
     }
 
     /**
@@ -98,9 +90,12 @@ public class BayesianNetwork
      * @param parent the parent Node of the edge
      * @param child the child Node of the edge
      */
-    public void createEdge(BNNode parent, BNNode child)
+    public void createEdge(BNNode parent, 
+                           BNNode child, 
+                           DataSet data, 
+                           Integer laplaceCount)
     {
-        nodes.createEdge(parent, child);
+        nodes.createEdge(parent, child, data, laplaceCount);
     }
 
     /**

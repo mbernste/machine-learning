@@ -141,7 +141,7 @@ public class BayesianNetwork_Test
             if (attr.getType() == Attribute.NOMINAL)
             {
                 BNNode newNode = new BNNode(attr);
-                net.addNode( newNode );
+                net.addNode( newNode, data, 1 );
             }
         }
         
@@ -156,13 +156,13 @@ public class BayesianNetwork_Test
         BNNode F = net.getNode(data.getAttributeByName("F"));
         BNNode G = net.getNode(data.getAttributeByName("G"));
       
-        net.createEdge(B, G);
-        net.createEdge(F, G);
-        net.createEdge(C, F);
-        net.createEdge(A, B);
-        net.createEdge(A, C);
-        net.createEdge(E, A);
-        net.createEdge(D, A);
+        net.createEdge(B, G, data, 1);
+        net.createEdge(F, G, data, 1);
+        net.createEdge(C, F, data, 1);
+        net.createEdge(A, B, data, 1);
+        net.createEdge(A, C, data, 1);
+        net.createEdge(E, A, data, 1);
+        net.createEdge(D, A, data, 1);
         
         buildCPD(net, data);
         
@@ -186,7 +186,7 @@ public class BayesianNetwork_Test
             if (attr.getType() == Attribute.NOMINAL)
             {
                 BNNode newNode = new BNNode(attr);
-                net.addNode( newNode );
+                net.addNode( newNode, data, 1 );
             }
         }
         
@@ -198,9 +198,9 @@ public class BayesianNetwork_Test
         BNNode C = net.getNode(data.getAttributeByName("C"));
         BNNode D = net.getNode(data.getAttributeByName("D"));
       
-        net.createEdge(B, A);
-        net.createEdge(C, A);
-        net.createEdge(C, D);
+        net.createEdge(B, A, data, 1);
+        net.createEdge(C, A, data, 1);
+        net.createEdge(C, D, data, 1);
         
         buildCPD(net, data);
         

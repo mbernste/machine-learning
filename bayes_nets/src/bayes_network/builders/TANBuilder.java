@@ -51,7 +51,7 @@ public class TANBuilder extends NetworkBuilder
         {
             if (!node.equals( classAttrNode ))
             {
-                net.createEdge(classAttrNode, node);
+                net.createEdge(classAttrNode, node, data, laplaceCount);
             }
         }
 
@@ -73,11 +73,8 @@ public class TANBuilder extends NetworkBuilder
             BNNode parent = net.getNode(parentAttr);
             BNNode child = net.getNode(childAttr);
 
-            net.createEdge(parent, child);
+            net.createEdge(parent, child, data, laplaceCount);
         }
-
-        // Build the CPD tables in the network
-        super.buildCPD(net, data);
 
         return net;
     }

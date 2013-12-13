@@ -48,55 +48,11 @@ abstract class NetworkBuilder
             if (attr.getType() == Attribute.NOMINAL)
             {
                 BNNode newNode = new BNNode(attr);
-                net.addNode( newNode );
+                net.addNode( newNode, data, laplaceCount );
             }
         }
 
         return net;
     }
-
-    /**
-     * Builds the conditional probability table for every node in the network.
-     * 
-     * @param net a network whose structure has already been inferred and
-     * constructed
-     * @param data the data set used for building each CPD tree
-     */
-    public void buildCPD(BayesianNetwork net, DataSet data)
-    {
-        /*
-         * For each node in the network.  Find its parents and build a CPD
-         * tree object for this node.
-         */
-        for (BNNode node : net.getNodes())
-        {
-            ArrayList<Attribute> cpdAttributes = new ArrayList<Attribute>();
-
-            /*
-             *  Get parent node's associated attribute
-             */
-            for (BNNode parent : node.getParents())
-            {
-                cpdAttributes.add(parent.getAttribute());
-            }
-
-            /*
-             *  Add the current node's attribute
-             */
-            cpdAttributes.add(node.getAttribute());
-
-            /*
-             *  Build the CPD at this node
-             */
-            CPDTreeBuilder treeBuilder = new CPDTreeBuilder();
-            CPDTree cpdTree = treeBuilder.buildCPDTree(data, 
-                    cpdAttributes,
-                    this.laplaceCount);
-            
-            /*
-             *  Set the CPD Tree
-             */
-            node.setCPDTree( cpdTree );
-        }
-    }
+   
 }
