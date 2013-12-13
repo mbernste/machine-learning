@@ -35,11 +35,29 @@ public class HillClimbingBuilder extends NetworkBuilder
      */
     private int numOperationsExamined = 0;
     
+    /**
+     * The Scoring function to be optimized in the search
+     */
     private ScoringFunction scoringFunction = null;
     
+    /**
+     * The Bayes net under construction
+     */
     private BayesianNetwork net;
+    
+    /**
+     * The training set used to learn the Bayesin network
+     */
     private DataSet data;
     
+    /**
+     * TODO: // FINISH DESCRIPTION
+     * @param data
+     * @param laplaceCount
+     * @param function
+     * @param stop
+     * @return
+     */
     public BayesianNetwork buildNetwork(DataSet data, 
                                         Integer laplaceCount,
                                         ScoringFunction function,
@@ -66,6 +84,10 @@ public class HillClimbingBuilder extends NetworkBuilder
      */
     private boolean stoppingCriteriaMet()
     {
+        // TODO:
+        // TODO: Implement stopping criteria
+        // TODO:
+        
         return false;
     }
     
@@ -83,15 +105,11 @@ public class HillClimbingBuilder extends NetworkBuilder
          * Find all valid operations on the current net
          */
         ArrayList<Operation> validOperations = getAllValidOperations();
-        
-        /*
-         * Stores the score for each operation
-         */
-        ArrayList<Double> operationScores = new ArrayList<Double>();
-            
+    
         /*
          *  Calculate the score for each operation 
          */
+        ArrayList<Double> operationScores = new ArrayList<Double>();
         for (int i = 0; i < validOperations.size(); i++)
         {
             Operation operation = validOperations.get(i);    
@@ -118,6 +136,12 @@ public class HillClimbingBuilder extends NetworkBuilder
         executeOperation(maxOperation);   
     }
     
+    /**
+     * Calculate the score for an operation on the network
+     * 
+     * @param operation the operation to be scored
+     * @return the score of the operation
+     */
     private Double scoreOperation(Operation operation)
     {
         Double score = null;
