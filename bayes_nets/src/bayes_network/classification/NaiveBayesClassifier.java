@@ -3,6 +3,9 @@ package bayes_network.classification;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import classification.ClassificationResult;
+import classification.Classifier;
+
 import pair.Pair;
 
 import data.DataSet;
@@ -21,7 +24,7 @@ import bayes_network.cpd.CPDQuery;
  *  @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
  */
-public class NaiveBayesClassifier 
+public class NaiveBayesClassifier implements Classifier 
 {	
     /**
      * The Bayesian Network used for doing the classification 

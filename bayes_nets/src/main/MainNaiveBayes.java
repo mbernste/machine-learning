@@ -1,7 +1,7 @@
 package main;
 
 
-import bayes_network.classification.ClassificationResult;
+import classification.ClassificationResult;
 import bayes_network.classification.NaiveBayesClassifier;
 
 import data.DataSet;

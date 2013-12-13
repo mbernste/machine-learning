@@ -1,7 +1,7 @@
 package test;
 
 import bayes_network.BNNode;
-import bayes_network.BNNodeSet;
+import bayes_network.BNNodeManager;
 import bayes_network.BayesianNetwork;
 import data.DataSet;
 import data.arff.ArffReader;
@@ -26,7 +26,7 @@ public class BNNodeSet_Test
         /*
          *  The BNNodeSet 
          */
-        BNNodeSet nodes = new BNNodeSet();
+        BNNodeManager nodes = new BNNodeManager();
          
         /*
          *  Create a node corresponding to each nominal attribute in the 

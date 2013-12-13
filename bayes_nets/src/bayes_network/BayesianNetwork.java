@@ -39,14 +39,14 @@ public class BayesianNetwork
     /**
      * The set of nodes in the network
      */
-    BNNodeSet nodes;
+    BNNodeManager nodes;
 
     /**
      * Constructor
      */
     public BayesianNetwork()
     {
-        this.nodes = new BNNodeSet();
+        this.nodes = new BNNodeManager();
     }
 
     public void setNetInference(BayesianNetwork.Type netInference)

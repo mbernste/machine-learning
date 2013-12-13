@@ -1,5 +1,6 @@
 package test;
 
+import classification.ClassificationResult;
 import pair.Pair;
 import prim.Prim;
 import data.DataSet;
@@ -9,7 +10,6 @@ import data.instance.Instance;
 import bayes_network.BayesianNetwork;
 import bayes_network.builders.NaiveBayesBuilder;
 import bayes_network.builders.TANBuilder;
-import bayes_network.classification.ClassificationResult;
 import bayes_network.classification.NaiveBayesClassifier;
 import bayes_network.cpd.CPDQuery;
 import bayes_network.cpd.CPDTree;

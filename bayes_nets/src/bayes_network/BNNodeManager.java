@@ -11,7 +11,13 @@ import data.DataSet;
 import data.attribute.Attribute;
 import data.attribute.AttributeSet;
 
-public class BNNodeSet 
+/**
+ * Manages the nodes and all node operations in a Bayesian network.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
+public class BNNodeManager 
 {
     /**
      * The attributes represented by nodes
@@ -31,7 +37,7 @@ public class BNNodeSet
     /**
      * Constructor
      */
-    public BNNodeSet()
+    public BNNodeManager()
     {
         attributes = new AttributeSet();
         nodes = new HashMap<Attribute, BNNode>();

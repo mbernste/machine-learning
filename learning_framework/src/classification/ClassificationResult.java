@@ -1,4 +1,4 @@
-package bayes_network.classification;
+package classification;
 
 import java.util.ArrayList;
 
@@ -37,8 +37,8 @@ public class ClassificationResult
      * @param resultList an ArrayList of predictions. Each Pair in this list
      * represents the classification of a single instance in the test data.
      * The first element of each pair refers to the predicted nominal value ID
-     * the class attribute.  The second element refers to the probability
-     * calculated by the Bayes net. 
+     * the class attribute.  The second element refers to the confidence of the
+     * classifier.
      *  
      * @param testData the DataSet object containing all test instances
      */
