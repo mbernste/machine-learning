@@ -24,5 +24,7 @@ Generic Graph Theory Algorithms:
     
     Prim's Algorithm
     
+    Topological Sort of Vertices in a DAG
+    
 
 
