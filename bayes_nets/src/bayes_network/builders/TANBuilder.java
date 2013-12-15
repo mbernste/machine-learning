@@ -3,8 +3,8 @@ package bayes_network.builders;
 import java.util.ArrayList;
 
 import pair.Pair;
+import prim.Edge;
 import prim.Prim;
-import prim.Prim.Edge;
 import bayes_network.BNNode;
 import bayes_network.BayesianNetwork;
 import data.DataSet;

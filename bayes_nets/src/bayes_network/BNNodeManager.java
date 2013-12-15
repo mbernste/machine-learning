@@ -10,6 +10,7 @@ import bayes_network.cpd.CPDTreeBuilder;
 import data.DataSet;
 import data.attribute.Attribute;
 import data.attribute.AttributeSet;
+import directed_acyclic.TopologicalSort;
 
 /**
  * Manages the nodes and all node and edge operations in a Bayesian network
@@ -29,12 +30,12 @@ public class BNNodeManager
     /**
      * A mapping of attributes to the nodes representing these attributes
      */
-    private Map<Attribute, BNNode> nodes;
+    private Map<Attribute, BNNode> nodeMap;
     
     /**
      * A sorted list of the nodes in the network.  Sorted topologically.
      */
-    private ArrayList<BNNode> sorted;
+    private ArrayList<BNNode> nodeList;
     
     /**
      * Constructor
@@ -42,8 +43,8 @@ public class BNNodeManager
     public BNNodeManager()
     {
         attributes = new AttributeSet();
-        nodes = new HashMap<Attribute, BNNode>();
-        sorted = new ArrayList<BNNode>();
+        nodeMap = new HashMap<Attribute, BNNode>();
+        nodeList = new ArrayList<BNNode>();
     }
     
     /**
@@ -54,7 +55,7 @@ public class BNNodeManager
      */
     public BNNode getNode(Attribute attr)
     {   
-        return nodes.get(attr);
+        return nodeMap.get(attr);
     }
     
     /**
@@ -79,7 +80,7 @@ public class BNNodeManager
      */
     public ArrayList<BNNode> topologicallySorted()
     {
-        return sorted;
+        return nodeList;
     }
     
     /**
@@ -161,10 +162,6 @@ public class BNNodeManager
         topologicalSort();
     }
     
-   
-    
-    
-    
     /**
      * Add a node to the network and sort the all nodes topologically
      * 
@@ -173,8 +170,8 @@ public class BNNodeManager
     public void addNode(BNNode newNode, DataSet data, Integer laplaceCount)
     {
         attributes.addAttribute(newNode.getAttribute());
-        nodes.put(newNode.getAttribute(), newNode);
-        sorted.add(newNode);
+        nodeMap.put(newNode.getAttribute(), newNode);
+        nodeList.add(newNode);
         
         /*
          * Resort the nodes topologically
@@ -182,6 +179,14 @@ public class BNNodeManager
         topologicalSort();
         
         buildCPD( newNode, data, laplaceCount);
+    }
+    
+    /**
+     * @return the number of nodes
+     */
+    public Integer getNumNodes()
+    {
+        return this.nodeList.size();
     }
     
     /**
@@ -227,101 +232,22 @@ public class BNNodeManager
      * Sort the nodes topologically
      */
     private void topologicalSort()
-    {           
-        /*
-         * Contains all nodes whose parents are "cut" from the graph.  The
-         * order that nodes are added to the list is the topological sort.
-         */
-        ArrayList<BNNode> cut = new ArrayList<BNNode>();
+    {
+        Double[][] graph = BNUtility.convertToAdjacencyMatrix(this.nodeList);
+        ArrayList<Integer> sortedIndices = TopologicalSort.run(graph);
         
-        /*
-         * Find all nodes that are "cut" from the graph
-         */
-        ArrayList<BNNode> toRemove = new ArrayList<BNNode>();
-           
-        /*
-         * Cut all Nodes that don't have any parents from the graph 
-         */
-        @SuppressWarnings("unchecked")
-        ArrayList<BNNode> allNodesCopy = (ArrayList<BNNode>) sorted.clone();
-        for (BNNode node : allNodesCopy)
+        //TODO REMOVE!
+        System.out.println("TOPOLOGICAL SORT");
+        
+        ArrayList<BNNode> newSorted = new ArrayList<BNNode>();
+        for (Integer index : sortedIndices)
         {
-            if (node.getParents().isEmpty())
-            {
-                cut.add(node);
-                toRemove.add(node);
-            }
-        }
-        for (BNNode node : toRemove)
-        {
-            allNodesCopy.remove(node);
+            // TODO REMOVE!
+            System.out.println(nodeList.get(index).getName());
+            newSorted.add(nodeList.get(index));
         }
         
-        /*
-         * Keep cutting nodes without parents from the graph until we have
-         * processed every node.
-         */
-        while(!allNodesCopy.isEmpty())
-        {
-            topologicalSortIteration(cut, allNodesCopy);
-        }
-           
-        /*
-         * Reset the sort
-         */
-        sorted = cut;
-        
-        System.out.println("TOPOLOGICAL ORDERING");
-        for (BNNode node : sorted)
-        {
-            System.out.println(node.getAttribute().getName());
-        }
-        System.out.println();
+        nodeList = newSorted;
     }
     
-    /**
-     * This method blabalbala ....TODO
-     * 
-     * @return all nodes in the network that have no parents
-     */
-    private ArrayList<BNNode> topologicalSortIteration(ArrayList<BNNode> cut,
-                                                       ArrayList<BNNode> allNodesCopy)
-    {   
-        /*
-         * All nodes that need to be removed from the DAG
-         */
-        ArrayList<BNNode> toRemove = new ArrayList<BNNode>();
-        
-        /*
-         * Cut all parentless nodes from the list of nodes that are still in
-         * the graph.  Add these cut nodes to the sorted list.
-         */
-        for (BNNode node : allNodesCopy)
-        {            
-            boolean cutThisNode = true;
-            for (BNNode parent : node.getParents())
-            {                
-                if (!cut.contains(parent))
-                {
-                    cutThisNode = false;
-                }
-            }
-            
-            if (cutThisNode)
-            {
-                cut.add(node);
-                toRemove.add(node);
-            }
-        }
-        
-        /*
-         * Remove parentless nodes
-         */
-        for (BNNode node : toRemove)
-        {
-            allNodesCopy.remove(node);
-        }
-        
-        return cut;
-    }
 }

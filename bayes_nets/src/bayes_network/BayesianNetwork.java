@@ -62,6 +62,14 @@ public class BayesianNetwork
     {
        return nodes.topologicallySorted();
     }
+    
+    /**
+     * @return the number of nodes in the network
+     */
+    public Integer getNumNodes()
+    {
+        return nodes.getNumNodes();
+    }
 
     /**
      * Add a new Node to the network
