@@ -34,7 +34,6 @@ public class TopologicalSort
          */
         while(!toProcess.isEmpty())
         {
-            System.out.println(toProcess.size());
             sorted.addAll( runIteration(graph, toProcess) );
         }
         

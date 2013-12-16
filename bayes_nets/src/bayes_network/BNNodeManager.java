@@ -24,6 +24,11 @@ import directed_acyclic.TopologicalSort;
 public class BNNodeManager 
 {
     /**
+     * Verbose debug output
+     */
+    private boolean verbose = true;
+    
+    /**
      * The attributes represented by nodes
      */
     private AttributeSet attributes;
@@ -319,7 +324,7 @@ public class BNNodeManager
         parent.addParent(child);
                 
         /*
-         *  Rebuild the child's CPD
+         *  Rebuild the  both nodes' CPD
          */
         buildCPD( child, data, laplaceCount );
         buildCPD( parent, data, laplaceCount );
@@ -365,7 +370,6 @@ public class BNNodeManager
      */
     public void buildCPD(BNNode node, DataSet data, Integer laplaceCount)
     { 
-        System.out.println("BUILDING CPD");
         
         ArrayList<Attribute> cpdAttributes = new ArrayList<Attribute>();
 
@@ -394,6 +398,12 @@ public class BNNodeManager
          *  Set the CPD Tree
          */
         node.setCPDTree( cpdTree );   
+
+        if (verbose)
+        {
+            System.out.println("Building CPD for node: " + node.getName());
+            System.out.println(cpdTree);
+        }
     }
     
     /**
@@ -403,15 +413,10 @@ public class BNNodeManager
     {
         Double[][] graph = BNUtility.convertToAdjacencyMatrix(this.nodeList);
         ArrayList<Integer> sortedIndices = TopologicalSort.run(graph);
-        
-        //TODO REMOVE!
-        System.out.println("TOPOLOGICAL SORT");
-        
+                
         ArrayList<BNNode> newSorted = new ArrayList<BNNode>();
         for (Integer index : sortedIndices)
         {
-            // TODO REMOVE!
-            System.out.println(nodeList.get(index).getName());
             newSorted.add(nodeList.get(index));
         }
         

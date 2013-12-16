@@ -21,10 +21,10 @@ public class BayesianNetwork_Test
     {  
         //testAllNodesAbove();
         //testJointProbabilityQuery2();
-        //testConditionalProbabilityQuery();
+        testConditionalProbabilityQuery();
         //testGenerateDataset();
         //testIsValidEdge();
-        testEdgeExists();
+        //testEdgeExists();
     }
     
     public static void testEdgeExists()

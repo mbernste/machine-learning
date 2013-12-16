@@ -386,7 +386,7 @@ public class BayesianNetwork
             CPDQuery cpdQuery = buildCPDQuery(node, nodeValue, values);
             
             // TODO: REMOVE THIS!
-            System.out.print(" = " + node.query(cpdQuery) + " * " + "\n");
+            System.out.print(" = " + cpdQuery + " * " + "\n");
             
             /*
              * Make query update the current product
@@ -414,11 +414,7 @@ public class BayesianNetwork
     private CPDQuery buildCPDQuery(BNNode node, 
                                    Integer nodeValue,
                                    ArrayList<Pair<Attribute, Integer>> queryDetails )
-    { 
-        
-        //TODO: REMOVE
-        String cpdStr = "P(" + node.getAttribute().getName() + " = ";
-        
+    {         
         /*
          * Create the query with the target node's attribute and assigned value
          */
@@ -435,20 +431,11 @@ public class BayesianNetwork
             {
                 if (q.getFirst().equals(parent.getAttribute()))
                 {
-                    query.addQueryItem(q.getFirst(), q.getSecond());
-                    
-                    // TODO: REMOVE!
-                    cpdStr += q.getFirst().getName() + " = ";
-                    cpdStr += q.getFirst().getNominalValueName(q.getSecond()) + " ";
+                    query.addQueryItem(q.getFirst(), q.getSecond());                    
                 }
             }
         }
-        
-        //TODO: REMOVE!
-        cpdStr += ")";
-        
-        System.out.print(cpdStr);
-        
+                
         return query;
     }
     

@@ -22,9 +22,7 @@ public class DetectCycles
          *  Run topological sort
          */
         while(!toProcess.isEmpty())
-        {
-            System.out.println(toProcess.size());
-            
+        {            
             int beforeSize = toProcess.size();
             runIteration(graph, toProcess);
             

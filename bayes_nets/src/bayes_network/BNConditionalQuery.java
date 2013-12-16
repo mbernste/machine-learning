@@ -165,4 +165,45 @@ public class BNConditionalQuery
         return this.getAllVariableSet().getVariables();
     }
     
+    @Override
+    public String toString()
+    {
+        String result = "";
+        
+        Attribute attr = this.targetVariable.getFirst();
+        Integer attrValue = this.targetVariable.getSecond();
+        
+        /*
+         * Target variable
+         */
+        result += "P(" + attr.getName() + " = " + attr.getNominalValueName(attrValue);
+        
+        /*
+         * Conditional pipe
+         */
+        if (!this.conditionVariables.getVariables().isEmpty())
+        {
+            result += " | ";
+        }
+        
+        /*
+         * Condition variables
+         */
+        for (Pair<Attribute, Integer> attrValPair : this.conditionVariables.getVariables())
+        {
+            attr = attrValPair.getFirst();
+            attrValue = attrValPair.getSecond();
+            result += attr.getName() + " = " + attr.getNominalValueName(attrValue);
+            result += ", ";
+        }
+        
+        /*
+         * Closing paranthesis
+         */
+        result = result.substring(0, result.length() - 3);
+        result += ")";
+        
+        return result;
+    }
+    
 }

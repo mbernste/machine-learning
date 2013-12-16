@@ -1,6 +1,8 @@
 package bayes_network.cpd;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import data.attribute.Attribute;
 
@@ -17,25 +19,16 @@ public class CPDQuery
 {
 
     /**
-     * Each query item is a pair of integers where the first integer refers
-     * to an Attribute ID and the second integer refers to a nominal value ID
-     * of the attribute.
-     * <br>
-     * <br>
-     * For example, a list of pairs (color, blue), (shape, square) will query
-     * a specific CPD tree for the joint probability that...
-     *	
-     *			FINISH THIS DESCRIPTION
-     *
+     * Maps an attribute to the value of this attribute specified in the query
      */
-    private ArrayList<Pair<Integer, Integer>> queryItems;
-
+    private Map<Attribute, Integer> queryItems;
+    
     /**
      * Constructor
      */
     public CPDQuery()
     {
-        this.queryItems = new ArrayList<Pair<Integer, Integer>>();
+        this.queryItems = new HashMap<Attribute, Integer>();
     }
 
     /**
@@ -45,11 +38,8 @@ public class CPDQuery
      * @param nominalValueId the nominal value ID specified for this Attribute
      */
     public void addQueryItem(Attribute attr, Integer nomValueId)
-    {		
-        Pair<Integer, Integer> newItem = 
-                new Pair<Integer, Integer>(attr.getId(), nomValueId);
-
-        queryItems.add(newItem);
+    {	
+        queryItems.put(attr, nomValueId);
     }
 
     /**
@@ -62,16 +52,7 @@ public class CPDQuery
      */
     public Boolean containsAttribute(Attribute attr)
     {
-        // Linear Search for a match in Attribute ID's
-        for (Pair<Integer, Integer> item : queryItems)
-        {
-            if (item.getFirst() == attr.getId())
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return queryItems.keySet().contains(attr);
     }
 
     /**
@@ -84,23 +65,15 @@ public class CPDQuery
      */
     public Integer getValueForQueryAttribute(Attribute attr)
     {
-        if (attr == null)
-        {
-            return null;
-        }
-
-        /*
-         *  Linear search for the attribute
-         */
-        for (Pair<Integer, Integer> item : queryItems)
-        {
-            if (item.getFirst() == attr.getId())
-            {
-                return item.getSecond();
-            }
-        }
-
-        return null;
+        return queryItems.get(attr);
+    }
+    
+    @Override
+    public String toString()
+    {
+        String result = "";
+              
+        return result;
     }
 
 }
