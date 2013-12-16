@@ -3,6 +3,7 @@ package bayes_network.builders;
 import java.util.ArrayList;
 
 import pair.Pair;
+import bayes_network.BNNode;
 import bayes_network.BayesianNetwork;
 import bayes_network.builders.scoring.ScoringFunction;
 import data.DataSet;
@@ -26,7 +27,7 @@ import data.DataSet;
 public class HillClimbingBuilder extends NetworkBuilder
 {
     public enum StoppingCriteria {SMALL_GAIN};
-        
+    
     /**
      * Records the number of iterations 
      */
@@ -45,7 +46,7 @@ public class HillClimbingBuilder extends NetworkBuilder
     /**
      * The Bayes net under construction
      */
-    private BayesianNetwork net;
+    public BayesianNetwork net;
     
     /**
      * The training set used to learn the Bayesin network
@@ -106,7 +107,8 @@ public class HillClimbingBuilder extends NetworkBuilder
         /*
          * Find all valid operations on the current net
          */
-        ArrayList<Operation> validOperations = getAllValidOperations();
+        ArrayList<BNNode> allNodes = net.getNodes();
+        ArrayList<Operation> validOperations = getAllValidOperations(allNodes);
     
         /*
          *  Calculate the score for each operation 
@@ -229,14 +231,52 @@ public class HillClimbingBuilder extends NetworkBuilder
      * @return an exhaustive list of all valid operations that can be 
      * performed on the network
      */
-    private  ArrayList<Operation> getAllValidOperations()
+    public  ArrayList<Operation> getAllValidOperations(ArrayList<BNNode> nodes)
     {
         ArrayList<Operation> operations
                 = new ArrayList<Operation>();
         
-        // TODO
-        // TODO: FIND ALL VALID OPERATIONS
-        // TODO:
+        for (BNNode parent : nodes)
+        {
+            for (BNNode child : nodes)
+            {
+                boolean exists = net.edgeExists(parent, child);
+                boolean valid = net.isValidEdge(parent, child);
+                boolean reverseValid = net.isValidReverseEdge(parent, child);
+                
+                /*
+                 * If the edge does not exist and is valid, create 
+                 * ADD operation
+                 */
+                if (valid && !exists) 
+                {
+                    Operation o 
+                        = new Operation(Operation.Type.ADD, parent, child);
+                    operations.add(o);
+                }
+                
+                /*
+                 * If the edge exists and the reversed edge is valid, create
+                 * REVERSE operation
+                 */
+                if (reverseValid && exists)
+                {
+                    Operation o 
+                        = new Operation(Operation.Type.REVERSE, parent, child);
+                    operations.add(o);
+                }
+                
+                /*
+                 * If the edge exists, create REMOVE operation
+                 */
+                if (exists)
+                {
+                    Operation o 
+                        = new Operation(Operation.Type.REMOVE, parent, child);
+                    operations.add(o);
+                }
+            }
+        }
         
         /*
          *  Increment total number of operations examined 

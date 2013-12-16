@@ -115,6 +115,60 @@ public class BNNodeManager
         
         return !cycle;
     }
+
+    /**
+     * Determines if reversing the edge from (parent -> child) will result in a 
+     * valid DAG.  If the original edge (parent -> child) doesn't exists, then
+     * this method simply is testing whether adding (child -> parent) is valid.
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if reversing the edge will not result in a cycle, false
+     * otherwise
+     */
+    public Boolean isValidReverseEdge(BNNode parent, BNNode child)
+    {
+        Boolean result;
+        
+        if (!edgeExists(parent, child))
+        {
+            result = isValidEdge(child, parent);
+        }
+        else
+        {
+            /*
+             * Remove parent -> child
+             */
+            parent.removeChild(child);
+            child.removeParent(parent);
+            
+            /*
+             * Create child -> parent
+             */
+            child.addChild(parent);
+            parent.addParent(child);
+            
+            /*
+             * Check for cycle
+             */
+            Double[][] graph = BNUtility.convertToAdjacencyMatrix(nodeList);
+            result = !DetectCycles.run(graph);
+            
+            /*
+             * Remove child -> parent
+             */
+            child.removeChild(parent);
+            parent.removeParent(parent);
+            
+            /*
+             * Restore parent -> child
+             */
+            parent.addChild(child);
+            child.addParent(parent);
+        }
+        
+        return result;
+    }
     
     /**
      * Test if an edge exists in the network

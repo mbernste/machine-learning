@@ -130,6 +130,21 @@ public class BayesianNetwork
     {
         return nodes.isValidEdge(parent, child);
     }
+    
+    /**
+     * Determines if reversing the edge from (parent -> child) will result in a 
+     * valid DAG.  If the original edge (parent -> child) doesn't exists, then
+     * this method simply is testing whether adding (child -> parent) is valid.
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if reversing the edge will not result in a cycle, false
+     * otherwise
+     */
+    public Boolean isValidReverseEdge(BNNode parent, BNNode child)
+    {
+        return nodes.isValidReverseEdge(parent, child);
+    }
 
     /**
      * Remove a directed edge from the network

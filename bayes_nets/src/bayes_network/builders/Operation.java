@@ -32,6 +32,25 @@ public class Operation
     private Type type;
     
     /**
+     * Constructor
+     */
+    public Operation() {}
+    
+    /**
+     * Constructor
+     * 
+     * @param type this operation's type
+     * @param parent the parent node of the edge
+     * @param child the child node of the edge
+     */
+    public Operation(Operation.Type type, BNNode parent, BNNode child)
+    {
+        this.type = type;
+        this.parent = parent;
+        this.child = child;
+    }
+    
+    /**
      * @param parent the parent node of the edge
      */
     public void setParent(BNNode parent)
@@ -77,5 +96,28 @@ public class Operation
     public Operation.Type getType()
     {
         return this.type;
+    }
+    
+    @Override
+    public String toString()
+    {
+        String result = "";
+        
+        switch(this.type)
+        {
+        case ADD:
+            result += "ADD ";
+            break;
+        case REVERSE:
+            result += "REVERSE ";
+            break;
+        case REMOVE:
+            result += "REMOVE ";
+            break;
+        }
+        
+        result += this.parent.getName() + " -> " + this.child.getName();
+        
+        return result;
     }
 }
