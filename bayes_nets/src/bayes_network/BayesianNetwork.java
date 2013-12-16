@@ -103,16 +103,19 @@ public class BayesianNetwork
                            DataSet data, 
                            Integer laplaceCount)
     {   
-        if (isValidEdge(parent, child))
-        {
-            nodes.createEdge(parent, child, data, laplaceCount);
-        }
-        else
-        {
-            System.err.println("Error adding edge from node " + 
-                                parent.getName() + " to node " + 
-                                child.getName() + ". This creates a cycle.");
-        }
+        nodes.createEdge(parent, child, data, laplaceCount);       
+    }
+    
+    /**
+     * Determine whether an edge exists in the network
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if the edge exists. False otherwise
+     */
+    public Boolean edgeExists(BNNode parent, BNNode child)
+    {
+        return nodes.edgeExists(parent, child);
     }
     
     /**

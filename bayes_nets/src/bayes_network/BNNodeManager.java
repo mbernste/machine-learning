@@ -95,16 +95,56 @@ public class BNNodeManager
      */
     public Boolean isValidEdge(BNNode parent, BNNode child)
     {
+        /*
+         * Add edge
+         */
         parent.addChild(child);
         child.addParent(parent);
         
+        /*
+         * Check for cycle
+         */
         Double[][] graph = BNUtility.convertToAdjacencyMatrix(nodeList);
         Boolean cycle = DetectCycles.run(graph);
         
+        /*
+         * Remove edge
+         */
         child.removeParent(parent);
         parent.removeChild(child);
         
         return !cycle;
+    }
+    
+    /**
+     * Test if an edge exists in the network
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if the edge exists, false otherwise
+     */
+    public Boolean edgeExists(BNNode parent, BNNode child)
+    {
+        boolean childFound = false;
+        boolean parentFound = false;
+        
+        /*
+         *  Search for child
+         */
+        if (parent.getChildren().contains(child))
+        {
+            childFound = true;
+        }
+        
+        /*
+         *  Search for parent
+         */
+        if (child.getParents().contains(parent))
+        {
+            parentFound = true;
+        }
+        
+        return childFound && parentFound;
     }
     
     /**
@@ -118,16 +158,38 @@ public class BNNodeManager
                            DataSet data, 
                            Integer laplaceCount)
     {
+        /*
+         * Check if the edge is valid 
+         */
+        if (!isValidEdge(parent, child))
+        {
+            System.err.println("Error adding edge from node " + 
+                    parent.getName() + " to node " + 
+                    child.getName() + ". This creates a cycle."); 
+            return;
+        }
+        
+        /*
+         * Check if edge already exists 
+         */
+        if (edgeExists(parent, child))
+        {
+            System.err.println("Error adding edge from node " + 
+                                parent.getName() + " to node " +
+                                child.getName() + ". This edge already exists");
+            return;
+        }
+        
         parent.addChild(child);
         child.addParent(parent);
                 
         /*
-         *  Rebuild the child's CPD
+         *  Rebuild the child's CPD 
          */
         buildCPD( child, data, laplaceCount );
         
         /*
-         *  Resort the nodes topologically
+         * Resort the nodes topologically 
          */
         topologicalSort();
     }
@@ -219,7 +281,7 @@ public class BNNodeManager
      * @param node the node for which we need to build the CPD tree
      * @param data the data used to build the CPD
      */
-    private void buildCPD(BNNode node, DataSet data, Integer laplaceCount)
+    public void buildCPD(BNNode node, DataSet data, Integer laplaceCount)
     { 
         System.out.println("BUILDING CPD");
         

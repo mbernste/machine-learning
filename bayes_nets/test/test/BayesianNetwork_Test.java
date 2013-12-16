@@ -21,7 +21,26 @@ public class BayesianNetwork_Test
         //testJointProbabilityQuery2();
         //testConditionalProbabilityQuery();
         //testGenerateDataset();
-        testIsValidEdge();
+        //testIsValidEdge();
+        testEdgeExists();
+    }
+    
+    public static void testEdgeExists()
+    {
+        /*
+         *  Read the training data from the arff file
+         */
+        ArffReader reader = new ArffReader();
+        DataSet data = reader.readFile("./data/test_network.arff");
+        data.setClassAttribute("D");
+    
+        BayesianNetwork net = buildTestNetwork1(data);
+        
+        BNNode E = net.getNode(data.getAttributeByName("E"));
+        BNNode F = net.getNode(data.getAttributeByName("F"));
+        BNNode G = net.getNode(data.getAttributeByName("G"));
+        
+        System.out.println( net.edgeExists(F, G) );   
     }
     
     public static void testIsValidEdge()
