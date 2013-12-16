@@ -23,8 +23,8 @@ public class BayesianNetwork_Test
         //testJointProbabilityQuery2();
         //testConditionalProbabilityQuery();
         //testGenerateDataset();
-        testIsValidEdge();
-        //testEdgeExists();
+        //testIsValidEdge();
+        testEdgeExists();
     }
     
     public static void testEdgeExists()
@@ -34,6 +34,7 @@ public class BayesianNetwork_Test
         BayesianNetwork net = testKit.getFirst();
         DataSet data = testKit.getSecond();    
         
+        BNNode A = net.getNode(data.getAttributeByName("A"));
         BNNode E = net.getNode(data.getAttributeByName("E"));
         BNNode F = net.getNode(data.getAttributeByName("F"));
         BNNode G = net.getNode(data.getAttributeByName("G"));

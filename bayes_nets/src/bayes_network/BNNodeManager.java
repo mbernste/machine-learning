@@ -284,9 +284,37 @@ public class BNNodeManager
                            DataSet data, 
                            Integer laplaceCount)
     {
+        /*
+         * Remove parent -> child
+         */
         parent.removeChild(child);
         child.removeParent(parent);
         
+        /*
+         * Check if (child -> parent) already exists
+         */
+        if (edgeExists(child, parent))
+        {
+            System.err.println("Error reversing edge from node " + 
+                                parent.getName() + " to node " +
+                                child.getName() + ". This edge already exists");
+            return;
+        }
+        
+        /*
+         * Check if adding (child -> parent) is valid
+         */
+        if (!isValidEdge(child, parent))
+        {
+            System.err.println("Error reversing edge from node " + 
+                    parent.getName() + " to node " + 
+                    child.getName() + ". This creates a cycle."); 
+            return;
+        }
+
+        /*
+         * Create (child -> parent)
+         */
         child.addChild(parent);
         parent.addParent(child);
                 
@@ -297,7 +325,7 @@ public class BNNodeManager
         buildCPD( parent, data, laplaceCount );
         
         /*
-         *  Resort the nodes topologically
+         *  Re-sort the nodes topologically
          */
         topologicalSort();
     }
