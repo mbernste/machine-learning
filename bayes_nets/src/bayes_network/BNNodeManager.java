@@ -10,6 +10,7 @@ import bayes_network.cpd.CPDTreeBuilder;
 import data.DataSet;
 import data.attribute.Attribute;
 import data.attribute.AttributeSet;
+import directed_acyclic.DetectCycles;
 import directed_acyclic.TopologicalSort;
 
 /**
@@ -81,6 +82,29 @@ public class BNNodeManager
     public ArrayList<BNNode> topologicallySorted()
     {
         return nodeList;
+    }
+    
+    /**
+     * Tests if a hypothetical edge between two nodes is valid.  That is, 
+     * whether this edge would create a cycle in the network. This method
+     * does not create the edge in the network.
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if the edge is valid (i.e. no cycle).  False otherwise
+     */
+    public Boolean isValidEdge(BNNode parent, BNNode child)
+    {
+        parent.addChild(child);
+        child.addParent(parent);
+        
+        Double[][] graph = BNUtility.convertToAdjacencyMatrix(nodeList);
+        Boolean cycle = DetectCycles.run(graph);
+        
+        child.removeParent(parent);
+        parent.removeChild(child);
+        
+        return !cycle;
     }
     
     /**

@@ -102,8 +102,30 @@ public class BayesianNetwork
                            BNNode child, 
                            DataSet data, 
                            Integer laplaceCount)
+    {   
+        if (isValidEdge(parent, child))
+        {
+            nodes.createEdge(parent, child, data, laplaceCount);
+        }
+        else
+        {
+            System.err.println("Error adding edge from node " + 
+                                parent.getName() + " to node " + 
+                                child.getName() + ". This creates a cycle.");
+        }
+    }
+    
+    /**
+     * Determines if the edge between the parent and child would create a 
+     * cycle in the DAG
+     * 
+     * @param parent the parent node
+     * @param child the child
+     * @return true if the edge is valid (no cycle).  False otherwise
+     */
+    public Boolean isValidEdge(BNNode parent, BNNode child)
     {
-        nodes.createEdge(parent, child, data, laplaceCount);
+        return nodes.isValidEdge(parent, child);
     }
 
     /**

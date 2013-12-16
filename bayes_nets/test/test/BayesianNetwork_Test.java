@@ -17,11 +17,31 @@ public class BayesianNetwork_Test
 {
     public static void main(String[] args)
     {  
-        //testAllNodesAbove(data);
+        //testAllNodesAbove();
         //testJointProbabilityQuery2();
         //testConditionalProbabilityQuery();
-        testGenerateDataset();
+        //testGenerateDataset();
+        testIsValidEdge();
     }
+    
+    public static void testIsValidEdge()
+    {
+        /*
+         *  Read the training data from the arff file
+         */
+        ArffReader reader = new ArffReader();
+        DataSet data = reader.readFile("./data/test_network.arff");
+        data.setClassAttribute("D");
+    
+        BayesianNetwork net = buildTestNetwork1(data);
+        
+        BNNode C = net.getNode(data.getAttributeByName("C"));
+        BNNode G = net.getNode(data.getAttributeByName("G"));
+        
+        System.out.println( net.isValidEdge(G, C) );   
+    }
+    
+    
     
     public static void testGenerateDataset()
     {
@@ -163,9 +183,7 @@ public class BayesianNetwork_Test
         net.createEdge(A, C, data, 1);
         net.createEdge(E, A, data, 1);
         net.createEdge(D, A, data, 1);
-        
-        buildCPD(net, data);
-        
+                
         return net;
     }
     
@@ -201,49 +219,10 @@ public class BayesianNetwork_Test
         net.createEdge(B, A, data, 1);
         net.createEdge(C, A, data, 1);
         net.createEdge(C, D, data, 1);
-        
-        buildCPD(net, data);
-        
+                
         return net;
     }
     
-    
-    public static void buildCPD(BayesianNetwork net, DataSet data)
-    {
-        /*
-         * For each node in the network.  Find its parents and build a CPD
-         * tree object for this node.
-         */
-        for (BNNode node : net.getNodes())
-        {
-            ArrayList<Attribute> cpdAttributes = new ArrayList<Attribute>();
-
-            /*
-             *  Get parent node's associated attribute
-             */
-            for (BNNode parent : node.getParents())
-            {
-                cpdAttributes.add(parent.getAttribute());
-            }
-
-            /*
-             *  Add the current node's attribute
-             */
-            cpdAttributes.add(node.getAttribute());
-
-            /*
-             *  Build the CPD at this node
-             */
-            CPDTreeBuilder treeBuilder = new CPDTreeBuilder();
-            CPDTree cpdTree = treeBuilder.buildCPDTree(data, 
-                    cpdAttributes,
-                    1);
-            
-            /*
-             *  Set the CPD Tree
-             */
-            node.setCPDTree( cpdTree );
-        }
-    }
+  
     
 }
