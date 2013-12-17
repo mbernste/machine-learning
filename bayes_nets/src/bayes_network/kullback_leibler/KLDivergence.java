@@ -44,6 +44,7 @@ public class KLDivergence {
 		int numAttrs = attrs.size();
 		int[] curIndices = new int[numAttrs];
 		setEpsilonValues(dataP, dataQ);
+		System.out.println("pValue: " + pValue + "\tqValue: " + qValue);
 		do {
 			double pX = calculateAttributeValueProbability(dataP, attrs, curIndices);
 			double qX = calculateAttributeValueProbability(dataQ, attrs, curIndices);
@@ -57,7 +58,12 @@ public class KLDivergence {
 				pX = (pX == 0 ? EPSILON : pX - pValue);
 				qX = (qX == 0 ? EPSILON : qX - qValue);		
 			}
-			divergence += pX * (Math.log(pX) - Math.log(qX));
+			
+			//force 0 * log(0) to be 0 by skipping calculation
+			//as 0 * -infinity is NaN in Java
+			if(pX != 0){
+				divergence += pX * (Math.log(pX) - Math.log(qX));
+			}
 		}while(incrementIndices(curIndices,attrs,numAttrs - 1));
 		return divergence;
 	}
@@ -83,7 +89,7 @@ public class KLDivergence {
 			}
 		}
 		
-		for(Instance inst: dataP.getInstanceSet().getInstanceList()){
+		for(Instance inst: dataQ.getInstanceSet().getInstanceList()){
 			//If not yet seen in uniqueQ, may still be in union
 			if(!uniqueQ.contains(inst)){
 				uniqueQ.add(inst);
@@ -93,7 +99,7 @@ public class KLDivergence {
 				}
 			} 
 		}
-		
+		System.out.println("Union: " + union.size() + "\tP: " + uniqueP.size() + "\tQ: " + uniqueQ.size());
 		pValue = EPSILON * (union.size() - uniqueP.size()) / uniqueP.size();
 		qValue = EPSILON * (union.size() - uniqueQ.size()) / uniqueQ.size();
 	}
@@ -112,7 +118,7 @@ public class KLDivergence {
 			int size = attrs.get(curIndex).getNominalValueMap().values().size();
 			indices[curIndex] = (indices[curIndex] + 1) % size;
 			if(indices[curIndex] == 0){
-				incrementIndices(indices,attrs,curIndex-1);
+				hasMoreCombinations = incrementIndices(indices,attrs,curIndex-1);
 			}
 		} else {
 			hasMoreCombinations = false;
@@ -134,7 +140,7 @@ public class KLDivergence {
 			boolean allSame = true;
 			int i = 0; 
 			while(allSame && i < attrs.size()){
-				allSame = inst.getAttributeValue(attrs.get(i).getId()).doubleValue() == valueIds[i];
+				allSame = inst.getAttributeValue(attrs.get(i)).doubleValue() == valueIds[i];
 				i++;
 			}
 			if(allSame){
@@ -145,4 +151,5 @@ public class KLDivergence {
 		probability /= data.getNumInstances();
 		return probability;
 	}
+	
 }
