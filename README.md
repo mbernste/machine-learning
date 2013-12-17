@@ -24,5 +24,9 @@ Generic Graph Theory Algorithms:
     
     Prim's Algorithm
     
+    Cycle Detection
+    
+    Topological Sort of Vertices in a DAG
+    
 
 

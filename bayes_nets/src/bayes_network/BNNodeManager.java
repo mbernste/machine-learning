@@ -10,15 +10,24 @@ import bayes_network.cpd.CPDTreeBuilder;
 import data.DataSet;
 import data.attribute.Attribute;
 import data.attribute.AttributeSet;
+import directed_acyclic.DetectCycles;
+import directed_acyclic.TopologicalSort;
 
 /**
- * Manages the nodes and all node operations in a Bayesian network.
+ * Manages the nodes and all node and edge operations in a Bayesian network
+ * such as adding/removing nodes and edges and updating the parameters in the
+ * model.
  * 
  * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
  */
 public class BNNodeManager 
 {
+    /**
+     * Verbose debug output
+     */
+    private boolean verbose = true;
+    
     /**
      * The attributes represented by nodes
      */
@@ -27,12 +36,12 @@ public class BNNodeManager
     /**
      * A mapping of attributes to the nodes representing these attributes
      */
-    private Map<Attribute, BNNode> nodes;
+    private Map<Attribute, BNNode> nodeMap;
     
     /**
      * A sorted list of the nodes in the network.  Sorted topologically.
      */
-    private ArrayList<BNNode> sorted;
+    private ArrayList<BNNode> nodeList;
     
     /**
      * Constructor
@@ -40,8 +49,8 @@ public class BNNodeManager
     public BNNodeManager()
     {
         attributes = new AttributeSet();
-        nodes = new HashMap<Attribute, BNNode>();
-        sorted = new ArrayList<BNNode>();
+        nodeMap = new HashMap<Attribute, BNNode>();
+        nodeList = new ArrayList<BNNode>();
     }
     
     /**
@@ -52,7 +61,7 @@ public class BNNodeManager
      */
     public BNNode getNode(Attribute attr)
     {   
-        return nodes.get(attr);
+        return nodeMap.get(attr);
     }
     
     /**
@@ -77,7 +86,124 @@ public class BNNodeManager
      */
     public ArrayList<BNNode> topologicallySorted()
     {
-        return sorted;
+        return nodeList;
+    }
+    
+    /**
+     * Tests if a hypothetical edge between two nodes is valid.  That is, 
+     * whether this edge would create a cycle in the network. This method
+     * does not create the edge in the network.
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if the edge is valid (i.e. no cycle).  False otherwise
+     */
+    public Boolean isValidEdge(BNNode parent, BNNode child)
+    {
+        /*
+         * Add edge
+         */
+        parent.addChild(child);
+        child.addParent(parent);
+        
+        /*
+         * Check for cycle
+         */
+        Double[][] graph = BNUtility.convertToAdjacencyMatrix(nodeList);
+        Boolean cycle = DetectCycles.run(graph);
+        
+        /*
+         * Remove edge
+         */
+        child.removeParent(parent);
+        parent.removeChild(child);
+        
+        return !cycle;
+    }
+
+    /**
+     * Determines if reversing the edge from (parent -> child) will result in a 
+     * valid DAG.  If the original edge (parent -> child) doesn't exists, then
+     * this method simply is testing whether adding (child -> parent) is valid.
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if reversing the edge will not result in a cycle, false
+     * otherwise
+     */
+    public Boolean isValidReverseEdge(BNNode parent, BNNode child)
+    {
+        Boolean result;
+        
+        if (!edgeExists(parent, child))
+        {
+            result = isValidEdge(child, parent);
+        }
+        else
+        {
+            /*
+             * Remove parent -> child
+             */
+            parent.removeChild(child);
+            child.removeParent(parent);
+            
+            /*
+             * Create child -> parent
+             */
+            child.addChild(parent);
+            parent.addParent(child);
+            
+            /*
+             * Check for cycle
+             */
+            Double[][] graph = BNUtility.convertToAdjacencyMatrix(nodeList);
+            result = !DetectCycles.run(graph);
+            
+            /*
+             * Remove child -> parent
+             */
+            child.removeChild(parent);
+            parent.removeParent(parent);
+            
+            /*
+             * Restore parent -> child
+             */
+            parent.addChild(child);
+            child.addParent(parent);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Test if an edge exists in the network
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if the edge exists, false otherwise
+     */
+    public Boolean edgeExists(BNNode parent, BNNode child)
+    {
+        boolean childFound = false;
+        boolean parentFound = false;
+        
+        /*
+         *  Search for child
+         */
+        if (parent.getChildren().contains(child))
+        {
+            childFound = true;
+        }
+        
+        /*
+         *  Search for parent
+         */
+        if (child.getParents().contains(parent))
+        {
+            parentFound = true;
+        }
+        
+        return childFound && parentFound;
     }
     
     /**
@@ -91,9 +217,56 @@ public class BNNodeManager
                            DataSet data, 
                            Integer laplaceCount)
     {
+        /*
+         * Check if the edge is valid 
+         */
+        if (!isValidEdge(parent, child))
+        {
+            System.err.println("Error adding edge from node " + 
+                    parent.getName() + " to node " + 
+                    child.getName() + ". This creates a cycle."); 
+            return;
+        }
+        
+        /*
+         * Check if edge already exists 
+         */
+        if (edgeExists(parent, child))
+        {
+            System.err.println("Error adding edge from node " + 
+                                parent.getName() + " to node " +
+                                child.getName() + ". This edge already exists");
+            return;
+        }
+        
         parent.addChild(child);
         child.addParent(parent);
                 
+        /*
+         *  Rebuild the child's CPD 
+         */
+        buildCPD( child, data, laplaceCount );
+        
+        /*
+         * Resort the nodes topologically 
+         */
+        topologicalSort();
+    }
+    
+    /**
+     * Remove a directed edge between two nodes
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     */
+    public void removeEdge(BNNode parent, 
+                            BNNode child, 
+                            DataSet data, 
+                            Integer laplaceCount)
+    {
+        parent.removeChild(child);
+        child.removeParent(parent);
+        
         /*
          *  Rebuild the child's CPD
          */
@@ -106,26 +279,58 @@ public class BNNodeManager
     }
     
     /**
-     * Remove a directed edge between two nodes
+     * Reverse a directed edge between two nodes
      * 
      * @param parent the parent node
      * @param child the child node
      */
-    public void removeEdge(BNNode parent, 
+    public void reverseEdge(BNNode parent, 
                            BNNode child, 
                            DataSet data, 
                            Integer laplaceCount)
     {
+        /*
+         * Remove parent -> child
+         */
         parent.removeChild(child);
         child.removeParent(parent);
-                
-        /*
-         *  Rebuild the child's CPD
-         */
-        buildCPD( child, data, laplaceCount );
         
         /*
-         *  Resort the nodes topologically
+         * Check if (child -> parent) already exists
+         */
+        if (edgeExists(child, parent))
+        {
+            System.err.println("Error reversing edge from node " + 
+                                parent.getName() + " to node " +
+                                child.getName() + ". This edge already exists");
+            return;
+        }
+        
+        /*
+         * Check if adding (child -> parent) is valid
+         */
+        if (!isValidEdge(child, parent))
+        {
+            System.err.println("Error reversing edge from node " + 
+                    parent.getName() + " to node " + 
+                    child.getName() + ". This creates a cycle."); 
+            return;
+        }
+
+        /*
+         * Create (child -> parent)
+         */
+        child.addChild(parent);
+        parent.addParent(child);
+                
+        /*
+         *  Rebuild the  both nodes' CPD
+         */
+        buildCPD( child, data, laplaceCount );
+        buildCPD( parent, data, laplaceCount );
+        
+        /*
+         *  Re-sort the nodes topologically
          */
         topologicalSort();
     }
@@ -138,8 +343,8 @@ public class BNNodeManager
     public void addNode(BNNode newNode, DataSet data, Integer laplaceCount)
     {
         attributes.addAttribute(newNode.getAttribute());
-        nodes.put(newNode.getAttribute(), newNode);
-        sorted.add(newNode);
+        nodeMap.put(newNode.getAttribute(), newNode);
+        nodeList.add(newNode);
         
         /*
          * Resort the nodes topologically
@@ -150,14 +355,21 @@ public class BNNodeManager
     }
     
     /**
+     * @return the number of nodes
+     */
+    public Integer getNumNodes()
+    {
+        return this.nodeList.size();
+    }
+    
+    /**
      * Build the CPD Tree for a single node
      * 
      * @param node the node for which we need to build the CPD tree
      * @param data the data used to build the CPD
      */
-    private void buildCPD(BNNode node, DataSet data, Integer laplaceCount)
+    public void buildCPD(BNNode node, DataSet data, Integer laplaceCount)
     { 
-        System.out.println("BUILDING CPD");
         
         ArrayList<Attribute> cpdAttributes = new ArrayList<Attribute>();
 
@@ -186,106 +398,29 @@ public class BNNodeManager
          *  Set the CPD Tree
          */
         node.setCPDTree( cpdTree );   
+
+        if (verbose)
+        {
+            System.out.println("Building CPD for node: " + node.getName());
+            System.out.println(cpdTree);
+        }
     }
     
     /**
      * Sort the nodes topologically
      */
     private void topologicalSort()
-    {           
-        /*
-         * Contains all nodes whose parents are "cut" from the graph.  The
-         * order that nodes are added to the list is the topological sort.
-         */
-        ArrayList<BNNode> cut = new ArrayList<BNNode>();
-        
-        /*
-         * Find all nodes that are "cut" from the graph
-         */
-        ArrayList<BNNode> toRemove = new ArrayList<BNNode>();
-           
-        /*
-         * Cut all Nodes that don't have any parents from the graph 
-         */
-        ArrayList<BNNode> allNodesCopy = (ArrayList<BNNode>) sorted.clone();
-        for (BNNode node : allNodesCopy)
+    {
+        Double[][] graph = BNUtility.convertToAdjacencyMatrix(this.nodeList);
+        ArrayList<Integer> sortedIndices = TopologicalSort.run(graph);
+                
+        ArrayList<BNNode> newSorted = new ArrayList<BNNode>();
+        for (Integer index : sortedIndices)
         {
-            if (node.getParents().isEmpty())
-            {
-                cut.add(node);
-                toRemove.add(node);
-            }
-        }
-        for (BNNode node : toRemove)
-        {
-            allNodesCopy.remove(node);
+            newSorted.add(nodeList.get(index));
         }
         
-        /*
-         * Keep cutting nodes without parents from the graph until we have
-         * processed every node.
-         */
-        while(!allNodesCopy.isEmpty())
-        {
-            topologicalSortIteration(cut, allNodesCopy);
-        }
-           
-        /*
-         * Reset the sort
-         */
-        sorted = cut;
-        
-        System.out.println("TOPOLOGICAL ORDERING");
-        for (BNNode node : sorted)
-        {
-            System.out.println(node.getAttribute().getName());
-        }
-        System.out.println();
+        nodeList = newSorted;
     }
     
-    /**
-     * This method blabalbala ....TODO
-     * 
-     * @return all nodes in the network that have no parents
-     */
-    private ArrayList<BNNode> topologicalSortIteration(ArrayList<BNNode> cut,
-                                                       ArrayList<BNNode> allNodesCopy)
-    {   
-        /*
-         * All nodes that need to be removed from the DAG
-         */
-        ArrayList<BNNode> toRemove = new ArrayList<BNNode>();
-        
-        /*
-         * Cut all parentless nodes from the list of nodes that are still in
-         * the graph.  Add these cut nodes to the sorted list.
-         */
-        for (BNNode node : allNodesCopy)
-        {            
-            boolean cutThisNode = true;
-            for (BNNode parent : node.getParents())
-            {                
-                if (!cut.contains(parent))
-                {
-                    cutThisNode = false;
-                }
-            }
-            
-            if (cutThisNode)
-            {
-                cut.add(node);
-                toRemove.add(node);
-            }
-        }
-        
-        /*
-         * Remove parentless nodes
-         */
-        for (BNNode node : toRemove)
-        {
-            allNodesCopy.remove(node);
-        }
-        
-        return cut;
-    }
 }

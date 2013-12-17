@@ -126,6 +126,14 @@ public class DataSet
 	}
 	
 	/**
+	 * @return a list of all instances in the data set
+	 */
+	public ArrayList<Instance> getInstanceList()
+	{
+	    return instanceSet.getInstanceList();
+	}
+	
+	/**
 	 * @return the set of all attributes that all instances in this data set
 	 * have
 	 */

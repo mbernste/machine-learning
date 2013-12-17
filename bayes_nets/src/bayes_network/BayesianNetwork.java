@@ -56,11 +56,19 @@ public class BayesianNetwork
 
     /**
      * @return an ArrayList holding all Node objects in the network sorted
-     * in topological order
+     * in topological order in the DAG
      */
     public ArrayList<BNNode> getNodes()
     {
        return nodes.topologicallySorted();
+    }
+    
+    /**
+     * @return the number of nodes in the network
+     */
+    public Integer getNumNodes()
+    {
+        return nodes.getNumNodes();
     }
 
     /**
@@ -94,8 +102,48 @@ public class BayesianNetwork
                            BNNode child, 
                            DataSet data, 
                            Integer laplaceCount)
+    {   
+        nodes.createEdge(parent, child, data, laplaceCount);       
+    }
+    
+    /**
+     * Determine whether an edge exists in the network
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if the edge exists. False otherwise
+     */
+    public Boolean edgeExists(BNNode parent, BNNode child)
     {
-        nodes.createEdge(parent, child, data, laplaceCount);
+        return nodes.edgeExists(parent, child);
+    }
+    
+    /**
+     * Determines if the edge between the parent and child would create a 
+     * cycle in the DAG
+     * 
+     * @param parent the parent node
+     * @param child the child
+     * @return true if the edge is valid (no cycle).  False otherwise
+     */
+    public Boolean isValidEdge(BNNode parent, BNNode child)
+    {
+        return nodes.isValidEdge(parent, child);
+    }
+    
+    /**
+     * Determines if reversing the edge from (parent -> child) will result in a 
+     * valid DAG.  If the original edge (parent -> child) doesn't exists, then
+     * this method simply is testing whether adding (child -> parent) is valid.
+     * 
+     * @param parent the parent node
+     * @param child the child node
+     * @return true if reversing the edge will not result in a cycle, false
+     * otherwise
+     */
+    public Boolean isValidReverseEdge(BNNode parent, BNNode child)
+    {
+        return nodes.isValidReverseEdge(parent, child);
     }
 
     /**
@@ -110,6 +158,22 @@ public class BayesianNetwork
                            Integer laplaceCount)
     {
         nodes.removeEdge(parent, child, data, laplaceCount);
+    }
+    
+    /**
+     * Reverse a directed in the network
+     * 
+     * @param parent the parent node of the edge to be reversed
+     * @param child the child node of the edge to be reverse
+     * @param data the dataset used to recompute the parameters of the model
+     * @param laplaceCount the laplace count to use in parameter estimation
+     */
+    public void reverseEdge(BNNode parent,
+                            BNNode child,
+                            DataSet data,
+                            Integer laplaceCount)
+    {
+        nodes.reverseEdge(parent, child, data, laplaceCount);
     }
 
     @Override
@@ -322,7 +386,7 @@ public class BayesianNetwork
             CPDQuery cpdQuery = buildCPDQuery(node, nodeValue, values);
             
             // TODO: REMOVE THIS!
-            System.out.print(" = " + node.query(cpdQuery) + " * " + "\n");
+            System.out.print(" = " + cpdQuery + " * " + "\n");
             
             /*
              * Make query update the current product
@@ -350,11 +414,7 @@ public class BayesianNetwork
     private CPDQuery buildCPDQuery(BNNode node, 
                                    Integer nodeValue,
                                    ArrayList<Pair<Attribute, Integer>> queryDetails )
-    { 
-        
-        //TODO: REMOVE
-        String cpdStr = "P(" + node.getAttribute().getName() + " = ";
-        
+    {         
         /*
          * Create the query with the target node's attribute and assigned value
          */
@@ -371,20 +431,11 @@ public class BayesianNetwork
             {
                 if (q.getFirst().equals(parent.getAttribute()))
                 {
-                    query.addQueryItem(q.getFirst(), q.getSecond());
-                    
-                    // TODO: REMOVE!
-                    cpdStr += q.getFirst().getName() + " = ";
-                    cpdStr += q.getFirst().getNominalValueName(q.getSecond()) + " ";
+                    query.addQueryItem(q.getFirst(), q.getSecond());                    
                 }
             }
         }
-        
-        //TODO: REMOVE!
-        cpdStr += ")";
-        
-        System.out.print(cpdStr);
-        
+                
         return query;
     }
     

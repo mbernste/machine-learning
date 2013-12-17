@@ -3,6 +3,8 @@ package test;
 import java.util.ArrayList;
 import java.util.Set;
 
+import pair.Pair;
+
 import data.DataSet;
 import data.arff.ArffReader;
 import data.attribute.Attribute;
@@ -17,22 +19,49 @@ public class BayesianNetwork_Test
 {
     public static void main(String[] args)
     {  
-        //testAllNodesAbove(data);
+        //testAllNodesAbove();
         //testJointProbabilityQuery2();
-        //testConditionalProbabilityQuery();
-        testGenerateDataset();
+        testConditionalProbabilityQuery();
+        //testGenerateDataset();
+        //testIsValidEdge();
+        //testEdgeExists();
     }
+    
+    public static void testEdgeExists()
+    {
+    
+        Pair<BayesianNetwork, DataSet> testKit = TestNetworkBuilder.buildTestNetwork1();
+        BayesianNetwork net = testKit.getFirst();
+        DataSet data = testKit.getSecond();    
+        
+        BNNode A = net.getNode(data.getAttributeByName("A"));
+        BNNode E = net.getNode(data.getAttributeByName("E"));
+        BNNode F = net.getNode(data.getAttributeByName("F"));
+        BNNode G = net.getNode(data.getAttributeByName("G"));
+        
+        System.out.println( net.edgeExists(F, G) );   
+    }
+    
+    public static void testIsValidEdge()
+    {
+        Pair<BayesianNetwork, DataSet> testKit = TestNetworkBuilder.buildTestNetwork1();
+        BayesianNetwork net = testKit.getFirst();
+        DataSet data = testKit.getSecond();   
+        
+        BNNode C = net.getNode(data.getAttributeByName("C"));
+        BNNode G = net.getNode(data.getAttributeByName("G"));
+        
+        System.out.println( net.isValidEdge(G, C) );   
+    }
+    
+    
     
     public static void testGenerateDataset()
     {
-        /*
-         *  Read the training data from the arff file
-         */
-        ArffReader reader = new ArffReader();
-        DataSet data = reader.readFile("./data/test_network.arff");
-        data.setClassAttribute("D");
+        Pair<BayesianNetwork, DataSet> testKit = TestNetworkBuilder.buildTestNetwork1();
+        BayesianNetwork net = testKit.getFirst();
+        DataSet data = testKit.getSecond();   
         
-        BayesianNetwork net = buildTestNetwork1(data);
         System.out.println(net);
         
         DataSet generated = net.generateDataSet(30);
@@ -67,9 +96,11 @@ public class BayesianNetwork_Test
         System.out.println("Conditional Probability: " + p);
     }
     
-    public static void  testJointProbabilityQuery1(DataSet data)
+    public static void  testJointProbabilityQuery1()
     {
-        BayesianNetwork net = buildTestNetwork1(data);
+        Pair<BayesianNetwork, DataSet> testKit = TestNetworkBuilder.buildTestNetwork1();
+        BayesianNetwork net = testKit.getFirst();
+        DataSet data = testKit.getSecond();   
         
         Attribute B = data.getAttributeByName("B");
         Integer valB = B.getNominalValueId("b1");
@@ -110,9 +141,11 @@ public class BayesianNetwork_Test
         net.queryJointProbability(query);
     }
     
-    public static void testAllNodesAbove(DataSet data)
+    public static void testAllNodesAbove()
     {
-        BayesianNetwork net = buildTestNetwork1(data);
+        Pair<BayesianNetwork, DataSet> testKit = TestNetworkBuilder.buildTestNetwork1();
+        BayesianNetwork net = testKit.getFirst();
+        DataSet data = testKit.getSecond();
         
         Set<BNNode> nodesAboveB 
                 = net.getNodesAbove(net.getNode(data.getAttributeByName("G")));
@@ -124,50 +157,7 @@ public class BayesianNetwork_Test
 
     }
     
-    public static BayesianNetwork buildTestNetwork1(DataSet data)
-    {
-        /*
-         * Create network
-         */
-        BayesianNetwork net = new BayesianNetwork();
-        net.setNetInference(BayesianNetwork.Type.TEST);
-        
-        /*
-         *  Create a node corresponding to each nominal attribute in the 
-         *  dataset. Continuous attributes are ignored.
-         */
-        for (Attribute attr : data.getAttributeList())
-        {
-            if (attr.getType() == Attribute.NOMINAL)
-            {
-                BNNode newNode = new BNNode(attr);
-                net.addNode( newNode, data, 1 );
-            }
-        }
-        
-        /*
-         * Set edges manually
-         */
-        BNNode A = net.getNode(data.getAttributeByName("A"));
-        BNNode B = net.getNode(data.getAttributeByName("B"));
-        BNNode C = net.getNode(data.getAttributeByName("C"));
-        BNNode D = net.getNode(data.getAttributeByName("D"));
-        BNNode E = net.getNode(data.getAttributeByName("E"));
-        BNNode F = net.getNode(data.getAttributeByName("F"));
-        BNNode G = net.getNode(data.getAttributeByName("G"));
-      
-        net.createEdge(B, G, data, 1);
-        net.createEdge(F, G, data, 1);
-        net.createEdge(C, F, data, 1);
-        net.createEdge(A, B, data, 1);
-        net.createEdge(A, C, data, 1);
-        net.createEdge(E, A, data, 1);
-        net.createEdge(D, A, data, 1);
-        
-        buildCPD(net, data);
-        
-        return net;
-    }
+    
     
     public static BayesianNetwork buildTestNetwork2(DataSet data)
     {
@@ -201,49 +191,10 @@ public class BayesianNetwork_Test
         net.createEdge(B, A, data, 1);
         net.createEdge(C, A, data, 1);
         net.createEdge(C, D, data, 1);
-        
-        buildCPD(net, data);
-        
+                
         return net;
     }
     
-    
-    public static void buildCPD(BayesianNetwork net, DataSet data)
-    {
-        /*
-         * For each node in the network.  Find its parents and build a CPD
-         * tree object for this node.
-         */
-        for (BNNode node : net.getNodes())
-        {
-            ArrayList<Attribute> cpdAttributes = new ArrayList<Attribute>();
-
-            /*
-             *  Get parent node's associated attribute
-             */
-            for (BNNode parent : node.getParents())
-            {
-                cpdAttributes.add(parent.getAttribute());
-            }
-
-            /*
-             *  Add the current node's attribute
-             */
-            cpdAttributes.add(node.getAttribute());
-
-            /*
-             *  Build the CPD at this node
-             */
-            CPDTreeBuilder treeBuilder = new CPDTreeBuilder();
-            CPDTree cpdTree = treeBuilder.buildCPDTree(data, 
-                    cpdAttributes,
-                    1);
-            
-            /*
-             *  Set the CPD Tree
-             */
-            node.setCPDTree( cpdTree );
-        }
-    }
+  
     
 }

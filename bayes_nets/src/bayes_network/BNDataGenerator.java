@@ -100,7 +100,7 @@ public class BNDataGenerator
         {
 
             Attribute parentAttr = parentNode.getAttribute();
-            Double instValue = instance.getAttributeValue(parentAttr.getId());
+            Double instValue = instance.getAttributeValue(parentAttr);
             
             System.out.println("PARENT:" + parentNode.getAttribute().getName());
             

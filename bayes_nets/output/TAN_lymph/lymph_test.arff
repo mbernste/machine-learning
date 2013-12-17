@@ -1,0 +1,66 @@
+%    This lymphography domain was obtained from the University Medical Centre,
+%    Institute of Oncology, Ljubljana, Yugoslavia.  Thanks go to M. Zwitter and 
+%    M. Soklic for providing the data.
+@relation lymphography
+@attribute 'lymphatics' { normal, arched, deformed, displaced}
+@attribute 'block_of_affere' { no, yes}
+@attribute 'bl_of_lymph_c' { no, yes}
+@attribute 'bl_of_lymph_s' { no, yes}
+@attribute 'by_pass' { no, yes}
+@attribute 'extravasates' { no, yes}
+@attribute 'regeneration_of' { no, yes}
+@attribute 'early_uptake_in' { no, yes}
+@attribute 'lym_nodes_dimin' { 1, 2 }
+@attribute 'lym_nodes_enlar' { 1, 2, 3, 4}
+@attribute 'changes_in_lym' { bean, oval, round}
+@attribute 'defect_in_node' { no, lacunar, lac_margin, lac_central}
+@attribute 'changes_in_node' { no, lacunar, lac_margin, lac_central}
+@attribute 'changes_in_stru' { no, grainy, drop_like, coarse, diluted, reticular, stripped, faint}
+@attribute 'special_forms' { no, chalices, vesicles}
+@attribute 'dislocation_of' { no, yes}
+@attribute 'exclusion_of_no' { no, yes}
+@attribute 'no_of_nodes_in' { 1, 2, 3, 4, 5, 6, 7, 8}
+@attribute 'class' { metastases, malign_lymph }
+@data
+displaced,no,no,no,no,yes,no,yes,1,4,oval,lacunar,lac_central,stripped,vesicles,yes,yes,2,malign_lymph
+arched,no,no,no,no,yes,no,yes,1,2,oval,lacunar,lac_central,faint,no,yes,yes,2,malign_lymph
+displaced,yes,yes,yes,yes,yes,yes,yes,1,4,round,lac_central,lac_central,stripped,vesicles,yes,yes,8,malign_lymph
+displaced,yes,yes,no,yes,yes,no,yes,1,1,oval,lacunar,no,drop_like,no,yes,yes,2,malign_lymph
+deformed,no,no,no,no,yes,no,yes,1,2,oval,lac_central,lac_margin,faint,chalices,yes,yes,1,malign_lymph
+deformed,no,no,no,no,no,no,yes,1,2,oval,lac_central,lacunar,coarse,vesicles,yes,yes,3,malign_lymph
+arched,yes,no,no,no,yes,no,yes,1,3,round,lac_central,lacunar,faint,vesicles,yes,yes,2,malign_lymph
+displaced,no,no,no,yes,no,yes,yes,1,3,oval,lac_margin,lac_central,diluted,vesicles,yes,yes,7,malign_lymph
+arched,no,no,no,no,no,no,yes,1,3,oval,lacunar,lacunar,faint,vesicles,yes,yes,5,malign_lymph
+displaced,no,no,no,no,yes,no,yes,1,4,round,lac_central,lac_margin,drop_like,vesicles,yes,yes,5,malign_lymph
+arched,no,no,no,no,no,no,no,1,2,round,lacunar,lac_margin,drop_like,chalices,yes,no,1,malign_lymph
+deformed,no,no,no,no,no,no,no,1,2,oval,lacunar,lacunar,diluted,no,no,yes,2,malign_lymph
+arched,no,no,no,no,yes,no,yes,1,3,round,lac_central,lacunar,faint,vesicles,yes,yes,3,malign_lymph
+displaced,yes,yes,yes,yes,yes,no,yes,1,4,round,lac_central,lac_central,stripped,vesicles,yes,yes,6,malign_lymph
+arched,no,no,no,no,no,no,yes,1,3,round,lacunar,lac_margin,coarse,vesicles,yes,yes,2,malign_lymph
+deformed,no,no,no,no,yes,no,yes,1,4,round,lac_central,lacunar,coarse,vesicles,yes,yes,6,malign_lymph
+deformed,yes,no,no,yes,yes,no,yes,1,2,oval,lac_central,lac_margin,diluted,chalices,yes,yes,4,malign_lymph
+deformed,yes,no,no,no,no,no,yes,1,3,oval,lacunar,lac_central,faint,vesicles,yes,yes,3,malign_lymph
+arched,yes,yes,no,yes,yes,no,yes,1,3,round,lac_margin,lac_margin,faint,vesicles,yes,yes,2,metastases
+arched,yes,no,no,no,no,no,yes,1,2,round,lac_margin,lac_margin,diluted,chalices,no,yes,1,metastases
+deformed,yes,yes,no,yes,yes,no,yes,1,2,round,lac_margin,lac_central,grainy,chalices,yes,no,1,metastases
+arched,yes,no,no,no,no,no,no,1,2,oval,lac_margin,lac_margin,diluted,chalices,yes,yes,1,metastases
+deformed,yes,no,no,no,no,no,no,1,2,oval,lac_margin,lac_margin,drop_like,vesicles,no,no,2,metastases
+arched,yes,no,no,no,no,no,yes,1,2,round,lac_margin,lac_margin,diluted,vesicles,no,yes,1,metastases
+arched,yes,yes,yes,yes,yes,no,no,1,2,oval,lac_central,lac_margin,faint,chalices,yes,yes,3,metastases
+arched,yes,no,no,no,no,no,no,1,1,oval,lacunar,lac_margin,drop_like,no,no,no,1,metastases
+deformed,yes,no,no,no,no,no,yes,1,2,round,lac_margin,lac_margin,diluted,chalices,yes,no,1,metastases
+displaced,yes,no,no,yes,yes,no,yes,1,3,round,lac_central,lac_margin,coarse,vesicles,yes,yes,2,metastases
+displaced,yes,no,no,no,no,no,no,1,4,round,lac_margin,lac_margin,coarse,chalices,yes,no,1,metastases
+arched,yes,no,no,no,no,no,yes,1,2,oval,lacunar,lac_margin,faint,vesicles,no,yes,1,metastases
+deformed,yes,no,no,no,no,no,yes,1,2,oval,lacunar,lacunar,diluted,no,no,no,1,metastases
+deformed,no,no,no,no,no,no,no,1,2,round,lac_margin,lac_margin,coarse,vesicles,no,yes,2,metastases
+arched,no,no,no,no,no,no,no,1,2,oval,lacunar,lacunar,faint,no,no,no,1,metastases
+arched,no,no,no,no,no,no,no,1,1,oval,lacunar,lac_margin,drop_like,no,yes,yes,1,metastases
+arched,yes,no,no,no,no,no,no,1,2,round,lac_margin,lac_margin,drop_like,vesicles,no,yes,1,metastases
+arched,yes,no,no,no,yes,no,no,1,2,oval,lacunar,lac_margin,diluted,chalices,no,yes,2,metastases
+displaced,yes,no,no,yes,yes,no,yes,1,2,round,lacunar,lac_margin,grainy,vesicles,yes,yes,4,metastases
+deformed,yes,no,no,no,yes,no,yes,1,3,round,lac_margin,lac_margin,coarse,vesicles,yes,yes,1,metastases
+deformed,yes,yes,no,yes,no,no,yes,1,2,oval,lac_margin,lac_margin,faint,vesicles,no,yes,1,metastases
+arched,yes,yes,no,yes,yes,no,yes,1,3,round,lac_margin,lac_margin,faint,vesicles,no,yes,2,metastases
+displaced,no,no,no,no,no,no,yes,1,3,round,lacunar,lacunar,coarse,chalices,yes,yes,2,metastases
+arched,no,no,no,no,no,no,no,1,1,oval,lac_central,lac_margin,faint,chalices,yes,yes,2,metastases

@@ -3,6 +3,8 @@ package data.instance;
 import java.util.HashMap;
 import java.util.Map;
 
+import data.attribute.Attribute;
+
 /**
  * Represents a single instance
  * 
@@ -31,9 +33,22 @@ public class Instance
 	 * @param attrId the attribute ID for the value we wish to retrieve
 	 * @return
 	 */
+	//TODO REFACTOR!
+	@Deprecated
 	public Double getAttributeValue(Integer attrId)
 	{
 		return attributes.get(attrId);
+	}
+	
+	/**
+	 * Get the value for an attribute.
+	 * 
+	 * @param attr the specified attribute
+	 * @return this instance's value of the specified attribute
+	 */
+	public Double getAttributeValue(Attribute attr)
+	{
+	    return attributes.get(attr.getId());
 	}
 	
 	/**
