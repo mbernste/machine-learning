@@ -8,7 +8,7 @@ import data.instance.Instance;
 
 /**
  * This class is used to calculate the Kullback-Leibler Divergence 
- * between two DataSets given an attribute
+ * between two DataSets given an attribute. 
  * 
  * @author schulzca
  *
@@ -16,13 +16,23 @@ import data.instance.Instance;
 
 public class KLDivergence {
 
+	/*
+	 * Used for probability in place of 0 probability instances.
+	 */
 	private final static double EPSILON = 0.00001;
+	
+	/*
+	 * Adjustment values to account for unseen data in order
+	 * to keep the sum of the probability for all possible 
+	 * attribute values equal to 1.
+	 */
 	private static double pValue = 0;
 	private static double qValue = 0;
 	
 	/**
 	 * Calculates the joint Kullback-Leibler Divergence of the given attribute list
-	 * between the two DataSets
+	 * between the two DataSets. Extremely vulnerable to race conditions. Do not run
+	 * in parallel.
 	 * @param dataP first DataSet
 	 * @param dataQ second DataSet
 	 * @param attrs attributes being measured
@@ -33,9 +43,20 @@ public class KLDivergence {
 		
 		int numAttrs = attrs.size();
 		int[] curIndices = new int[numAttrs];
+		setEpsilonValues(dataP, dataQ);
 		do {
 			double pX = calculateAttributeValueProbability(dataP, attrs, curIndices);
 			double qX = calculateAttributeValueProbability(dataQ, attrs, curIndices);
+			//Prevent infinite divergence
+			if(pX != 0 && qX == 0){
+				pX -= pValue;
+				qX = EPSILON;
+			//Allow zero probability if both are zero.
+			} else if(!(pX == 0 && qX == 0)){
+				//Otherwise, adjust values as needed.
+				pX = (pX == 0 ? EPSILON : pX - pValue);
+				qX = (qX == 0 ? EPSILON : qX - qValue);		
+			}
 			divergence += pX * (Math.log(pX) - Math.log(qX));
 		}while(incrementIndices(curIndices,attrs,numAttrs - 1));
 		return divergence;
