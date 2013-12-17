@@ -2,6 +2,7 @@ package data.instance;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import data.attribute.Attribute;
 
@@ -60,5 +61,22 @@ public class Instance
 	public void addAttributeInstance(Integer attrId, Double value)
 	{
 		attributes.put(attrId, value);
+	}
+	
+	/**
+	 * Checks if this Instance is equal to another Instance.
+	 * 
+	 * @param o the other Instance
+	 * @return
+	 */
+	@Override
+	public boolean equals(Object o){
+		Map<Integer, Double> other = ((Instance)o).attributes;
+		for(Entry<Integer, Double> attr: attributes.entrySet()){
+			if(!other.get(attr.getKey()).equals(attr.getValue())){
+				return false;
+			}
+		}
+		return true;
 	}
 }
