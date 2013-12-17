@@ -1,0 +1,7 @@
+@relation cleveland-14-heart-disease
+@attribute 'sex' { female, male}
+@attribute 'color' { red, blue, green}
+@attribute 'class' { positive, negative} 
+@data
+male,blue,positive
+male,blue,negative
