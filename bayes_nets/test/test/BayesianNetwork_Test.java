@@ -21,10 +21,35 @@ public class BayesianNetwork_Test
     {  
         //testAllNodesAbove();
         //testJointProbabilityQuery2();
-        testConditionalProbabilityQuery();
+        //testConditionalProbabilityQuery();
         //testGenerateDataset();
         //testIsValidEdge();
         //testEdgeExists();
+        //testGetFreeParameters();
+        testGetNumEdges();
+    }
+    
+    public static void testGetNumEdges()
+    {
+        Pair<BayesianNetwork, DataSet> testKit = TestNetworkBuilder.buildTestNetwork1();
+        BayesianNetwork net = testKit.getFirst();
+        DataSet data = testKit.getSecond();
+        
+        System.out.println("NUM EDGES: " + net.getNumEdges());
+    }
+    
+    public static void testGetFreeParameters()
+    {
+        Pair<BayesianNetwork, DataSet> testKit = TestNetworkBuilder.buildNoEdgeNetwork();
+        BayesianNetwork net = testKit.getFirst();
+        DataSet data = testKit.getSecond();
+
+        for (BNNode node : net.getNodes())
+        {
+            System.out.println("FREE PARAMS FOR NODE: " + node.getName() + ": " + node.getNumFreeParamters());
+        }
+            
+        System.out.println("TOTAL FREE PARAMETERS: " + net.getTotalFreeParameters());
     }
     
     public static void testEdgeExists()
@@ -39,7 +64,7 @@ public class BayesianNetwork_Test
         BNNode F = net.getNode(data.getAttributeByName("F"));
         BNNode G = net.getNode(data.getAttributeByName("G"));
         
-        System.out.println( net.edgeExists(F, G) );   
+        System.out.println( net.doesEdgeExist(F, G) );   
     }
     
     public static void testIsValidEdge()
@@ -147,17 +172,19 @@ public class BayesianNetwork_Test
         BayesianNetwork net = testKit.getFirst();
         DataSet data = testKit.getSecond();
         
-        Set<BNNode> nodesAboveB 
-                = net.getNodesAbove(net.getNode(data.getAttributeByName("G")));
-        
-        for (BNNode node : nodesAboveB)
+        for (BNNode node : net.getNodes())
         {
-            System.out.println(node.getAttribute().getName() + " ");
+            System.out.println("Nodes at and above node " + node.getName() + ":");
+            {
+                for (BNNode aboveNode : net.getNodesAbove(node))
+                {
+                    System.out.println(aboveNode.getAttribute().getName() + " ");
+                }
+                System.out.println();
+            }
         }
 
     }
-    
-    
     
     public static BayesianNetwork buildTestNetwork2(DataSet data)
     {

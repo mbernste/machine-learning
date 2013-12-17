@@ -10,6 +10,101 @@ import data.attribute.Attribute;
 public class TestNetworkBuilder 
 {
     /**
+     * Creates network with one edges
+     * <br>
+     * <br>
+     * A -> G<br>
+     * B<br>
+     * C<br>
+     * D<br>
+     * E<br>
+     * F<br>
+     * G<br>
+     * 
+     * @return the network and the dataset that was used to learn the net
+     */
+    public static Pair<BayesianNetwork, DataSet> buildTestNetworkOneEdge()
+    {
+        /*
+         *  Read the training data from the arff file
+         */
+        ArffReader reader = new ArffReader();
+        DataSet data = reader.readFile("./data/test_network.arff");
+        data.setClassAttribute("D");
+        
+        /*
+         * Create network
+         */
+        BayesianNetwork net = new BayesianNetwork();
+        net.setNetInference(BayesianNetwork.Type.TEST);
+        
+        /*
+         *  Create a node corresponding to each nominal attribute in the 
+         *  dataset. Continuous attributes are ignored.
+         */
+        for (Attribute attr : data.getAttributeList())
+        {
+            if (attr.getType() == Attribute.NOMINAL)
+            {
+                BNNode newNode = new BNNode(attr);
+                net.addNode( newNode, data, 1 );
+            }
+        }
+        
+        BNNode A = net.getNode(data.getAttributeByName("A"));
+        BNNode G = net.getNode(data.getAttributeByName("G"));
+        
+        net.createEdge(A, G, data, 1);
+        
+        return new Pair<BayesianNetwork, DataSet>(net, data);
+    }
+    
+    /**
+     * Creates network with no edges
+     * <br>
+     * <br>
+     * A<br>
+     * B<br>
+     * C<br>
+     * D<br>
+     * E<br>
+     * F<br>
+     * G<br>
+     * 
+     * @return the network and the dataset that was used to learn the net
+     */
+    public static Pair<BayesianNetwork, DataSet> buildNoEdgeNetwork()
+    {
+        /*
+         *  Read the training data from the arff file
+         */
+        ArffReader reader = new ArffReader();
+        DataSet data = reader.readFile("./data/test_network.arff");
+        data.setClassAttribute("D");
+        
+        /*
+         * Create network
+         */
+        BayesianNetwork net = new BayesianNetwork();
+        net.setNetInference(BayesianNetwork.Type.TEST);
+        
+        /*
+         *  Create a node corresponding to each nominal attribute in the 
+         *  dataset. Continuous attributes are ignored.
+         */
+        for (Attribute attr : data.getAttributeList())
+        {
+            if (attr.getType() == Attribute.NOMINAL)
+            {
+                BNNode newNode = new BNNode(attr);
+                net.addNode( newNode, data, 1 );
+            }
+        }
+        
+        return new Pair<BayesianNetwork, DataSet>(net, data);
+    }
+    
+    /**
      * Creates the following bayesian network:
      * <br>
      * <br>

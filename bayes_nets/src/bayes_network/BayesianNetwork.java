@@ -23,7 +23,7 @@ public class BayesianNetwork
     /**
      * Sets verbose output on or off
      */
-    public int verbose = 5;
+    public int verbose = 0;
 
     /**
      * Network structure inference algorithms
@@ -39,7 +39,12 @@ public class BayesianNetwork
     /**
      * The set of nodes in the network
      */
-    BNNodeManager nodes;
+    protected BNNodeManager nodes;
+    
+    /**
+     * The number of free parameters in this model
+     */
+    private Integer totalFreeParams = 0;
 
     /**
      * Constructor
@@ -79,6 +84,7 @@ public class BayesianNetwork
     public void addNode(BNNode newNode, DataSet data, Integer laplaceCount)
     {
         this.nodes.addNode(newNode, data, laplaceCount);
+        calculateFreeParameters();
     }
 
     /**
@@ -91,20 +97,6 @@ public class BayesianNetwork
     {
         return nodes.getNode(attr);
     }
-
-    /**
-     * Create a directed edge in the network
-     * 
-     * @param parent the parent Node of the edge
-     * @param child the child Node of the edge
-     */
-    public void createEdge(BNNode parent, 
-                           BNNode child, 
-                           DataSet data, 
-                           Integer laplaceCount)
-    {   
-        nodes.createEdge(parent, child, data, laplaceCount);       
-    }
     
     /**
      * Determine whether an edge exists in the network
@@ -113,7 +105,7 @@ public class BayesianNetwork
      * @param child the child node
      * @return true if the edge exists. False otherwise
      */
-    public Boolean edgeExists(BNNode parent, BNNode child)
+    public Boolean doesEdgeExist(BNNode parent, BNNode child)
     {
         return nodes.edgeExists(parent, child);
     }
@@ -158,6 +150,7 @@ public class BayesianNetwork
                            Integer laplaceCount)
     {
         nodes.removeEdge(parent, child, data, laplaceCount);
+        calculateFreeParameters();
     }
     
     /**
@@ -174,6 +167,45 @@ public class BayesianNetwork
                             Integer laplaceCount)
     {
         nodes.reverseEdge(parent, child, data, laplaceCount);
+        calculateFreeParameters();
+    }
+    
+    /**
+     * Create a directed edge in the network
+     * 
+     * @param parent the parent Node of the edge
+     * @param child the child Node of the edge
+     */
+    public void createEdge(BNNode parent, 
+                           BNNode child, 
+                           DataSet data, 
+                           Integer laplaceCount)
+    {   
+        nodes.createEdge(parent, child, data, laplaceCount);
+        calculateFreeParameters();
+    }
+    
+    /**
+     * @return the number of free parameters in this model
+     */
+    public Integer getTotalFreeParameters()
+    {
+        return this.totalFreeParams;
+    }
+    
+    /**
+     * Calculate the total number of free parameters in this model
+     */
+    private void calculateFreeParameters()
+    {
+        int freeParams = 0;
+        
+        for (BNNode node : this.nodes.topologicallySorted())
+        {
+            freeParams += node.getNumFreeParamters();
+        }
+        
+        this.totalFreeParams = freeParams;
     }
 
     @Override
@@ -184,19 +216,19 @@ public class BayesianNetwork
         // For each node, print its parents
         for (BNNode node : nodes.topologicallySorted())
         {	
-            result += node.getAttribute().getName();
+            result += node.getName();
 
             for (BNNode parent : node.getParents())
             {
                 result += " ";
-                result += parent.getAttribute().getName();
+                result += parent.getName();
             }
             result += "\n";
 
             if (verbose > 1)
             {
                 result += "\n\n";
-                result += node.getCPD().toString();
+                result += node.getCPD();
                 result += "\n";
             }
         }
@@ -462,8 +494,8 @@ public class BayesianNetwork
      * E -> A <br>
      * <br>
      * <br>
-     * This method would return B,A,E,D for the node B.<br>
-     * This method would return A,E,D for the node A. <br> 
+     * This method would return B,A,E,D for node B.<br>
+     * This method would return A,E,D for node A. <br> 
      * 
      * @param node the query node
      * @return all nodes above the query node in the DAG structure of the net
@@ -490,6 +522,21 @@ public class BayesianNetwork
         }
     }
 
+    /**
+     * @return the number of edges in the network
+     */
+    public Integer getNumEdges()
+    {
+        int numEdges = 0;
+        
+        for (BNNode node : nodes.topologicallySorted())
+        {
+            numEdges += node.getChildren().size();
+        }
+        
+        return numEdges;
+    }
+    
     /**
      * This method produces an artificial data set generated from this Bayesian
      * network.

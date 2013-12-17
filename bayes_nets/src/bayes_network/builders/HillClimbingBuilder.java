@@ -26,6 +26,8 @@ import data.DataSet;
  */
 public class HillClimbingBuilder extends NetworkBuilder
 {
+    private int verbose = 1;
+    
     public enum StoppingCriteria {SMALL_GAIN};
     
     /**
@@ -54,6 +56,14 @@ public class HillClimbingBuilder extends NetworkBuilder
     private DataSet data;
     
     /**
+     * The current score of the network against the data set
+     */
+    private Double currNetScore = 0.0;
+    
+    private Double prevNetScore = -1.0;
+    
+    
+    /**
      * TODO: // FINISH DESCRIPTION
      * @param data
      * @param laplaceCount
@@ -67,8 +77,9 @@ public class HillClimbingBuilder extends NetworkBuilder
                                         Pair<StoppingCriteria, Double> stop)
     {
         this.data = data;
+        this.scoringFunction = function;
         this.net = super.buildNetwork(data, laplaceCount);
-        
+       
         /*
          * Run the hill climbing search
          */
@@ -87,11 +98,14 @@ public class HillClimbingBuilder extends NetworkBuilder
      */
     private boolean stoppingCriteriaMet()
     {
-        // TODO:
-        // TODO: Implement stopping criteria
-        // TODO:
-        
-        return false;
+        if (this.currNetScore > this.prevNetScore)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }     
     }
     
     /**
@@ -107,8 +121,8 @@ public class HillClimbingBuilder extends NetworkBuilder
         /*
          * Find all valid operations on the current net
          */
-        ArrayList<BNNode> allNodes = net.getNodes();
-        ArrayList<Operation> validOperations = getAllValidOperations(allNodes);
+       // ArrayList<BNNode> allNodes = net.getNodes();
+        ArrayList<Operation> validOperations = getAllValidOperations(net.getNodes());
     
         /*
          *  Calculate the score for each operation 
@@ -116,8 +130,18 @@ public class HillClimbingBuilder extends NetworkBuilder
         ArrayList<Double> operationScores = new ArrayList<Double>();
         for (int i = 0; i < validOperations.size(); i++)
         {
-            Operation operation = validOperations.get(i);    
-            operationScores.add( scoreOperation(operation) ); 
+            
+            Operation operation = validOperations.get(i);
+                        
+            Double score =  scoreOperation(operation);
+            
+            if (verbose > 4)
+            {
+                System.out.println("Score for operation (" + operation + 
+                                    ") = " + score);
+            }
+   
+            operationScores.add( score ); 
         }
         
         /*
@@ -135,9 +159,20 @@ public class HillClimbingBuilder extends NetworkBuilder
         }  
         
         /*
-         * Execute operation
+         * Execute the operation only if this raises the previous net score
          */
-        executeOperation(maxOperation);   
+        prevNetScore = currNetScore;
+        currNetScore = maxScore;
+        
+        if (currNetScore > prevNetScore)
+        {
+            executeOperation(maxOperation);
+            
+            if (verbose > 0)
+            {
+                System.out.println("Executing operation: " + maxOperation + "\n");
+            }
+        }
     }
     
     /**
@@ -209,6 +244,7 @@ public class HillClimbingBuilder extends NetworkBuilder
                            operation.getChild(), 
                            data, 
                            this.laplaceCount);
+
             break;
         case REMOVE:
             net.createEdge(operation.getParent(), 
@@ -240,9 +276,19 @@ public class HillClimbingBuilder extends NetworkBuilder
         {
             for (BNNode child : nodes)
             {
-                boolean exists = net.edgeExists(parent, child);
+                boolean exists = net.doesEdgeExist(parent, child);
                 boolean valid = net.isValidEdge(parent, child);
                 boolean reverseValid = net.isValidReverseEdge(parent, child);
+                
+                // TODO: REMOVE
+                if (parent.getName().equals("A") && child.getName().equals("G"))
+                {
+                    System.out.println(parent.getName() + "->" + child.getName());
+                    System.out.println("EDGE EXISTS: " + exists);
+                    System.out.println("VALID: " + valid);
+                    System.out.println("REVERSE VALID: " + reverseValid);
+                    System.out.println(net);
+                }
                 
                 /*
                  * If the edge does not exist and is valid, create 

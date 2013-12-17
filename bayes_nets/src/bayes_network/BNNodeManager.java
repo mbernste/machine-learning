@@ -26,7 +26,7 @@ public class BNNodeManager
     /**
      * Verbose debug output
      */
-    private boolean verbose = true;
+    private int verbose = 0;
     
     /**
      * The attributes represented by nodes
@@ -100,6 +100,14 @@ public class BNNodeManager
      */
     public Boolean isValidEdge(BNNode parent, BNNode child)
     {
+        /*
+         * Return false if the edge already exists
+         */
+        if (edgeExists(parent, child))
+        {
+            return false;
+        }
+        
         /*
          * Add edge
          */
@@ -222,10 +230,9 @@ public class BNNodeManager
          */
         if (!isValidEdge(parent, child))
         {
-            System.err.println("Error adding edge from node " + 
+            throw new RuntimeException("Error adding edge from node " + 
                     parent.getName() + " to node " + 
-                    child.getName() + ". This creates a cycle."); 
-            return;
+                    child.getName() + ". This creates a cycle.");
         }
         
         /*
@@ -233,10 +240,9 @@ public class BNNodeManager
          */
         if (edgeExists(parent, child))
         {
-            System.err.println("Error adding edge from node " + 
-                                parent.getName() + " to node " +
-                                child.getName() + ". This edge already exists");
-            return;
+            throw new RuntimeException("Error adding edge from node " + 
+                    parent.getName() + " to node " +
+                    child.getName() + ". This edge already exists");
         }
         
         parent.addChild(child);
@@ -399,11 +405,12 @@ public class BNNodeManager
          */
         node.setCPDTree( cpdTree );   
 
-        if (verbose)
+        if (verbose > 0)
         {
             System.out.println("Building CPD for node: " + node.getName());
             System.out.println(cpdTree);
         }
+       
     }
     
     /**

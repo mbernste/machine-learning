@@ -20,11 +20,17 @@ public class Instance
 	private Map<Integer, Double> attributes;
 	
 	/**
+	 * This instance's id
+	 */
+	private int id;
+	
+	/**
 	 * Constructor
 	 */
-	public Instance()
+	public Instance(int id)
 	{
 		attributes = new HashMap<Integer, Double>();
+		this.id = id;
 	}
 	
 	/**
@@ -60,5 +66,11 @@ public class Instance
 	public void addAttributeInstance(Integer attrId, Double value)
 	{
 		attributes.put(attrId, value);
+	}
+	
+	@Override
+	public String toString()
+	{
+	    return "Instance " + this.id;
 	}
 }

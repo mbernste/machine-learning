@@ -44,7 +44,7 @@ public class BNDataGenerator
         InstanceSet instances = new InstanceSet();
         for (int i = 0; i < numInstances; i++)
         {
-            Instance newInst = new Instance();
+            Instance newInst = new Instance(i);
 
             for (BNNode node : net.nodes.topologicallySorted())
             {                              

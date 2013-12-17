@@ -34,6 +34,11 @@ public class ArffReader
 	private InstanceSet instanceSet;
 	
 	/**
+	 * Used for giving instances unique IDs
+	 */
+	private int instanceCount = 0;
+	
+	/**
 	 * Constructor
 	 */
 	public ArffReader()
@@ -212,10 +217,10 @@ public class ArffReader
 	 * @return
 	 */
 	private Instance createInstance(String arffLine)
-	{	
+	{		    
 		String[] tokens = trimAllStrings( arffLine.split(",") );
 		
-		Instance newInstance = new Instance();
+		Instance newInstance = new Instance(instanceCount++);
 	
 		for (int index=0; index < tokens.length; index++)
 		{

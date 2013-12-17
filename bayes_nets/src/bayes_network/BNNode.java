@@ -1,6 +1,8 @@
 package bayes_network;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import bayes_network.cpd.CPDQuery;
 import bayes_network.cpd.CPDTree;
@@ -15,14 +17,19 @@ import data.attribute.Attribute;
 public class BNNode
 {	
     /**
+     * The number of free parameters at this node
+     */
+    protected Integer freeParameters = 0;
+    
+    /**
      * This node's parents
      */
-    protected ArrayList<BNNode> parents;
+    protected Set<BNNode> parents;
     
     /**
      * This node's children
      */
-    protected ArrayList<BNNode> children;
+    protected Set<BNNode> children;
 
     /**
      * The Conditional Probability Distribution at this Node
@@ -37,7 +44,7 @@ public class BNNode
     /**
      * Attribute variable represented by this node
      */
-    private Attribute nodeAttribute;
+    protected Attribute nodeAttribute;
 
     /**
      * Constructor 
@@ -47,8 +54,9 @@ public class BNNode
     public BNNode(Attribute nodeAttribute)
     {
         this.nodeAttribute = nodeAttribute;
-        this.parents = new ArrayList<BNNode>();
-        this.children = new ArrayList<BNNode>();
+        this.parents = new HashSet<BNNode>();
+        this.children = new HashSet<BNNode>();
+        calculateNumFreeParameters();
     }
     
     /**
@@ -59,6 +67,7 @@ public class BNNode
     public void addParent(BNNode parent)
     {		
         this.parents.add(parent);
+        calculateNumFreeParameters();
     }
     
     /**
@@ -69,6 +78,7 @@ public class BNNode
     public void removeParent(BNNode parent)
     {
         this.parents.remove(parent);
+        calculateNumFreeParameters();
     }
     
     /**
@@ -94,7 +104,7 @@ public class BNNode
     /**
      * @return this Node's parent Nodes
      */
-    public ArrayList<BNNode> getParents()
+    public Set<BNNode> getParents()
     {
         return this.parents;
     }
@@ -102,7 +112,7 @@ public class BNNode
     /**
      * @return this Node's children Nodes
      */
-    public ArrayList<BNNode> getChildren() 
+    public Set<BNNode> getChildren() 
     {
         return this.children;
     }
@@ -158,5 +168,44 @@ public class BNNode
     public Double query(CPDQuery query)
     {
         return this.cpd.query(query);
+    }
+    
+    /**
+     * Get the number of nominal values this node's attribute can take on.
+     * 
+     * @return the number of nominal values this node's attribute can take on
+     */
+    public Integer getNumNominalValues()
+    {
+        return this.nodeAttribute.getNominalValueMap().size();
+    }
+    
+    /**
+     * @return the number of free parameters at this node
+     */ 
+    public Integer getNumFreeParamters()
+    {
+        return this.freeParameters;
+    }
+    
+    /**
+     * Calculates the number of free parameters at this node
+     */
+    private void calculateNumFreeParameters()
+    {
+        /*
+         * Number of values this node's attribute can take on - 1
+         */
+        int freeParams = this.getNumNominalValues() - 1;
+        
+        /*
+         * Sum of all values that parent's attributes can take on
+         */
+        for (BNNode parent : this.parents)
+        {
+            freeParams *= parent.getNumNominalValues();
+        }
+        
+        this.freeParameters = freeParams;
     }
 }
