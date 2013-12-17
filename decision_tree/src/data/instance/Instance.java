@@ -2,6 +2,7 @@ package data.instance;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Instance 
 {	
@@ -36,5 +37,21 @@ public class Instance
 	public void addAttributeInstance(Integer attrId, Double value)
 	{
 		attributes.put(attrId, value);
+	}
+	
+	/**
+	 * Test if this instance is equal to another.
+	 * 
+	 * @param o the other Instance
+	 * @return
+	 */
+	public boolean equals(Object o){
+		HashMap<Integer, Double> other = (HashMap<Integer, Double>) ((Instance)o).attributes;
+		for(Entry<Integer, Double> attr: attributes.entrySet()){
+			if(!(other.containsKey(attr.getKey()) && other.containsValue(attr.getValue()))){
+				return false;
+			}
+		}
+		return true;
 	}
 }

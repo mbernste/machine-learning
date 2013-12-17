@@ -16,6 +16,10 @@ import data.instance.Instance;
 
 public class KLDivergence {
 
+	private final static double EPSILON = 0.00001;
+	private static double pValue = 0;
+	private static double qValue = 0;
+	
 	/**
 	 * Calculates the joint Kullback-Leibler Divergence of the given attribute list
 	 * between the two DataSets
@@ -26,6 +30,7 @@ public class KLDivergence {
 	 */
 	public static Double divergence(DataSet dataP, DataSet dataQ, ArrayList<Attribute> attrs){
 		double divergence = 0;
+		
 		int numAttrs = attrs.size();
 		int[] curIndices = new int[numAttrs];
 		do {
@@ -34,6 +39,42 @@ public class KLDivergence {
 			divergence += pX * (Math.log(pX) - Math.log(qX));
 		}while(incrementIndices(curIndices,attrs,numAttrs - 1));
 		return divergence;
+	}
+	
+	/**
+	 * Sets pValue and qValue. Used to prevent probabilities of zero,
+	 * which would cause infinite divergence.
+	 * Possibly inefficient. Work around unknown.
+	 * 
+	 * @param dataP
+	 * @param dataQ
+	 */
+	private static void setEpsilonValues(DataSet dataP, DataSet dataQ){
+		ArrayList<Instance> union = new ArrayList<Instance>();
+		ArrayList<Instance> uniqueP = new ArrayList<Instance>();
+		ArrayList<Instance> uniqueQ = new ArrayList<Instance>();
+		
+		for(Instance inst: dataP.getInstanceSet().getInstanceList()){
+			//If not yet seen, can add to both lists.
+			if(!uniqueP.contains(inst)){
+				uniqueP.add(inst);
+				union.add(inst);
+			}
+		}
+		
+		for(Instance inst: dataP.getInstanceSet().getInstanceList()){
+			//If not yet seen in uniqueQ, may still be in union
+			if(!uniqueQ.contains(inst)){
+				uniqueQ.add(inst);
+				
+				if(!union.contains(inst)){
+					union.add(inst);
+				}
+			} 
+		}
+		
+		pValue = EPSILON * (union.size() - uniqueP.size()) / uniqueP.size();
+		qValue = EPSILON * (union.size() - uniqueQ.size()) / uniqueQ.size();
 	}
 	
 	
