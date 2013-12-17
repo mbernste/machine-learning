@@ -44,7 +44,6 @@ public class KLDivergence {
 		int numAttrs = attrs.size();
 		int[] curIndices = new int[numAttrs];
 		setEpsilonValues(dataP, dataQ);
-		System.out.println("pValue: " + pValue + "\tqValue: " + qValue);
 		do {
 			double pX = calculateAttributeValueProbability(dataP, attrs, curIndices);
 			double qX = calculateAttributeValueProbability(dataQ, attrs, curIndices);
@@ -99,7 +98,6 @@ public class KLDivergence {
 				}
 			} 
 		}
-		System.out.println("Union: " + union.size() + "\tP: " + uniqueP.size() + "\tQ: " + uniqueQ.size());
 		pValue = EPSILON * (union.size() - uniqueP.size()) / uniqueP.size();
 		qValue = EPSILON * (union.size() - uniqueQ.size()) / uniqueQ.size();
 	}
