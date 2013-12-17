@@ -69,6 +69,12 @@ public class Instance
 		attributes.put(attrId, value);
 	}
 	
+<<<<<<< HEAD
+	@Override
+	public String toString()
+	{
+	    return "Instance " + this.id;
+=======
 	/**
 	 * Checks if this Instance is equal to another Instance.
 	 * 
@@ -84,5 +90,6 @@ public class Instance
 			}
 		}
 		return true;
+>>>>>>> e661f14e9396bbef2b2e980a24b863e3ed24c24d
 	}
 }
