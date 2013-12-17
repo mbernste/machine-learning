@@ -23,7 +23,7 @@ public class BayesianNetwork
     /**
      * Sets verbose output on or off
      */
-    public boolean verbose = true;
+    public int verbose = 5;
 
     /**
      * Network structure inference algorithms
@@ -179,7 +179,6 @@ public class BayesianNetwork
     @Override
     public String toString()
     {
-
         String result = "\n\n";
 
         // For each node, print its parents
@@ -194,7 +193,7 @@ public class BayesianNetwork
             }
             result += "\n";
 
-            if (verbose)
+            if (verbose > 1)
             {
                 result += "\n\n";
                 result += node.getCPD().toString();
@@ -224,6 +223,11 @@ public class BayesianNetwork
          *  P(B = b, E = e, D = d) / P(E = e, D = d).  
          */
         
+        if (verbose > 2)
+        {
+            System.out.println("\n\n--- BEGIN conditional query " + query + "----\n");
+        }
+            
         /*
          * Calculate the numerator.
          */
@@ -238,9 +242,12 @@ public class BayesianNetwork
                        = new BNJointQuery( query.getConditionalVariableSet() );
         Double denominator = queryJointProbability(conditionVarJointQuery);
         
-        // TODO: REMOVE!
-        System.out.println("Numerator: " + numerator);
-        System.out.println("Denominator: " + denominator);
+        if (verbose > 2)
+        {
+            System.out.println("Numerator: " + allVarJointQuery + " = "+ numerator);
+            System.out.println("Denominator: " + conditionVarJointQuery + " = " + denominator);
+            System.out.println("\n--- END conditional query " + query + "----\n\n");
+        }
         
         return numerator / denominator;
     }
@@ -253,7 +260,7 @@ public class BayesianNetwork
     * @return the resulting probability
     */
     public Double queryJointProbability(BNJointQuery query)
-    {
+    {        
         /*
          * Contains all nodes for which we need to make a query into their
          * CPD table
@@ -287,10 +294,16 @@ public class BayesianNetwork
         /*
          * Run enumeration to get the joint probability
          */
+        if (verbose > 4)
+        {
+            System.out.println("Enumeration for joint query " + query + ":");
+        }
         Double jointProbability = runEnumeration(query.getVariables(), unspecified);
-        
-        //TODO: REMOVE
-        System.out.println("Joint Probability: " + jointProbability);
+        if (verbose > 2)
+        {
+            System.out.println("Result of query " + query + " = " 
+                                + jointProbability + "\n");
+        }
         
         return jointProbability;
     }
@@ -373,30 +386,27 @@ public class BayesianNetwork
     private Double calculateProbability(ArrayList<Pair<Attribute, Integer>> values)
     {          
         Double product = 1.0;
-                
+         
+        /*
+         * For each attribute, create a CPD for the node of this attribute. We
+         * use the assignments to its parents for creating this CPD.
+         */
         for (Pair<Attribute, Integer> pair : values)
         {
-            
-            /*
-             * Given the current node and assignment, create a CPD query
-             * on this node
-             */
             BNNode node = this.getNode(pair.getFirst());
+            
             Integer nodeValue = pair.getSecond();
             CPDQuery cpdQuery = buildCPDQuery(node, nodeValue, values);
             
-            // TODO: REMOVE THIS!
-            System.out.print(" = " + cpdQuery + " * " + "\n");
-            
-            /*
-             * Make query update the current product
-             */
+            if (verbose > 4)
+            {
+                System.out.println(node.getName() + " : " + cpdQuery 
+                                   + " = " + node.query(cpdQuery));
+            }
+                
             product *= node.query(cpdQuery);
         }
-        
-        // TODO: REMOVE!
-        System.out.println("\n");
-               
+                       
         return product;
     }
     
@@ -409,7 +419,7 @@ public class BayesianNetwork
      * @param node the target node
      * @param queryDetails a list of attribute/value pairs
      * @return a query object querying for the conditional probability on the
-     * target node given an assigment of its parents variables.
+     * target node given an assignment of its parents variables.
      */
     private CPDQuery buildCPDQuery(BNNode node, 
                                    Integer nodeValue,

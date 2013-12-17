@@ -200,7 +200,7 @@ public class BNConditionalQuery
         /*
          * Closing paranthesis
          */
-        result = result.substring(0, result.length() - 3);
+        result = result.substring(0, result.length() - 2);
         result += ")";
         
         return result;

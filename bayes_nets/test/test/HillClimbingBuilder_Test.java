@@ -7,7 +7,6 @@ import bayes_network.BayesianNetwork;
 import bayes_network.builders.HillClimbingBuilder;
 import bayes_network.builders.Operation;
 import data.DataSet;
-import data.arff.ArffReader;
 
 public class HillClimbingBuilder_Test 
 {
@@ -22,7 +21,6 @@ public class HillClimbingBuilder_Test
         BayesianNetwork net = testKit.getFirst();
         DataSet data = testKit.getSecond();
                 
-        
         HillClimbingBuilder hcBuilder = new HillClimbingBuilder();
         hcBuilder.net = net;
         ArrayList<Operation> operations = hcBuilder.getAllValidOperations(net.getNodes());
@@ -32,5 +30,4 @@ public class HillClimbingBuilder_Test
            System.out.println(o);
         }
     }
-
 }

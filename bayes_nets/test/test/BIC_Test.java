@@ -3,6 +3,7 @@ package test;
 import java.util.ArrayList;
 
 import data.DataSet;
+import data.attribute.Attribute;
 import pair.Pair;
 import bayes_network.BNConditionalQuery;
 import bayes_network.BayesianNetwork;
@@ -12,19 +13,31 @@ public class BIC_Test
 {
     public static void main(String[] args)
     {
-        testBIC();
+        //testCreateQueries();
+        testScore();
     }
     
-    public static void testBIC()
+    public static void testScore()
+    {
+        Pair<BayesianNetwork, DataSet> testKit = TestNetworkBuilder.buildTestNetwork1();
+        BayesianNetwork net = testKit.getFirst();
+        DataSet data = testKit.getSecond();
+        
+        BIC bic = new BIC();
+        
+        bic.scoreNet(net, data);
+    }
+    
+    public static void testCreateQueries()
     {        
         Pair<BayesianNetwork, DataSet> testKit = TestNetworkBuilder.buildTestNetwork1();
         BayesianNetwork net = testKit.getFirst();
         DataSet data = testKit.getSecond();
         
         BIC bic = new BIC();
-        bic.createQueries(data.getInstanceList().get(0), net, data);
+        bic.createQueries(data.getInstanceList().get(0), data);
         
-        ArrayList<BNConditionalQuery> queries = bic.createQueries(data.getInstanceList().get(0), net, data);
+        ArrayList<BNConditionalQuery> queries = bic.createQueries(data.getInstanceList().get(0), data);
         for (BNConditionalQuery query : queries)
         {
             System.out.println(query + " = " + net.queryConditionalProbability(query) + "\n");

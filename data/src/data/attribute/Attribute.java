@@ -110,6 +110,18 @@ public class Attribute
 	}
 	
 	/**
+	 * Determine whether a particular nominal value ID is a valid nominal value
+	 * ID for this attribute
+	 * 
+	 * @param nomValueId the nominal value ID
+	 * @return true if this nominal value ID is valid for this attribute
+	 */
+	public Boolean isValidNominalValueId(Integer nomValueId)
+	{
+	    return nominalValueMap.values().contains(nomValueId);
+	}
+	
+	/**
 	 * Get the attribute's nominal value map. The map's keys correspond
 	 * to the name of the value and it's values correspond to that value's 
 	 * integer id.  If this attribute is continuous, then this method will 
@@ -138,21 +150,23 @@ public class Attribute
 		String nominalValueName = null;
 		if (this.type == Attribute.CONTINUOUS)
 		{
+		    /*
 			System.err.println("Error retrieving nominal value name for" +
 					" the ID " + attrValueId +
 					". Trying to retrieve a nominal value from a continuous " +
 					"attribute, " + 
 					this.name + ".");
-			return nominalValueName;
+			return nominalValueName;*/
 		}
 		
 		if  (!nominalValueMap.containsValue(attrValueId))
 		{
-			System.err.println("Error retrieving nominal value name " +
-					"for the ID " + attrValueId +
-					".  This value ID is not a possible value for the " +
-					"attribute " + this.name + ".");
-			return nominalValueName;
+		    // TODO: Throw a different type of exception
+		    throw new RuntimeException("Error retrieving nominal value name " +
+                    "for the ID " + attrValueId +
+                    ".  This value ID is not a possible value for the " +
+                    "attribute " + this.name + ".");
+ 
 		}
 		
 		return nominalValueMap.getKey(attrValueId);

@@ -94,5 +94,30 @@ public class BNJointQuery
     {
         return this.variables.getVariables();
     }
+    
+    @Override
+    public String toString()
+    {
+        String result = "P(";
+        
+        /*
+         * Condition variables
+         */
+        for (Pair<Attribute, Integer> attrValPair : this.variables.getVariables())
+        {
+            Attribute attr = attrValPair.getFirst();
+            Integer attrValue = attrValPair.getSecond();
+            result += attr.getName() + " = " + attr.getNominalValueName(attrValue);
+            result += ", ";
+        }
+        
+        /*
+         * Closing paranthesis
+         */
+        result = result.substring(0, result.length() - 2);
+        result += ")";
+        
+        return result;
+    }
 
 }

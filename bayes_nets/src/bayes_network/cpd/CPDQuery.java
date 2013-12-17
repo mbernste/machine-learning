@@ -3,6 +3,7 @@ package bayes_network.cpd;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import data.attribute.Attribute;
 
@@ -17,12 +18,11 @@ import pair.Pair;
  */
 public class CPDQuery 
 {
-
     /**
      * Maps an attribute to the value of this attribute specified in the query
      */
     private Map<Attribute, Integer> queryItems;
-    
+        
     /**
      * Constructor
      */
@@ -39,7 +39,16 @@ public class CPDQuery
      */
     public void addQueryItem(Attribute attr, Integer nomValueId)
     {	
-        queryItems.put(attr, nomValueId);
+        if (attr.isValidNominalValueId(nomValueId))
+        {
+            queryItems.put(attr, nomValueId);
+        }
+        else
+        {
+            throw new RuntimeException(nomValueId + " is not a valid nominal" +
+                                        " value ID for the attribute " + 
+                                        attr.getName());
+        }
     }
 
     /**
@@ -71,8 +80,19 @@ public class CPDQuery
     @Override
     public String toString()
     {
-        String result = "";
-              
+        String result = "CPD(";
+
+        for (Entry<Attribute, Integer> entry : queryItems.entrySet())
+        {
+            Attribute attr = entry.getKey();
+            Integer attrValue = entry.getValue();
+            result += attr.getName() + " = " 
+                    + attr.getNominalValueName(attrValue) + ", ";
+        }
+        
+        result = result.substring(0, result.length() - 2);
+        result += ")";
+        
         return result;
     }
 
