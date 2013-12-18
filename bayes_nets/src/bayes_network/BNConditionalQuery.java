@@ -200,7 +200,10 @@ public class BNConditionalQuery
         /*
          * Closing paranthesis
          */
-        result = result.substring(0, result.length() - 2);
+        if (!this.conditionVariables.getVariables().isEmpty())
+        {
+            result = result.substring(0, result.length() - 2);
+        }
         result += ")";
         
         return result;

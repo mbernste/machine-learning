@@ -6,6 +6,7 @@ import data.DataSet;
 import data.attribute.Attribute;
 import data.instance.Instance;
 import bayes_network.BNConditionalQuery;
+import bayes_network.BNNode;
 import bayes_network.BayesianNetwork;
 
 /**
@@ -32,9 +33,8 @@ public class BIC implements ScoringFunction
          */
         Double penalty = calculatePenaltyTerm(net, data);
         
-        Double score = logLikelihood;// - penalty;
+        Double score = logLikelihood + penalty;
         
-        // TODO: REMOVE
         if (verbose > 0)
         {
             System.out.println("\n");
@@ -55,14 +55,14 @@ public class BIC implements ScoringFunction
      */
     public Double calculatePenaltyTerm(BayesianNetwork net, DataSet data)
     {
-        //Integer freeParameters = net.getTotalFreeParameters();
-        Integer numEdges = net.getNumEdges();
+        Integer freeParameters = net.getTotalFreeParameters();
+        //Integer numEdges = net.getNumEdges();
         
         Double dataPointsWeight = Math.log(data.getNumInstances()) / 
                                   (Math.log(2));
                 
-        //return freeParameters * dataPointsWeight * 0.1;
-        return numEdges * dataPointsWeight;
+        return freeParameters * dataPointsWeight * 0.5;
+        //return numEdges * dataPointsWeight * 0.5;
     }
     
     /**
@@ -82,7 +82,7 @@ public class BIC implements ScoringFunction
         
         for (Instance instance : data.getInstanceList())
         {        
-            ArrayList<BNConditionalQuery> queries = createQueries(instance, data);
+            ArrayList<BNConditionalQuery> queries = createQueries(instance, net, data);
             
             /*
              * Sum over the probability of each instance 
@@ -91,12 +91,8 @@ public class BIC implements ScoringFunction
             for (BNConditionalQuery query : queries)
             {
                 Double p = net.queryConditionalProbability(query);
-                logInstanceProduct += -Math.log(p);
                 logProduct += -Math.log(p);
-            }
-            
-           // TODO: REMOVE
-           // System.out.println("Log Probability of Instance " + logInstanceProduct);  
+            }            
         }
         
         return logProduct;
@@ -113,17 +109,19 @@ public class BIC implements ScoringFunction
      * @return a query for each attribute in the instance
      */
     public ArrayList<BNConditionalQuery> createQueries(Instance instance,
+                                                       BayesianNetwork net,
                                                        DataSet data)
     {   
         ArrayList<BNConditionalQuery> queries = new ArrayList<BNConditionalQuery>();
         
-        for (Attribute targetAttr : data.getAttributeList())
+        for (BNNode targetNode : net.getNodes())
         {
             BNConditionalQuery query = new BNConditionalQuery();
-    
+            
             /*
              * Set target attribute/value 
              */
+            Attribute targetAttr = targetNode.getAttribute();
             Integer targetAttrValue 
                         = instance.getAttributeValue(targetAttr).intValue();
             query.setTargetVariable(targetAttr, targetAttrValue);
@@ -131,9 +129,13 @@ public class BIC implements ScoringFunction
             /*
              * Set each condition attribute/value
              */
-            for (Attribute conditionAttr : data.getAttributeList())
+            for (BNNode conditionNode : net.getNodes())
             {
-                if (!conditionAttr.equals(targetAttr))
+                Attribute conditionAttr = conditionNode.getAttribute();
+                
+                boolean isChildOfTarget = targetNode.getParents().contains(conditionNode);               
+                
+                if (!conditionNode.equals(targetNode) && isChildOfTarget)
                 {
                     Integer conditionAttrValue
                            = instance.getAttributeValue(conditionAttr).intValue();

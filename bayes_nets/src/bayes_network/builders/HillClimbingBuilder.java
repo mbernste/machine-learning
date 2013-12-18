@@ -26,24 +26,24 @@ import data.DataSet;
  */
 public class HillClimbingBuilder extends NetworkBuilder
 {
-    private int verbose = 1;
+    private int verbose = 3;
     
     public enum StoppingCriteria {SMALL_GAIN};
     
     /**
      * Records the number of iterations 
      */
-    private int numIterations = 0;
+    protected int numIterations = 0;
     
     /**
      * Records number of operations examined
      */
-    private int numOperationsExamined = 0;
+    protected int numOperationsExamined = 0;
     
     /**
      * The Scoring function to be optimized in the search
      */
-    private ScoringFunction scoringFunction = null;
+    protected ScoringFunction scoringFunction = null;
     
     /**
      * The Bayes net under construction
@@ -53,14 +53,14 @@ public class HillClimbingBuilder extends NetworkBuilder
     /**
      * The training set used to learn the Bayesin network
      */
-    private DataSet data;
+    protected DataSet data;
     
     /**
      * The current score of the network against the data set
      */
-    private Double currNetScore = 0.0;
+    protected Double currNetScore = Double.MAX_VALUE-1;
     
-    private Double prevNetScore = -1.0;
+    protected Double prevNetScore = Double.MAX_VALUE;
     
     
     /**
@@ -85,6 +85,12 @@ public class HillClimbingBuilder extends NetworkBuilder
          */
         while (!stoppingCriteriaMet())
         {
+            if (verbose > 2)
+            {
+                System.out.println("CURRENT NET");
+                System.out.println(net);
+            }
+            
             runIteration();
         }
         
@@ -96,14 +102,15 @@ public class HillClimbingBuilder extends NetworkBuilder
      * 
      * @return true if the stopping criteria has been met, false otherwise
      */
-    private boolean stoppingCriteriaMet()
+    protected boolean stoppingCriteriaMet()
     {
-        if (this.currNetScore > this.prevNetScore)
+        if (this.currNetScore <= this.prevNetScore)
         {
             return false;
         }
         else
         {
+            //System.out.println("CURR_SCORE: " + currNetScore + ", PREV_SCORE: " + prevNetScore);
             return true;
         }     
     }
@@ -111,7 +118,7 @@ public class HillClimbingBuilder extends NetworkBuilder
     /**
      * A single iteration of the 
      */
-    private void runIteration()
+    protected void runIteration()
     {
         /*
          * Increment number of iterations run
@@ -121,8 +128,7 @@ public class HillClimbingBuilder extends NetworkBuilder
         /*
          * Find all valid operations on the current net
          */
-       // ArrayList<BNNode> allNodes = net.getNodes();
-        ArrayList<Operation> validOperations = getAllValidOperations(net.getNodes());
+        ArrayList<Operation> validOperations = getValidOperations(net.getNodes());
     
         /*
          *  Calculate the score for each operation 
@@ -145,16 +151,16 @@ public class HillClimbingBuilder extends NetworkBuilder
         }
         
         /*
-         * Find the operation that yields the maximum score
+         * Find the operation that yields the minimum score
          */
-        Operation maxOperation = null;
-        double maxScore = 0;
+        Operation minOperation = null;
+        double minScore = Double.MAX_VALUE;
         for (int i = 0; i < operationScores.size(); i++)
         {
-            if (operationScores.get(i) > maxScore)
+            if (operationScores.get(i) < minScore)
             {
-                maxOperation = validOperations.get(i);
-                maxScore = operationScores.get(i);
+                minOperation = validOperations.get(i);
+                minScore = operationScores.get(i);
             }
         }  
         
@@ -162,15 +168,15 @@ public class HillClimbingBuilder extends NetworkBuilder
          * Execute the operation only if this raises the previous net score
          */
         prevNetScore = currNetScore;
-        currNetScore = maxScore;
+        currNetScore = minScore;
         
-        if (currNetScore > prevNetScore)
+        if (currNetScore < prevNetScore)
         {
-            executeOperation(maxOperation);
+            executeOperation(minOperation);
             
             if (verbose > 0)
             {
-                System.out.println("Executing operation: " + maxOperation + "\n");
+                System.out.println("Executing operation: " + minOperation + "\n");
             }
         }
     }
@@ -181,7 +187,7 @@ public class HillClimbingBuilder extends NetworkBuilder
      * @param operation the operation to be scored
      * @return the score of the operation
      */
-    private Double scoreOperation(Operation operation)
+    protected Double scoreOperation(Operation operation)
     {
         Double score = null;
         
@@ -202,7 +208,7 @@ public class HillClimbingBuilder extends NetworkBuilder
      * 
      * @param operation the opeartion to be executed on the network
      */
-    private void executeOperation(Operation operation)
+    protected void executeOperation(Operation operation)
     {
         switch(operation.getType())
         {
@@ -235,7 +241,7 @@ public class HillClimbingBuilder extends NetworkBuilder
      * 
      * @param operation the operation to undo
      */
-    private void undoOperation(Operation operation)
+    protected void undoOperation(Operation operation)
     {
         switch(operation.getType())
         {
@@ -267,7 +273,7 @@ public class HillClimbingBuilder extends NetworkBuilder
      * @return an exhaustive list of all valid operations that can be 
      * performed on the network
      */
-    public  ArrayList<Operation> getAllValidOperations(ArrayList<BNNode> nodes)
+    public  ArrayList<Operation> getValidOperations(ArrayList<BNNode> nodes)
     {
         ArrayList<Operation> operations
                 = new ArrayList<Operation>();
@@ -276,51 +282,7 @@ public class HillClimbingBuilder extends NetworkBuilder
         {
             for (BNNode child : nodes)
             {
-                boolean exists = net.doesEdgeExist(parent, child);
-                boolean valid = net.isValidEdge(parent, child);
-                boolean reverseValid = net.isValidReverseEdge(parent, child);
-                
-                // TODO: REMOVE
-                if (parent.getName().equals("A") && child.getName().equals("G"))
-                {
-                    System.out.println(parent.getName() + "->" + child.getName());
-                    System.out.println("EDGE EXISTS: " + exists);
-                    System.out.println("VALID: " + valid);
-                    System.out.println("REVERSE VALID: " + reverseValid);
-                    System.out.println(net);
-                }
-                
-                /*
-                 * If the edge does not exist and is valid, create 
-                 * ADD operation
-                 */
-                if (valid && !exists) 
-                {
-                    Operation o 
-                        = new Operation(Operation.Type.ADD, parent, child);
-                    operations.add(o);
-                }
-                
-                /*
-                 * If the edge exists and the reversed edge is valid, create
-                 * REVERSE operation
-                 */
-                if (reverseValid && exists)
-                {
-                    Operation o 
-                        = new Operation(Operation.Type.REVERSE, parent, child);
-                    operations.add(o);
-                }
-                
-                /*
-                 * If the edge exists, create REMOVE operation
-                 */
-                if (exists)
-                {
-                    Operation o 
-                        = new Operation(Operation.Type.REMOVE, parent, child);
-                    operations.add(o);
-                }
+                operations.addAll( getOperationsOnEdge(parent, child) );
             }
         }
         
@@ -331,6 +293,50 @@ public class HillClimbingBuilder extends NetworkBuilder
         
         return operations;
     }
+    
+    protected ArrayList<Operation> getOperationsOnEdge(BNNode parent, 
+                                                       BNNode child)
+    {
+        ArrayList<Operation> operations = new ArrayList<Operation>();
+        
+        boolean exists = net.doesEdgeExist(parent, child);
+        boolean valid = net.isValidEdge(parent, child);
+        boolean reverseValid = net.isValidReverseEdge(parent, child);
+          
+        /*
+         * If the edge does not exist and is valid, create 
+         * ADD operation
+         */
+        if (valid && !exists) 
+        {
+            Operation o 
+                = new Operation(Operation.Type.ADD, parent, child);
+            operations.add(o);
+        }
+        
+        /*
+         * If the edge exists and the reversed edge is valid, create
+         * REVERSE operation
+         */
+        if (reverseValid && exists)
+        {
+            Operation o 
+                = new Operation(Operation.Type.REVERSE, parent, child);
+            operations.add(o);
+        }
+        
+        /*
+         * If the edge exists, create REMOVE operation
+         */
+        if (exists)
+        {
+            Operation o 
+                = new Operation(Operation.Type.REMOVE, parent, child);
+            operations.add(o);
+        }
+        
+        return operations;
+   }
     
 
 }

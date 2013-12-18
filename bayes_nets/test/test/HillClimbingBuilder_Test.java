@@ -6,9 +6,7 @@ import pair.Pair;
 import bayes_network.BayesianNetwork;
 import bayes_network.builders.HillClimbingBuilder;
 import bayes_network.builders.Operation;
-import bayes_network.builders.HillClimbingBuilder.StoppingCriteria;
 import bayes_network.builders.scoring.BIC;
-import bayes_network.builders.scoring.ScoringFunction;
 import data.DataSet;
 import data.arff.ArffReader;
 
@@ -62,7 +60,7 @@ public class HillClimbingBuilder_Test
                 
         HillClimbingBuilder hcBuilder = new HillClimbingBuilder();
         hcBuilder.net = net;
-        ArrayList<Operation> operations = hcBuilder.getAllValidOperations(net.getNodes());
+        ArrayList<Operation> operations = hcBuilder.getValidOperations(net.getNodes());
         
         for (Operation o : operations)
         {
