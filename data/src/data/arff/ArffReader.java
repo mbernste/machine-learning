@@ -128,7 +128,7 @@ public class ArffReader
 		/*
 		 * If line represents an attribute, process the attribute 
 		 */
-		if (tokens[0].equals("@attribute"))
+		if (tokens[0].toLowerCase().equals("@attribute"))
 		{
 			addAttribute(arffLine);
 		}
@@ -146,14 +146,21 @@ public class ArffReader
 	{
 		String[] tokens = arffLine.split(" ");
 		
-		String attrName;
+		String attrName = null;
 		Integer attrType = 0;
 		String[] attributeValues = null;
 		
 		/*
 		 * Parse attribute name
 		 */
-		attrName = tokens[1].split("'")[1];
+		if (tokens[1].charAt(0) == '"')
+		{
+		    attrName = tokens[1].split("\"")[1];
+		}
+		else if (tokens[1].charAt(0) == '\'')
+		{
+		    attrName = tokens[1].split("'")[1];
+		}
 		
 		/*
 		 *  Parse attribute type (continuous or nominal)
