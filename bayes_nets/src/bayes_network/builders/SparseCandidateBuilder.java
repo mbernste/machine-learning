@@ -115,13 +115,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
          */
         for (BNNode parent : nodes)
         {
-            System.out.println("PARENT ID: " + parent.getId() + " CHILD ID: " + child.getId());
-            
-            boolean valid = net.isValidEdge(parent, child);
-        
-          
-           System.out.println("VALID WHAT THE FUCK: " + valid);
-            
+            boolean valid = net.isValidEdge(parent, child);            
             
             if (valid)
             {

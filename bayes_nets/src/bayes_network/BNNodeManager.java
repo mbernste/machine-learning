@@ -172,7 +172,7 @@ public class BNNodeManager
              * Remove child -> parent
              */
             child.removeChild(parent);
-            parent.removeParent(parent);
+            parent.removeParent(child);
             
             /*
              * Restore parent -> child
