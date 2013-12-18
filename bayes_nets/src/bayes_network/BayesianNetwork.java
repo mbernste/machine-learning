@@ -84,7 +84,6 @@ public class BayesianNetwork
     public void addNode(BNNode newNode, DataSet data, Integer laplaceCount)
     {
         this.nodes.addNode(newNode, data, laplaceCount);
-        calculateFreeParameters();
     }
 
     /**
@@ -150,7 +149,6 @@ public class BayesianNetwork
                            Integer laplaceCount)
     {
         nodes.removeEdge(parent, child, data, laplaceCount);
-        calculateFreeParameters();
     }
     
     /**
@@ -167,7 +165,6 @@ public class BayesianNetwork
                             Integer laplaceCount)
     {
         nodes.reverseEdge(parent, child, data, laplaceCount);
-        calculateFreeParameters();
     }
     
     /**
@@ -182,7 +179,6 @@ public class BayesianNetwork
                            Integer laplaceCount)
     {   
         nodes.createEdge(parent, child, data, laplaceCount);
-        calculateFreeParameters();
     }
     
     /**
@@ -196,6 +192,7 @@ public class BayesianNetwork
     /**
      * Calculate the total number of free parameters in this model
      */
+    
     private void calculateFreeParameters()
     {
         int freeParams = 0;

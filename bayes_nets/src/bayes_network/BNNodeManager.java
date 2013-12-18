@@ -101,9 +101,9 @@ public class BNNodeManager
     public Boolean isValidEdge(BNNode parent, BNNode child)
     {
         /*
-         * Return false if the edge already exists
+         * Return false if the edge already exists or parent child are same
          */
-        if (edgeExists(parent, child))
+        if (edgeExists(parent, child) || parent.equals(child))
         {
             return false;
         }
@@ -132,20 +132,21 @@ public class BNNodeManager
     /**
      * Determines if reversing the edge from (parent -> child) will result in a 
      * valid DAG.  If the original edge (parent -> child) doesn't exists, then
-     * this method simply is testing whether adding (child -> parent) is valid.
+     * this method returns false.
      * 
      * @param parent the parent node
      * @param child the child node
-     * @return true if reversing the edge will not result in a cycle, false
-     * otherwise
+     * @return true if reversing the existing edge will not result in a cycle, 
+     * false if the forward edge doesn't exist or reversing the edge causes a
+     * cycle
      */
     public Boolean isValidReverseEdge(BNNode parent, BNNode child)
     {
         Boolean result;
         
-        if (!edgeExists(parent, child))
+        if (!edgeExists(parent, child) || parent.equals(child))
         {
-            result = isValidEdge(child, parent);
+            return false;
         }
         else
         {
@@ -192,6 +193,11 @@ public class BNNodeManager
      */
     public Boolean edgeExists(BNNode parent, BNNode child)
     {
+        if (parent.equals(child))
+        {
+            return false;
+        }
+        
         boolean childFound = false;
         boolean parentFound = false;
         

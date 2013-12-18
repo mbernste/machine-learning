@@ -1,9 +1,8 @@
 package bayes_network.builders;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Collections;
+import java.util.Comparator;
 
 import pair.Pair;
 import bayes_network.BNNode;
@@ -11,42 +10,11 @@ import bayes_network.BayesianNetwork;
 import bayes_network.builders.scoring.ScoringFunction;
 import bayes_network.kullback_leibler.KLDivergence;
 import data.DataSet;
-import data.attribute.Attribute;
 
 public class SparseCandidateBuilder extends HillClimbingBuilder
 {   
     public static final int NUM_CANDIDATES = 5;
-    
-    /**
-     * TODO: // FINISH DESCRIPTION
-     * @param data
-     * @param laplaceCount
-     * @param function
-     * @param stop
-     * @return
-     */
-    public BayesianNetwork buildNetwork(DataSet data, 
-                                        Integer laplaceCount,
-                                        ScoringFunction function)
-    {
-        this.data = data;
-        this.scoringFunction = function;
-        this.net = super.buildNetwork(data, laplaceCount);
-       
-        /*
-         * Run the hill climbing search
-         */
-        while (!stoppingCriteriaMet())
-        {
-            // TODO: REMOVE
-            System.out.println("CURRENT NET");
-            System.out.println(net);
-            runIteration();
-        }
-        
-        return this.net;   
-    }
-    
+      
     /**
      * Determine all valid operations that can be performed on the network
      * 
@@ -60,7 +28,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
          * Get all candidate edges
          */
         ArrayList<Pair<BNNode, BNNode>> candidateEdges = getCandidateEdges();
- 
+         
         ArrayList<Operation> operations = new ArrayList<Operation>();
         
         /*
@@ -71,7 +39,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
         {
             BNNode parent = edge.getFirst();
             BNNode child = edge.getSecond();
-        
+                    
             operations.addAll(super.getOperationsOnEdge(parent, child));
         }
         
@@ -102,7 +70,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
              * Number of possible candidates
              */
             int k = NUM_CANDIDATES - child.getParents().size();
-            
+               
             /*
              * Add edges from the current node's current parents to this node
              * to the list of candidate edges.
@@ -140,33 +108,55 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
         /*
          * Maps a valid edge to a klScore
          */
-        Map<Pair<BNNode, BNNode>, Double> klScores =
-                    new HashMap<Pair<BNNode, BNNode>, Double>();
+        ArrayList<KlEdgeScorePair> klScores = new ArrayList<KlEdgeScorePair>();
         
         /*
          * Calculate KL-Divergence for every possible edge
          */
         for (BNNode parent : nodes)
         {
+            System.out.println("PARENT ID: " + parent.getId() + " CHILD ID: " + child.getId());
+            
             boolean valid = net.isValidEdge(parent, child);
+        
+          
+           System.out.println("VALID WHAT THE FUCK: " + valid);
+            
             
             if (valid)
             {
                 Pair<BNNode, BNNode> edge = new Pair<BNNode, BNNode>(parent, 
                                                                      child);
                 Double kl = calculateKLDivergence(edge);
-                
-                klScores.put(edge, kl);
+                                                
+                klScores.add( new KlEdgeScorePair(edge, kl) );
             } 
+            
         }
         
         /*
          * Find k top edges to add to the list of candidate edges
          */
-        for (Entry<Pair<BNNode, BNNode>, Double> klScore : klScores.entrySet())
+        ArrayList<KlEdgeScorePair> topEdgeScores = new ArrayList<KlEdgeScorePair>();
+        for (KlEdgeScorePair klScore : klScores)
         {
+            topEdgeScores.add(klScore);
+            Collections.sort(topEdgeScores, KlEdgeScorePair.KL_EDGE_SCORE_ORDER);
             
+            for (int i = k; i < topEdgeScores.size(); i++)
+            {
+                topEdgeScores.remove(i);
+            }  
         }
+        
+        for (KlEdgeScorePair klScore : topEdgeScores)
+        {
+            System.out.println("Candidate " + klScore.getParent().getName() + " -> "+ 
+                                klScore.getChild().getName() + " KL-Divergence: " + 
+                                klScore.getScore() );
+            topKEdges.add(klScore.getEdge());
+        }
+        System.out.println("\n");
         
         return topKEdges;
     }
@@ -182,7 +172,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
      * @param edge the edge A -> B
      * @return the KL-divergence for these two attributes
      */
-    private Double calculateKLDivergence(Pair<BNNode, BNNode> edge)
+    public Double calculateKLDivergence(Pair<BNNode, BNNode> edge)
     {
         BNNode parent = edge.getFirst();
         BNNode child = edge.getSecond();
@@ -209,6 +199,66 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
                                        bayesData, 
                                        parent.getAttribute(), 
                                        child.getAttribute());
+    }
+    
+    /**
+     * A directed edge in the network paired with the KL-Divergence of the 
+     * two attributes' joint probability between the training distribution and
+     * the current net distribution
+     * 
+     * @author matthewbernstein
+     *
+     */
+    private static class KlEdgeScorePair
+    {
+        private Double score;
+        private Pair<BNNode, BNNode> edge;
+        
+        public static final Comparator<KlEdgeScorePair> KL_EDGE_SCORE_ORDER = 
+                new Comparator<KlEdgeScorePair>() 
+                {
+                    public int compare(KlEdgeScorePair k1, KlEdgeScorePair k2) 
+                    {
+                        if (k1.getScore() < k2.getScore())
+                        {
+                            return -1;
+                        }
+                        else if (k1.getScore() > k2.getScore())
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                };
+            
+         public KlEdgeScorePair(Pair<BNNode, BNNode> edge, Double score)
+         {
+             this.edge = edge;
+             this.score = score;
+         }
+                
+         public  Double getScore()
+         {
+             return this.score;
+         }
+         
+         public Pair<BNNode, BNNode> getEdge()
+         {
+             return this.edge;
+         }
+         
+         public BNNode getParent()
+         {
+             return this.edge.getFirst();
+         }
+         
+         public BNNode getChild()
+         {
+             return this.edge.getSecond();
+         }
     }
     
 }

@@ -36,7 +36,9 @@ public class BNDataGenerator
          * data set
          */
         DataSet generated = new DataSet();
-        generated.setAttributeSet(net.nodes.getAttributeSet());
+        
+        // TODO REMOVE
+        //generated.setAttributeSet(net.nodes.getAttributeSet());
         
         /*
          * Build instance set and set the instance set to the new data set
@@ -49,7 +51,9 @@ public class BNDataGenerator
             for (BNNode node : net.nodes.topologicallySorted())
             {                              
                 setAttrInstance(node, newInst); 
-                System.out.print("\n");
+                
+                // TODO REMOVE:
+                //System.out.print("\n");
             }
             
             instances.addInstance(newInst);
@@ -86,7 +90,8 @@ public class BNDataGenerator
         Map<Double, Double> valueProbabilities = 
                     new HashMap<Double, Double>();
         
-        System.out.println("ATTRIBUTE: " + thisAttr.getName());
+        // TODO REMOVE
+        //System.out.println("ATTRIBUTE: " + thisAttr.getName());
         
         /*
          * Stores attribute/value pairs
@@ -102,7 +107,8 @@ public class BNDataGenerator
             Attribute parentAttr = parentNode.getAttribute();
             Double instValue = instance.getAttributeValue(parentAttr);
             
-            System.out.println("PARENT:" + parentNode.getAttribute().getName());
+            // TODO REMOVE
+            //System.out.println("PARENT:" + parentNode.getAttribute().getName());
             
             if (instValue == null)
             {
@@ -143,13 +149,14 @@ public class BNDataGenerator
         instance.addAttributeInstance(thisAttr.getId(), value);
         
         //TODO REMOVE ALL THIS DEBUG STUFF
+        /*
         System.out.println("PICKED " + thisAttr.getNominalValueName(value.intValue()));
         System.out.println("PROBABILITIES" + thisAttr.getName());
         for (Entry<Double, Double> entry : valueProbabilities.entrySet())
         {   
             String valName = thisAttr.getNominalValueName(entry.getKey().intValue());
             System.out.println(valName + " : " + entry.getValue());
-        }
+        }*/
     }
     
     /**

@@ -26,7 +26,7 @@ import data.DataSet;
  */
 public class HillClimbingBuilder extends NetworkBuilder
 {
-    private int verbose = 3;
+    protected int verbose = 5;
     
     public enum StoppingCriteria {SMALL_GAIN};
     
@@ -53,7 +53,7 @@ public class HillClimbingBuilder extends NetworkBuilder
     /**
      * The training set used to learn the Bayesin network
      */
-    protected DataSet data;
+    public DataSet data;
     
     /**
      * The current score of the network against the data set
@@ -136,8 +136,20 @@ public class HillClimbingBuilder extends NetworkBuilder
         ArrayList<Double> operationScores = new ArrayList<Double>();
         for (int i = 0; i < validOperations.size(); i++)
         {
-            
             Operation operation = validOperations.get(i);
+
+            // TODO REMOVE ALL THIS SHIT
+            
+            System.out.println("HERE MOTHAFUCKA");
+            System.out.println("Trying to score " + operation.getParent().getName() + " -> " + operation.getChild().getName());
+            System.out.println(net);
+
+            System.out.println("B's parents:");
+            System.out.println(net.getNode(data.getAttributeByName("B")).getParents());
+            for (BNNode c : net.getNode(data.getAttributeByName("B")).getParents())
+            {
+                System.out.println(c.getName());
+            }
                         
             Double score =  scoreOperation(operation);
             
@@ -172,8 +184,11 @@ public class HillClimbingBuilder extends NetworkBuilder
         
         if (currNetScore < prevNetScore)
         {
+            
+            System.out.println(net);
             executeOperation(minOperation);
             
+            System.out.println(net);
             if (verbose > 0)
             {
                 System.out.println("Executing operation: " + minOperation + "\n");
@@ -188,7 +203,7 @@ public class HillClimbingBuilder extends NetworkBuilder
      * @return the score of the operation
      */
     protected Double scoreOperation(Operation operation)
-    {
+    {   
         Double score = null;
         
         // Execute the operation
@@ -252,7 +267,7 @@ public class HillClimbingBuilder extends NetworkBuilder
                            this.laplaceCount);
 
             break;
-        case REMOVE:
+        case REMOVE: 
             net.createEdge(operation.getParent(), 
                            operation.getChild(),
                            data,

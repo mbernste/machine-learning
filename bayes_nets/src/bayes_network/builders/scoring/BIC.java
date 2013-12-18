@@ -56,13 +56,14 @@ public class BIC implements ScoringFunction
     public Double calculatePenaltyTerm(BayesianNetwork net, DataSet data)
     {
         Integer freeParameters = net.getTotalFreeParameters();
-        //Integer numEdges = net.getNumEdges();
+        //Integer numEdges = net.getNumEdges() / net.getNumNodes();
+        Integer edgesPerNodes = net.getNumEdges() / net.getNumNodes();
         
         Double dataPointsWeight = Math.log(data.getNumInstances()) / 
                                   (Math.log(2));
                 
-        return freeParameters * dataPointsWeight * 0.5;
-        //return numEdges * dataPointsWeight * 0.5;
+        //return freeParameters * dataPointsWeight * 0.5;
+        return edgesPerNodes * dataPointsWeight * 0.5;
     }
     
     /**

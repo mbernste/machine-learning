@@ -37,9 +37,14 @@ public class BNNode
     protected CPDTree cpd;
 
     /**
+     * Used for determining new IDs
+     */
+    private static int globalIdCount = 0;
+    
+    /**
      * Unique integer ID
      */
-    private int nodeId;
+    protected int nodeId;
 
     /**
      * Attribute variable represented by this node
@@ -57,6 +62,8 @@ public class BNNode
         this.parents = new HashSet<BNNode>();
         this.children = new HashSet<BNNode>();
         calculateNumFreeParameters();
+        
+        this.nodeId = globalIdCount++;
     }
     
     /**
@@ -66,6 +73,19 @@ public class BNNode
      */
     public void addParent(BNNode parent)
     {		
+        if (this.getName().equals("B"))
+        {
+            System.out.println("B IS ADDING A PARENT: " + parent.getName());
+        }
+            
+        if (this.equals(parent))
+        {
+            throw new RuntimeException("Attempting to add parent node " + 
+                                        parent.getName() + " to node " + 
+                                        this.getName() + ".  These are the " +
+                                        "same node.");
+        }
+        
         this.parents.add(parent);
         calculateNumFreeParameters();
     }
@@ -76,9 +96,34 @@ public class BNNode
      * @param parent the parent node
      */
     public void removeParent(BNNode parent)
-    {
+    {   
+        if (this.getName().equals("B"))
+        {
+            System.out.println("B IS REMOVING A PARENT: " + parent.getName());
+        }
+        
+        if (this.equals(parent))
+        {
+            throw new RuntimeException("Attempting to remove parent node " + 
+                                        parent.getName() + " from node " + 
+                                        this.getName() + ".  These are the " +
+                                        "same node.");
+        }
+        
         this.parents.remove(parent);
         calculateNumFreeParameters();
+    }
+    
+    @Override
+    public boolean equals(Object o)
+    {
+        return ((BNNode) o).nodeId == this.nodeId;
+    }
+    
+    @Override
+    public int hashCode()
+    {
+        return this.nodeId;
     }
     
     /**
@@ -88,6 +133,14 @@ public class BNNode
      */
     public void addChild(BNNode child)
     {
+        if (this.equals(child))
+        {
+            throw new RuntimeException("Attempting to add parent node " + 
+                                        child.getName() + " to node " + 
+                                        this.getName() + ".  These are the " +
+                                        "same node.");
+        }
+        
         this.children.add(child);
     }
 
