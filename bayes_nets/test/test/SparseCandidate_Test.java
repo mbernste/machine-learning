@@ -27,8 +27,8 @@ public class SparseCandidate_Test
          *  Read the training data from the arff file
          */
         ArffReader reader = new ArffReader();
-        DataSet data = reader.readFile("./data/lymph_train.arff");
-        data.setClassAttribute("class");
+        DataSet data = reader.readFile("./data/flags.arff");
+        data.setClassAttribute("red");
         
         SparseCandidateBuilder spBuilder = new SparseCandidateBuilder();
         BIC bic = new BIC();
@@ -83,7 +83,6 @@ public class SparseCandidate_Test
         DataSet data = testKit.getSecond();
         
         SparseCandidateBuilder spBuilder = new SparseCandidateBuilder();
-        BIC bic = new BIC();
 
         spBuilder.data = data;
         spBuilder.net = net;

@@ -85,12 +85,11 @@ public class BIC implements ScoringFunction
             /*
              * Sum over the probability of each instance 
              */
-            Double logInstanceProduct = 0.0; 
             for (BNConditionalQuery query : queries)
-            {
+            {     
                 Double p = net.queryConditionalProbability(query);
                 logProduct += -Math.log(p);
-            }            
+            }    
         }
         
         return logProduct;
@@ -143,8 +142,8 @@ public class BIC implements ScoringFunction
             }
            
            queries.add(query);
-        }        
-                
+        } 
+         
         return queries;
     }
 }
