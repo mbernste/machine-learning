@@ -97,11 +97,6 @@ public class BNNode
      */
     public void removeParent(BNNode parent)
     {   
-        if (this.getName().equals("B"))
-        {
-            System.out.println("B IS REMOVING A PARENT: " + parent.getName());
-        }
-        
         if (this.equals(parent))
         {
             throw new RuntimeException("Attempting to remove parent node " + 

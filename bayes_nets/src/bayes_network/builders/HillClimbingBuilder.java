@@ -26,7 +26,7 @@ import data.DataSet;
  */
 public class HillClimbingBuilder extends NetworkBuilder
 {
-    protected int verbose = 5;
+    protected int verbose = 3;
     
     public enum StoppingCriteria {SMALL_GAIN};
     
@@ -110,7 +110,6 @@ public class HillClimbingBuilder extends NetworkBuilder
         }
         else
         {
-            //System.out.println("CURR_SCORE: " + currNetScore + ", PREV_SCORE: " + prevNetScore);
             return true;
         }     
     }
@@ -137,20 +136,7 @@ public class HillClimbingBuilder extends NetworkBuilder
         for (int i = 0; i < validOperations.size(); i++)
         {
             Operation operation = validOperations.get(i);
-
-            // TODO REMOVE ALL THIS SHIT
-            
-            System.out.println("HERE MOTHAFUCKA");
-            System.out.println("Trying to score " + operation.getParent().getName() + " -> " + operation.getChild().getName());
-            System.out.println(net);
-
-            System.out.println("B's parents:");
-            System.out.println(net.getNode(data.getAttributeByName("B")).getParents());
-            for (BNNode c : net.getNode(data.getAttributeByName("B")).getParents())
-            {
-                System.out.println(c.getName());
-            }
-                        
+           
             Double score =  scoreOperation(operation);
             
             if (verbose > 4)

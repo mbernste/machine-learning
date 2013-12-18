@@ -9,6 +9,7 @@ import bayes_network.builders.HillClimbingBuilder;
 import bayes_network.builders.SparseCandidateBuilder;
 import bayes_network.builders.scoring.BIC;
 import data.DataSet;
+import data.arff.ArffReader;
 
 public class SparseCandidate_Test 
 {
@@ -16,7 +17,26 @@ public class SparseCandidate_Test
     {
         //testKlDivergence();
         //testTopKEdges();
-        testSparseCandidate();
+        //testSparseCandidate();
+        testSparseCandidateRealData();
+    }
+    
+    public static void testSparseCandidateRealData()
+    {
+        /*
+         *  Read the training data from the arff file
+         */
+        ArffReader reader = new ArffReader();
+        DataSet data = reader.readFile("./data/lymph_train.arff");
+        data.setClassAttribute("class");
+        
+        SparseCandidateBuilder spBuilder = new SparseCandidateBuilder();
+        BIC bic = new BIC();
+        
+        BayesianNetwork net = spBuilder.buildNetwork(data, 1, bic, null);
+        
+        System.out.println("_______FINAL NET________");
+        System.out.println(net);
     }
     
     public static void testSparseCandidate()
