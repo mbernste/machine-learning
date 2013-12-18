@@ -27,7 +27,7 @@ end
 
 #handle missing data
 #remove instance?
-fileLines = fileLines.select { |line| !line.include? "" }
+fileLines = fileLines.select { |line| !(line.include?("") || line.include?("?")) }
 
 #get structure
 attributes = []
