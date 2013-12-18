@@ -205,11 +205,10 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
         /*
          * Calculate KL-Divergence
          */
-        ArrayList<Attribute> attrs = new ArrayList<Attribute>();
-        attrs.add(parent.getAttribute());
-        attrs.add(child.getAttribute());
-        
-        return KLDivergence.divergence(data, bayesData, attrs);
+        return KLDivergence.divergence(data, 
+                                       bayesData, 
+                                       parent.getAttribute(), 
+                                       child.getAttribute());
     }
     
 }
