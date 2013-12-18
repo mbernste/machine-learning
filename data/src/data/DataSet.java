@@ -315,4 +315,8 @@ public class DataSet
 		}
 	}
 	
+	public String toString(){
+		return instanceSet.toString();
+	}
+	
 }

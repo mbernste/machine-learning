@@ -61,4 +61,7 @@ public class InstanceSet
 		return instances.size();
 	}
 	
+	public String toString(){
+		return instances.toString();
+	}
 }

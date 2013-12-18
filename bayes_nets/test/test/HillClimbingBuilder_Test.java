@@ -25,8 +25,8 @@ public class HillClimbingBuilder_Test
          *  Read the training data from the arff file
          */
         ArffReader reader = new ArffReader();
-        DataSet data = reader.readFile("./data/lymph_train.arff");
-        data.setClassAttribute("class");
+        DataSet data = reader.readFile("./data/semeion.arff");
+        data.setClassAttribute("r0c0");
         
         HillClimbingBuilder hcBuilder = new HillClimbingBuilder();
         BIC bic = new BIC();

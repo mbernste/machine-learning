@@ -85,4 +85,12 @@ public class Instance
 		}
 		return true;
 	}
+	
+	public String toString(){
+		String result = "";
+		for(Entry<Integer, Double> entry: attributes.entrySet()){
+			result += "(" + entry.getKey() + " -> " + entry.getValue() + ") ";
+		}
+		return result;
+	}
 }
