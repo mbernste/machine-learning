@@ -145,9 +145,10 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
         
         for (KlEdgeScorePair klScore : topEdgeScores)
         {
+            /*
             System.out.println("Candidate " + klScore.getParent().getName() + " -> "+ 
                                 klScore.getChild().getName() + " KL-Divergence: " + 
-                                klScore.getScore() );
+                                klScore.getScore() );*/
             topKEdges.add(klScore.getEdge());
         }
         System.out.println("\n");
