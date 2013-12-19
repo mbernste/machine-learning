@@ -6,8 +6,6 @@ import java.util.Comparator;
 
 import pair.Pair;
 import bayes_network.BNNode;
-import bayes_network.BayesianNetwork;
-import bayes_network.builders.scoring.ScoringFunction;
 import bayes_network.kullback_leibler.KLDivergence;
 import data.DataSet;
 
@@ -145,13 +143,8 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
         
         for (KlEdgeScorePair klScore : topEdgeScores)
         {
-            /*
-            System.out.println("Candidate " + klScore.getParent().getName() + " -> "+ 
-                                klScore.getChild().getName() + " KL-Divergence: " + 
-                                klScore.getScore() );*/
             topKEdges.add(klScore.getEdge());
         }
-        System.out.println("\n");
         
         return topKEdges;
     }

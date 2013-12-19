@@ -116,7 +116,6 @@ public class CPDTreeBuilder
                 DataSet subsetData = new DataSet();
                 subsetData.setAttributeSet(data.getAttributeSet());
                 subsetData.setInstanceSet(branch.getInstanceSet());
-                subsetData.setClassAttribute(data.getClassAttribute().getName());
 
                 /*
                  *  Remove the attribute we just split on
