@@ -1,0 +1,133 @@
+Result on folds:
+
+
+-------- Fold 0 --------
+
+Net Structure: 
+
+
+synfuels-corporation-cutback
+immigration
+class synfuels-corporation-cutback
+physician-fee-freeze class
+el-salvador-aid physician-fee-freeze
+mx-missile el-salvador-aid
+religious-groups-in-schools el-salvador-aid
+education-spending physician-fee-freeze religious-groups-in-schools
+superfund-right-to-sue religious-groups-in-schools education-spending
+handicapped-infants education-spending
+aid-to-nicaraguan-contras el-salvador-aid
+water-project-cost-sharing superfund-right-to-sue
+adoption-of-the-budget-resolution class aid-to-nicaraguan-contras
+crime physician-fee-freeze aid-to-nicaraguan-contras
+duty-free-exports aid-to-nicaraguan-contras
+anti-satellite-test-ban aid-to-nicaraguan-contras
+export-administration-act-south-africa adoption-of-the-budget-resolution anti-satellite-test-ban
+Likelihood of test data: 
+346.8724366821568
+
+
+-------- Fold 1 --------
+
+Net Structure: 
+
+
+synfuels-corporation-cutback
+immigration
+class synfuels-corporation-cutback
+physician-fee-freeze class
+el-salvador-aid physician-fee-freeze
+education-spending physician-fee-freeze el-salvador-aid
+mx-missile el-salvador-aid
+handicapped-infants education-spending
+aid-to-nicaraguan-contras el-salvador-aid
+duty-free-exports el-salvador-aid
+adoption-of-the-budget-resolution class education-spending
+anti-satellite-test-ban aid-to-nicaraguan-contras
+superfund-right-to-sue el-salvador-aid
+religious-groups-in-schools el-salvador-aid
+crime physician-fee-freeze religious-groups-in-schools
+water-project-cost-sharing superfund-right-to-sue
+export-administration-act-south-africa anti-satellite-test-ban
+Likelihood of test data: 
+368.53044936498145
+
+
+-------- Fold 2 --------
+
+Net Structure: 
+
+
+synfuels-corporation-cutback
+immigration
+class synfuels-corporation-cutback
+physician-fee-freeze class
+crime physician-fee-freeze
+el-salvador-aid crime physician-fee-freeze
+mx-missile el-salvador-aid
+religious-groups-in-schools el-salvador-aid
+superfund-right-to-sue el-salvador-aid religious-groups-in-schools
+water-project-cost-sharing superfund-right-to-sue
+education-spending physician-fee-freeze el-salvador-aid
+handicapped-infants education-spending
+aid-to-nicaraguan-contras el-salvador-aid
+duty-free-exports aid-to-nicaraguan-contras
+anti-satellite-test-ban aid-to-nicaraguan-contras
+export-administration-act-south-africa anti-satellite-test-ban
+adoption-of-the-budget-resolution class export-administration-act-south-africa
+Likelihood of test data: 
+313.7046427589268
+
+
+-------- Fold 3 --------
+
+Net Structure: 
+
+
+export-administration-act-south-africa
+immigration
+adoption-of-the-budget-resolution export-administration-act-south-africa
+class adoption-of-the-budget-resolution
+synfuels-corporation-cutback class
+physician-fee-freeze class
+crime physician-fee-freeze
+education-spending physician-fee-freeze
+el-salvador-aid crime education-spending
+mx-missile el-salvador-aid
+aid-to-nicaraguan-contras adoption-of-the-budget-resolution el-salvador-aid
+superfund-right-to-sue el-salvador-aid
+water-project-cost-sharing superfund-right-to-sue
+duty-free-exports el-salvador-aid
+anti-satellite-test-ban aid-to-nicaraguan-contras
+religious-groups-in-schools el-salvador-aid
+handicapped-infants religious-groups-in-schools
+Likelihood of test data: 
+396.40615389778003
+
+
+-------- Fold 4 --------
+
+Net Structure: 
+
+
+synfuels-corporation-cutback
+class synfuels-corporation-cutback
+immigration
+water-project-cost-sharing synfuels-corporation-cutback
+physician-fee-freeze class
+crime physician-fee-freeze
+el-salvador-aid physician-fee-freeze
+mx-missile el-salvador-aid
+religious-groups-in-schools el-salvador-aid
+education-spending el-salvador-aid
+superfund-right-to-sue education-spending
+duty-free-exports el-salvador-aid
+handicapped-infants education-spending
+aid-to-nicaraguan-contras el-salvador-aid
+anti-satellite-test-ban aid-to-nicaraguan-contras
+adoption-of-the-budget-resolution class aid-to-nicaraguan-contras
+export-administration-act-south-africa adoption-of-the-budget-resolution anti-satellite-test-ban
+Likelihood of test data: 
+367.2510229976842
+Average likelihood:
+358.5529411403059

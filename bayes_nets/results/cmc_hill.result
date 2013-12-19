@@ -1,0 +1,98 @@
+Result on folds:
+
+
+-------- Fold 0 --------
+
+Net Structure: 
+
+
+husbands-edu
+wife-works
+wifes-edu husbands-edu
+class wifes-edu
+media-exposure wifes-edu
+wifes-religion wifes-edu
+standard-of-living-index wifes-edu
+num-children class
+husbands-occupation wifes-edu
+wifes-age num-children
+Likelihood of test data: 
+2648.435255508056
+
+
+-------- Fold 1 --------
+
+Net Structure: 
+
+
+husbands-edu
+wife-works
+wifes-edu husbands-edu
+class wifes-edu
+standard-of-living-index wifes-edu
+wifes-religion wifes-edu
+media-exposure wifes-edu
+num-children class
+husbands-occupation wifes-edu
+wifes-age num-children
+Likelihood of test data: 
+2595.1228777505776
+
+
+-------- Fold 2 --------
+
+Net Structure: 
+
+
+husbands-edu
+wife-works
+wifes-edu husbands-edu
+class wifes-edu
+wifes-religion wifes-edu
+husbands-occupation wifes-edu
+media-exposure wifes-edu
+num-children class
+standard-of-living-index wifes-edu
+wifes-age num-children
+Likelihood of test data: 
+2640.393223613232
+
+
+-------- Fold 3 --------
+
+Net Structure: 
+
+
+husbands-edu
+wife-works
+wifes-edu husbands-edu
+class wifes-edu
+standard-of-living-index wifes-edu
+wifes-religion wifes-edu
+media-exposure wifes-edu
+num-children class
+husbands-occupation wifes-edu
+wifes-age num-children
+Likelihood of test data: 
+2629.156226858806
+
+
+-------- Fold 4 --------
+
+Net Structure: 
+
+
+husbands-occupation
+wife-works
+husbands-edu husbands-occupation
+wifes-edu husbands-edu
+media-exposure wifes-edu
+class wifes-edu
+wifes-religion wifes-edu
+num-children class
+standard-of-living-index wifes-edu
+wifes-age num-children
+Likelihood of test data: 
+2644.7894575486134
+Average likelihood:
+2631.579408255857

@@ -1,0 +1,73 @@
+Result on folds:
+
+
+-------- Fold 0 --------
+
+Net Structure: 
+
+
+sepal-length
+petal-width sepal-length
+class petal-width
+petal-length class
+sepal-width class
+Likelihood of test data: 
+139.77207944793054
+
+
+-------- Fold 1 --------
+
+Net Structure: 
+
+
+sepal-length
+petal-length sepal-length
+class petal-length
+petal-width class
+sepal-width class
+Likelihood of test data: 
+141.09075325631164
+
+
+-------- Fold 2 --------
+
+Net Structure: 
+
+
+sepal-length
+petal-length sepal-length
+class petal-length
+petal-width class
+sepal-width class
+Likelihood of test data: 
+136.93122739007816
+
+
+-------- Fold 3 --------
+
+Net Structure: 
+
+
+petal-length
+class petal-length
+petal-width class
+sepal-length petal-length
+sepal-width class
+Likelihood of test data: 
+143.2154204003862
+
+
+-------- Fold 4 --------
+
+Net Structure: 
+
+
+petal-width
+class petal-width
+sepal-length class
+sepal-width class
+petal-length class
+Likelihood of test data: 
+136.44999608091106
+Average likelihood:
+139.49189531512351

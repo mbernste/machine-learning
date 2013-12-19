@@ -1,0 +1,93 @@
+Result on folds:
+
+
+-------- Fold 0 --------
+
+Net Structure: 
+
+
+just-became-complex
+spot-distribution just-became-complex
+class spot-distribution
+largest-spot-size class
+area spot-distribution
+activity spot-distribution
+historically-complex class
+previous-activity activity
+evolution historically-complex
+Likelihood of test data: 
+1133.7111304247169
+
+
+-------- Fold 1 --------
+
+Net Structure: 
+
+
+area
+spot-distribution area
+activity spot-distribution
+just-became-complex spot-distribution
+class spot-distribution
+previous-activity activity
+largest-spot-size class
+historically-complex largest-spot-size
+evolution historically-complex
+Likelihood of test data: 
+1146.7627446004344
+
+
+-------- Fold 2 --------
+
+Net Structure: 
+
+
+just-became-complex
+spot-distribution just-became-complex
+class spot-distribution
+area spot-distribution
+activity spot-distribution
+previous-activity activity
+largest-spot-size class
+historically-complex largest-spot-size
+evolution historically-complex
+Likelihood of test data: 
+1135.119178021398
+
+
+-------- Fold 3 --------
+
+Net Structure: 
+
+
+just-became-complex
+spot-distribution just-became-complex
+activity spot-distribution
+previous-activity activity
+class spot-distribution
+largest-spot-size class
+area largest-spot-size
+historically-complex largest-spot-size
+evolution historically-complex
+Likelihood of test data: 
+1144.2240666059
+
+
+-------- Fold 4 --------
+
+Net Structure: 
+
+
+just-became-complex
+spot-distribution just-became-complex
+class spot-distribution
+largest-spot-size class
+area spot-distribution
+activity spot-distribution
+historically-complex class
+previous-activity activity
+evolution historically-complex
+Likelihood of test data: 
+1107.347949959738
+Average likelihood:
+1133.4330139224373
