@@ -1,0 +1,93 @@
+Result on folds:
+
+
+-------- Fold 0 --------
+
+Net Structure: 
+
+
+just-became-complex
+class just-became-complex
+historically-complex class
+evolution historically-complex
+spot-distribution historically-complex just-became-complex
+largest-spot-size historically-complex
+activity spot-distribution
+area historically-complex
+previous-activity activity
+Likelihood of test data: 
+1363.7183466085487
+
+
+-------- Fold 1 --------
+
+Net Structure: 
+
+
+previous-activity
+activity previous-activity
+area activity
+spot-distribution activity
+historically-complex spot-distribution
+largest-spot-size spot-distribution
+just-became-complex spot-distribution
+class just-became-complex historically-complex
+evolution historically-complex
+Likelihood of test data: 
+1349.1005726250621
+
+
+-------- Fold 2 --------
+
+Net Structure: 
+
+
+evolution
+just-became-complex
+spot-distribution just-became-complex
+historically-complex spot-distribution
+area historically-complex
+largest-spot-size historically-complex
+class just-became-complex historically-complex
+activity class
+previous-activity activity
+Likelihood of test data: 
+1338.7475913863068
+
+
+-------- Fold 3 --------
+
+Net Structure: 
+
+
+area
+spot-distribution area
+historically-complex spot-distribution
+evolution historically-complex
+just-became-complex spot-distribution
+class just-became-complex historically-complex
+largest-spot-size historically-complex
+activity class
+previous-activity activity
+Likelihood of test data: 
+1280.560615983986
+
+
+-------- Fold 4 --------
+
+Net Structure: 
+
+
+just-became-complex
+spot-distribution just-became-complex
+historically-complex spot-distribution
+area historically-complex
+largest-spot-size historically-complex
+activity spot-distribution
+class historically-complex just-became-complex
+previous-activity activity
+evolution historically-complex
+Likelihood of test data: 
+1335.5010474006795
+Average likelihood:
+1333.5256348009166

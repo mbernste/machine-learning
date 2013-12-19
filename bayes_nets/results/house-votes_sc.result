@@ -1,0 +1,133 @@
+Result on folds:
+
+
+-------- Fold 0 --------
+
+Net Structure: 
+
+
+immigration
+handicapped-infants
+education-spending handicapped-infants
+class education-spending
+synfuels-corporation-cutback class
+physician-fee-freeze class
+mx-missile physician-fee-freeze education-spending
+el-salvador-aid class mx-missile
+crime el-salvador-aid
+superfund-right-to-sue el-salvador-aid
+water-project-cost-sharing superfund-right-to-sue
+anti-satellite-test-ban el-salvador-aid
+export-administration-act-south-africa anti-satellite-test-ban
+religious-groups-in-schools el-salvador-aid
+aid-to-nicaraguan-contras physician-fee-freeze anti-satellite-test-ban
+adoption-of-the-budget-resolution physician-fee-freeze aid-to-nicaraguan-contras
+duty-free-exports aid-to-nicaraguan-contras
+Likelihood of test data: 
+335.4118938526357
+
+
+-------- Fold 1 --------
+
+Net Structure: 
+
+
+immigration
+religious-groups-in-schools
+water-project-cost-sharing
+superfund-right-to-sue religious-groups-in-schools
+education-spending superfund-right-to-sue
+physician-fee-freeze education-spending
+class physician-fee-freeze
+duty-free-exports class
+synfuels-corporation-cutback physician-fee-freeze
+el-salvador-aid class
+mx-missile el-salvador-aid
+export-administration-act-south-africa mx-missile
+crime class
+adoption-of-the-budget-resolution class crime
+handicapped-infants adoption-of-the-budget-resolution
+aid-to-nicaraguan-contras el-salvador-aid
+anti-satellite-test-ban aid-to-nicaraguan-contras
+Likelihood of test data: 
+361.6583906872449
+
+
+-------- Fold 2 --------
+
+Net Structure: 
+
+
+immigration
+duty-free-exports
+physician-fee-freeze duty-free-exports
+class physician-fee-freeze
+synfuels-corporation-cutback class
+crime physician-fee-freeze
+el-salvador-aid physician-fee-freeze
+mx-missile el-salvador-aid
+education-spending class el-salvador-aid
+religious-groups-in-schools mx-missile
+aid-to-nicaraguan-contras el-salvador-aid
+anti-satellite-test-ban aid-to-nicaraguan-contras
+handicapped-infants education-spending
+adoption-of-the-budget-resolution physician-fee-freeze aid-to-nicaraguan-contras
+superfund-right-to-sue aid-to-nicaraguan-contras religious-groups-in-schools
+export-administration-act-south-africa anti-satellite-test-ban
+water-project-cost-sharing superfund-right-to-sue
+Likelihood of test data: 
+340.92014830367344
+
+
+-------- Fold 3 --------
+
+Net Structure: 
+
+
+immigration
+export-administration-act-south-africa
+aid-to-nicaraguan-contras export-administration-act-south-africa
+mx-missile aid-to-nicaraguan-contras
+adoption-of-the-budget-resolution aid-to-nicaraguan-contras
+duty-free-exports aid-to-nicaraguan-contras
+religious-groups-in-schools mx-missile
+handicapped-infants religious-groups-in-schools
+education-spending aid-to-nicaraguan-contras religious-groups-in-schools
+physician-fee-freeze adoption-of-the-budget-resolution education-spending
+superfund-right-to-sue physician-fee-freeze religious-groups-in-schools
+el-salvador-aid physician-fee-freeze religious-groups-in-schools
+anti-satellite-test-ban export-administration-act-south-africa el-salvador-aid
+crime physician-fee-freeze religious-groups-in-schools
+class physician-fee-freeze
+synfuels-corporation-cutback class
+water-project-cost-sharing synfuels-corporation-cutback
+Likelihood of test data: 
+364.47712027377014
+
+
+-------- Fold 4 --------
+
+Net Structure: 
+
+
+water-project-cost-sharing
+synfuels-corporation-cutback
+immigration
+class synfuels-corporation-cutback
+physician-fee-freeze class
+education-spending physician-fee-freeze
+superfund-right-to-sue education-spending
+adoption-of-the-budget-resolution class education-spending
+aid-to-nicaraguan-contras adoption-of-the-budget-resolution physician-fee-freeze
+duty-free-exports aid-to-nicaraguan-contras
+export-administration-act-south-africa adoption-of-the-budget-resolution
+anti-satellite-test-ban export-administration-act-south-africa aid-to-nicaraguan-contras
+el-salvador-aid aid-to-nicaraguan-contras physician-fee-freeze
+mx-missile el-salvador-aid
+religious-groups-in-schools mx-missile
+crime el-salvador-aid
+handicapped-infants crime
+Likelihood of test data: 
+414.50905383347725
+Average likelihood:
+363.39532139016035
