@@ -236,13 +236,13 @@ public class ArffReader
 			 *  Find attribute at this index
 			 */
 			Attribute currAttribute = attributeSet.getAttributeById(index);
-
+			/*
 			if (tokens[index].equals("?"))
 			{
 				//TODO: Figure out how to handle missing attributes
 			}
 			else
-			{			
+			{*/			
 				/*
 				 *  Parse value of attribute
 				 */
@@ -257,7 +257,7 @@ public class ArffReader
 					
 					newInstance.addAttributeInstance(index, nominalValueId.doubleValue());
 				}
-			}
+			//}
 		}
 		
 		return newInstance;

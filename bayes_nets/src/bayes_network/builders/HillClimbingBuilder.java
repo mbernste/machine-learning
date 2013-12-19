@@ -27,7 +27,7 @@ import evaluate.BNResultWriter;
  */
 public class HillClimbingBuilder extends NetworkBuilder
 {
-    protected int verbose = 3;
+    protected int verbose = 5;
     
     public enum StoppingCriteria {SMALL_GAIN};
     
@@ -97,7 +97,7 @@ public class HillClimbingBuilder extends NetworkBuilder
             /*
              * TODO: CLEAN
              */
-            BNResultWriter.WRITER.println(currNetScore);
+            //BNResultWriter.WRITER.println(currNetScore);
         }
         
         return this.net;   

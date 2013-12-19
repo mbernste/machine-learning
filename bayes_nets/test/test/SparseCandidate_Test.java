@@ -27,8 +27,7 @@ public class SparseCandidate_Test
          *  Read the training data from the arff file
          */
         ArffReader reader = new ArffReader();
-        DataSet data = reader.readFile("./data/flags.arff");
-        data.setClassAttribute("red");
+        DataSet data = reader.readFile("./data/cmc.arff");
         
         SparseCandidateBuilder spBuilder = new SparseCandidateBuilder();
         BIC bic = new BIC();

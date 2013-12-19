@@ -1,0 +1,98 @@
+Result on folds:
+
+
+-------- Fold 0 --------
+
+Net Structure: 
+
+
+Fe
+K
+Si
+Ba
+class Ba
+Al Ba
+Na Ba
+Mg Ba
+Ca K
+RI Ca
+Likelihood of test data: 
+483.64119686417985
+
+
+-------- Fold 1 --------
+
+Net Structure: 
+
+
+Si
+Fe
+RI
+Ca RI
+Ba
+Mg Ba
+Na Ba
+Al Ba
+class Ba
+K Al
+Likelihood of test data: 
+497.24909503604954
+
+
+-------- Fold 2 --------
+
+Net Structure: 
+
+
+class
+Fe
+Si
+Ba class
+Al Ba
+Mg Ba
+Na Ba
+K Na
+Ca K
+RI Ca
+Likelihood of test data: 
+484.76913153862625
+
+
+-------- Fold 3 --------
+
+Net Structure: 
+
+
+RI
+Si
+Ca RI
+Fe
+Ba
+class Ba
+Mg Ba
+Al Mg
+K Al
+Na K
+Likelihood of test data: 
+507.9608396106632
+
+
+-------- Fold 4 --------
+
+Net Structure: 
+
+
+Mg
+Fe
+Si
+Al Mg
+K Al
+Ca Al
+Ba Al
+class Ba
+Na K
+RI Ca
+Likelihood of test data: 
+544.5832899814066
+Average likelihood:
+503.64071060618505

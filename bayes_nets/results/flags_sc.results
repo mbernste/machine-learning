@@ -1,0 +1,193 @@
+Result on folds:
+
+
+-------- Fold 0 --------
+
+Net Structure: 
+
+
+stripes
+orange
+animate orange
+white
+icon animate
+circles
+language
+landmass
+gold icon white
+zone
+triangle
+population
+religion
+bars
+red
+text animate
+green text
+black triangle
+botright green
+sunstars
+colors
+area
+topleft green
+crescent
+blue icon green
+mainhue blue
+saltires orange
+crosses saltires
+quarters saltires
+Likelihood of test data: 
+960.2646700674865
+
+
+-------- Fold 1 --------
+
+Net Structure: 
+
+
+zone
+colors
+population
+stripes
+red
+sunstars
+botright
+area
+language
+mainhue
+bars
+orange
+crescent
+circles
+religion
+animate orange
+icon animate
+green animate
+landmass green
+text animate
+topleft green
+saltires animate
+crosses saltires
+blue saltires green
+white saltires
+gold animate white
+quarters crosses
+black gold
+triangle black
+Likelihood of test data: 
+1010.8644296019886
+
+
+-------- Fold 2 --------
+
+Net Structure: 
+
+
+language
+population
+stripes
+colors
+circles
+bars
+sunstars
+crosses
+saltires crosses
+crescent
+triangle
+red
+area
+black triangle
+quarters saltires
+orange
+green orange
+animate orange
+zone
+icon animate
+text icon
+religion
+gold animate
+landmass green
+blue green
+mainhue green
+white blue gold
+topleft blue
+botright blue
+Likelihood of test data: 
+1011.0378176675496
+
+
+-------- Fold 3 --------
+
+Net Structure: 
+
+
+red
+religion
+stripes
+colors
+sunstars
+area
+language
+crosses
+triangle
+population
+zone
+bars
+saltires crosses
+black triangle
+blue black
+topleft blue
+circles
+crescent
+quarters saltires
+green
+landmass green
+botright blue
+orange green
+animate orange
+gold animate
+icon gold animate
+mainhue green
+white gold
+text animate
+Likelihood of test data: 
+1016.2479268323415
+
+
+-------- Fold 4 --------
+
+Net Structure: 
+
+
+circles
+zone
+religion
+sunstars
+language
+crescent
+landmass
+bars
+area
+population
+white
+quarters
+crosses quarters
+stripes
+saltires quarters
+text
+green text
+icon text
+gold icon white
+black gold
+triangle black
+animate icon gold
+orange animate
+colors animate
+blue animate green
+topleft blue
+botright blue
+red blue
+mainhue blue
+Likelihood of test data: 
+1117.6162450882223
+Average likelihood:
+1023.2062178515176

@@ -73,11 +73,6 @@ public class BNNode
      */
     public void addParent(BNNode parent)
     {		
-        if (this.getName().equals("B"))
-        {
-            System.out.println("B IS ADDING A PARENT: " + parent.getName());
-        }
-            
         if (this.equals(parent))
         {
             throw new RuntimeException("Attempting to add parent node " + 
