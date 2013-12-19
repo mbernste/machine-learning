@@ -7,6 +7,7 @@ import bayes_network.BNNode;
 import bayes_network.BayesianNetwork;
 import bayes_network.builders.scoring.ScoringFunction;
 import data.DataSet;
+import evaluate.BNResultWriter;
 
 /**
  * Implements a standard hill climbing search through the Bayes Nets structures
@@ -92,6 +93,11 @@ public class HillClimbingBuilder extends NetworkBuilder
             }
             
             runIteration();
+            
+            /*
+             * TODO: CLEAN
+             */
+            BNResultWriter.WRITER.println(currNetScore);
         }
         
         return this.net;   
