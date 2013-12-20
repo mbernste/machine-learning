@@ -1,3 +1,5 @@
+Candidates = 2
+
 Result on folds:
 
 
@@ -7,12 +9,12 @@ Net Structure:
 
 
 sepal-length
-petal-width sepal-length
-class petal-width
+class sepal-length
 petal-length class
 sepal-width class
+petal-width class
 Likelihood of test data: 
-139.77207944793054
+143.5187035144171
 
 
 -------- Fold 1 --------
@@ -20,13 +22,13 @@ Likelihood of test data:
 Net Structure: 
 
 
-sepal-length
-petal-length sepal-length
-class petal-length
-petal-width class
-sepal-width class
+sepal-width
+petal-width
+class petal-width
+petal-length class
+sepal-length petal-length
 Likelihood of test data: 
-141.09075325631164
+134.42963168619858
 
 
 -------- Fold 2 --------
@@ -34,13 +36,13 @@ Likelihood of test data:
 Net Structure: 
 
 
-sepal-length
-petal-length sepal-length
+petal-length
 class petal-length
 petal-width class
+sepal-length class
 sepal-width class
 Likelihood of test data: 
-136.93122739007816
+146.52106203186636
 
 
 -------- Fold 3 --------
@@ -50,11 +52,11 @@ Net Structure:
 
 petal-length
 class petal-length
-petal-width class
-sepal-length petal-length
+sepal-length class
 sepal-width class
+petal-width class
 Likelihood of test data: 
-143.2154204003862
+141.3868765566571
 
 
 -------- Fold 4 --------
@@ -62,12 +64,12 @@ Likelihood of test data:
 Net Structure: 
 
 
-petal-width
-class petal-width
-sepal-length class
+petal-length
+sepal-length petal-length
+class petal-length
+petal-width class
 sepal-width class
-petal-length class
 Likelihood of test data: 
-136.44999608091106
+134.27572408373547
 Average likelihood:
-139.49189531512351
+140.0263995745749

@@ -15,7 +15,7 @@ import evaluate.BNResultWriter;
 
 public class SparseCandidateBuilder extends HillClimbingBuilder
 {   
-    public static final int NUM_CANDIDATES = 5;
+    public static final int NUM_CANDIDATES = 2;
       
     private Double currMaximizeScore = Double.MAX_VALUE-1;
     
@@ -58,7 +58,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
             /*
              * TODO: CLEAN
              */
-            BNResultWriter.WRITER.println("Iteration " + numIterations + ": " + currMaximizeScore);
+            BNResultWriter.WRITER.println("Iteration " + numIterations + ": " + prevMaximizeScore);
         }
         
         return this.net;   
@@ -130,8 +130,6 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
             System.out.println("--- MAXIMIZE STEP --- ");
         }
         
-        BNResultWriter.WRITER.println("Max step: " + currMaximizeScore);
-        
         filterOperations(validOperations);
         
         /*
@@ -166,9 +164,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
                 minScore = operationScores.get(i);
             }
         } 
-        
-        
-        
+
         prevMaximizeScore = currMaximizeScore;
         currMaximizeScore = minScore;
         
@@ -177,6 +173,8 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
         
         if (currMaximizeScore < prevMaximizeScore)
         {
+            BNResultWriter.WRITER.println("Max step: " + currMaximizeScore);
+            
             System.out.println(net);
             executeOperation(minOperation);
             validOperations.remove(minOperation);
