@@ -1,17 +1,19 @@
-package bayes_network.builders;
+package bayes.builders;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import pair.Pair;
-import bayes_network.BNNode;
-import bayes_network.BayesianNetwork;
-import bayes_network.builders.HillClimbingBuilder.StoppingCriteria;
-import bayes_network.builders.scoring.ScoringFunction;
-import bayes_network.kullback_leibler.KLDivergence;
+import common.evaluate.BNResultWriter;
+
 import data.DataSet;
-import evaluate.BNResultWriter;
+
+import pair.Pair;
+import bayes.BNNode;
+import bayes.BayesianNetwork;
+import bayes.builders.HillClimbingBuilder.StoppingCriteria;
+import bayes.builders.scoring.ScoringFunction;
+import bayes.kullback_leibler.KLDivergence;
 
 public class SparseCandidateBuilder extends HillClimbingBuilder
 {   
