@@ -13,9 +13,11 @@ Bayesian Networks:
     
     Tree Augmented Naïve (TAN) Bayes classifier
     
-    Hill Climbing Structure Search (in progress)
+    Hill Climbing Structure Search
     
-    Sparse Candidate Structure Search (in progress)
+    Sparse Candidate Structure Search
+    
+    Bayesian Information Criterion (BIC)
     
     Artificial Data Generation
     
