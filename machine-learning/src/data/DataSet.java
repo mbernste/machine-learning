@@ -284,8 +284,7 @@ public class DataSet
 	{	
 		for (Attribute attribute : attributeSet.getAttributes())
 		{
-			Integer attrId = attribute.getId();
-			Double attrValue = instance.getAttributeValue(attrId);
+			Double attrValue = instance.getAttributeValue(attribute);
 			
 			System.out.print(attribute.getName() + " : ");
 			
