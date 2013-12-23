@@ -10,39 +10,87 @@ import java.util.Set;
 import data.attribute.Attribute;
 import data.attribute.AttributeSet;
 
+/**
+ * Encapsulates a learned decision tree.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class DecisionTree 
 {
+    /**
+     * The root node of the tree
+     */
 	private DtNode root = null;
+	
+	/**
+	 * A mapping of node ID to node objects 
+	 */
 	private Map<Integer, DtNode> nodeSet;
+	
+	/**
+	 * The set of attributes used in the learning of the tree
+	 */
 	private AttributeSet attributeSet;
+	
+	/**
+	 * The class attribute that the tree predicts
+	 */
 	private Attribute classAttribute;
 	
-	private int nodeCount = 0;			// Used for assigning unique node Id's to new nodes
-		
+	/**
+	 * Used for assinging unique node Id's to new nodes
+	 */
+	private int nodeCount = 0;
+	
+	/**
+	 * Constructor
+	 * 	
+	 * @param attributeSet set of attributes used in learning
+	 * @param classAttribute the class attribute this tree predicts
+	 */
 	public DecisionTree(AttributeSet attributeSet, Attribute classAttribute)
 	{
 		nodeSet = new HashMap<Integer, DtNode>();
 		this.classAttribute = classAttribute;
 	}
 	
-	public void addNode(DtNode newNode)
+	/**
+	 * Add a node to the tree
+	 * @param newNode
+	 */
+	protected void addNode(DtNode newNode)
 	{
 		newNode.setNodeId(nodeCount);
 		nodeSet.put(nodeCount, newNode);
 		nodeCount++;
 	}
 	
+	/**
+	 * @return the tree's root node
+	 */
 	public Node getRoot()
 	{
 		return root;
 	}
 	
+	/**
+	 * Get a node with specific ID
+	 * 
+	 * @param nodeId the node's ID
+	 * @return the node
+	 */
 	public Node getNode(Integer nodeId)
 	{
 		return nodeSet.get(nodeId);
 	}
 	
-	public void setRoot(DtNode rootNode)
+	/**
+	 * Set the tree's root node
+	 * 
+	 * @param rootNode the root node
+	 */
+	protected void setRoot(DtNode rootNode)
 	{
 		root = rootNode;
 		root.setNodeId(nodeCount);

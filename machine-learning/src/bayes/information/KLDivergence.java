@@ -1,4 +1,4 @@
-package bayes.kullback_leibler;
+package bayes.information;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,5 +1,6 @@
 package bayes.builders;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,7 +14,7 @@ import bayes.BNNode;
 import bayes.BayesianNetwork;
 import bayes.builders.HillClimbingBuilder.StoppingCriteria;
 import bayes.builders.scoring.ScoringFunction;
-import bayes.kullback_leibler.KLDivergence;
+import bayes.information.KLDivergence;
 
 public class SparseCandidateBuilder extends HillClimbingBuilder
 {   

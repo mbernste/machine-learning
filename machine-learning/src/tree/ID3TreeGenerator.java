@@ -10,11 +10,11 @@ import tree.train.SplitGenerator;
 import data.DataSet;
 import data.attribute.Attribute;
 
-public class TreeGenerator 
+public class ID3TreeGenerator 
 {
 	DecisionTree decisionTree = null;
 	
-	public TreeGenerator() {}
+	public ID3TreeGenerator() {}
 	
 	public DecisionTree generateDecisionTree(Integer minInstances, DataSet data)
 	{

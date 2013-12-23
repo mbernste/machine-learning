@@ -7,7 +7,7 @@ import data.attribute.Attribute;
 import data.instance.Instance;
 
 public class DtNode extends Node {
-	
+	    
 	public final static int EQUALS = 0;
 	public final static int LESS_THEN_EQUAL_TO = 1;
 	public final static int GREATER_THAN = 2;
@@ -142,7 +142,7 @@ public class DtNode extends Node {
 	
 	public Boolean doesInstanceSatisfyNode(Instance instance)
 	{
-		Double instanceAttrValue = instance.getAttributeValue(attribute.getId());
+		Double instanceAttrValue = instance.getAttributeValue(attribute);
 		
 		Boolean result = null;
 		
