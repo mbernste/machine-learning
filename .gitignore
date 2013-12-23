@@ -4,3 +4,5 @@ bin
 .settings
 .classpath
 .project
+data
+results
