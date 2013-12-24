@@ -2,6 +2,7 @@ package tree.train;
 
 import java.util.ArrayList;
 
+import data.DataSet;
 import data.attribute.Attribute;
 import data.instance.Instance;
 import data.instance.InstanceSet;
@@ -18,9 +19,9 @@ public class Split
 	/**
 	 * All of the branches for this split. For splits on nominal attributes,
 	 * there will be one branch per nominal value.  For continuous attributes,
-	 * there will be two branches.  One branch for the all instances with a value
-	 * greater than the threshold and one branch for all instances less than or 
-	 * equal to the threshold value.
+	 * there will be two branches.  One branch for the all instances with a 
+	 * value greater than the threshold and one branch for all instances less 
+	 * than or equal to the threshold value.
 	 */
 	private ArrayList<SplitBranch> branches;
 	
@@ -72,18 +73,22 @@ public class Split
 	/**
 	 * Split a set of instances along this split.
 	 * 
-	 * @param instances the instances being split
+	 * @param data the dataset containing the instances to be split
 	 */
-	public void splitInstances(InstanceSet instances)
-	{
-		for (Instance instance : instances.getInstanceList())
-		{
-			for (SplitBranch branch : this.branches)
-			{
-				branch.tryAddInstance(instance);
-			}
-		}
-	}
+	public void splitInstances(DataSet data)
+    {
+	    InstanceSet instances = data.getInstanceSet();
+	    
+        for (Instance instance : instances.getInstanceList())
+        {
+            for (SplitBranch branch : this.branches)
+            {
+                branch.tryAddInstance(instance);
+            }
+        }
+        
+       this.infoGain = Entropy.informationGain(data, this);
+    }
 	
 	/**
 	 * @return each branch along this split

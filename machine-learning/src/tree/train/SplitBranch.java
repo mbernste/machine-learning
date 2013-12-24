@@ -5,6 +5,15 @@ import data.attribute.Attribute;
 import data.instance.Instance;
 import data.instance.InstanceSet;
 
+/**
+ * This class represents a single branch along a split.  If a split splits 
+ * instances along attribute A where A can take values {a1, a2, a3}, this split
+ * will have 3 split branches for storing instances whose value of A is a1, a2, 
+ * and a3.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class SplitBranch 
 {
 	/**
@@ -71,21 +80,37 @@ public class SplitBranch
 		}
 	}
 	
+	/**
+	 * @return the split's attribute
+	 */
 	public Attribute getAttribute() 
 	{ 
 		return attribute;
 	}
 	
+	/**
+	 * @return the relation to the attribute for which all instances in this
+	 * split branch fall
+	 */
 	public Integer getRelation()
 	{
 		return relation;
 	}
 	
+	/**
+	 * @return the value of the split branch
+	 */
 	public Double getValue()
 	{
 		return branchValue;
 	}
 	
+	/**
+	 * Tests whether an instance makes this split branch
+	 * 
+	 * @param instance the instance we are testing
+	 * @return true if the instance makes the split branch. False otherwise.
+	 */
 	public Boolean doesInstanceMakeSplit(Instance instance)
 	{		
 		Double instanceAttrValue = instance.getAttributeValue(this.attribute);
@@ -103,5 +128,4 @@ public class SplitBranch
 					"This branch's relation is not set to a valid relation.");
 		}
 	}
-
 }

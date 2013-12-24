@@ -6,8 +6,8 @@ import java.util.Map;
 import data.DataSet;
 
 /**
- * Used for calculating the information gain metric used in the ID3 decision 
- * tree algorithm
+ * Used for calculating information theory metrics used for determining the
+ * best splits in a decision tree.
  * 
  * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
@@ -16,10 +16,18 @@ public class Entropy
 {
     /**
      * Calculate the information gain of the class attribute on a given split.  
-     * A split consists of an attribute and a set of instances.
+     * A split consists of an attribute and a set of instances.  This method
+     * calculates
+     * <br>
+     * <br>
+     * H(C) - H(C | X)
+     * <br>
+     * <br>
+     * where H(C) is the entropy of the class attribute and H(C | X) is the 
+     * conditional entropy of the class attribute given some other attribute, X
      * 
-     * @param data the dataset
-     * @param split the split on the dataset
+     * @param data the data set
+     * @param split a split on the data
      * @return the information gained on the dataset's class attribute by
      * knowing the split
      */
@@ -32,6 +40,19 @@ public class Entropy
 		return infoGain;
 	}
 	
+	/**
+	 * Calculate the entropy of the class attribute in a data set.  This method
+	 * calculates
+	 * <br>
+	 * <br>
+	 * H(C)
+	 * <br>
+	 * <br>
+	 * where C is the class attribute
+	 * 
+	 * @param data the data set for which to calculate entropy
+	 * @return the entropy of the class attribute
+	 */
 	public static Double entropy(DataSet data)
 	{
 		double entropy = 0;
@@ -58,6 +79,22 @@ public class Entropy
 		return entropy;
 	}
 	
+	/**
+	 * Calculate the conditional entropy of the class attribute given another
+	 * attribute.  That is, this method calculates
+	 * <br>
+	 * <br>
+	 * H(C | X) 
+	 * <br>
+	 * <br>
+	 * where C is the class attribute and X is some other attribute
+	 * in the data set. 
+	 * 
+	 * @param data the data set
+	 * @param split the split of the attribute for which we condition the class
+	 * attribute
+	 * @return
+	 */
 	public static Double conditionalEntropy(DataSet data, Split split)
 	{
 		double conditionalEntropy = 0;	

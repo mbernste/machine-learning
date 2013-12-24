@@ -13,19 +13,27 @@ import data.DataSet;
 import data.attribute.Attribute;
 import data.instance.Instance;
 
+/**
+ * This utility class is used for splitting instances by values of specific 
+ * attributes.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class SplitGenerator 
 {
 	/**
-	 * Find the Split with the highest information gain among the candidate splits
+	 * Find the Split with the highest information gain among the candidate 
+	 * splits
 	 * 
 	 * @param data
 	 * @param candidateSplits
 	 * @return
 	 */
-	public static Split determineBestSplit(DataSet data, ArrayList<Split> candidateSplits)
+	public static Split determineBestSplit(DataSet data, 
+	                                       ArrayList<Split> candidateSplits)
 	{
 		Split bestSplit = null;
-
 		double highestInfoGain = -Double.MAX_VALUE;
 		
 		for (Split split : candidateSplits)
@@ -41,43 +49,38 @@ public class SplitGenerator
 	}
 	
 	/**
-	 * Generate splits along a specific attribute
+	 * Generate all possible splits along a set of attribute
 	 * 
 	 * @param attrId the attribute ID of the attribute we wish to split on
 	 * @return a list of Splits
 	 */
-	public static ArrayList<Split> generateSplits(DataSet data, ArrayList<Attribute> availableAttributes)
+	public static ArrayList<Split> generateSplits(DataSet data, 
+	                                              ArrayList<Attribute> availAttrs)
 	{
 		ArrayList<Split> splits = new ArrayList<Split>();
 		
-		for (Attribute currAttr : availableAttributes)
+		for (Attribute currAttr : availAttrs)
 		{	
 			if (currAttr.getType() == Attribute.NOMINAL)
 			{
 				Split nominalSplit = createSplitNominal(currAttr);
-				nominalSplit.splitInstances(data.getInstanceSet());
+				nominalSplit.splitInstances(data);
 				splits.add(nominalSplit);
 			}
 			else if (currAttr.getType() == Attribute.CONTINUOUS)
 			{
-				// Get all possible splits along the continuous attribute and each split
-				// to the result
-				ArrayList<Split> allContinuousSplits  = createSplitsContinuous(currAttr, data);
+				/*
+				 *  Create all possible splits along the continuous attribute 
+				 */
+				ArrayList<Split> allContinuousSplits  
+				                    = createSplitsContinuous(currAttr, data);
 				for (Split split : allContinuousSplits)
 				{
-					split.splitInstances(data.getInstanceSet());
+					split.splitInstances(data);
 					splits.add(split);
 				}
 			}
 			
-		}
-		
-		
-		// Calculate the information gain for each Split
-		for (Split split : splits)
-		{
-			Double infoGain = Entropy.informationGain(data, split);
-			split.setInfoGain(infoGain);
 		}
 		
 		return splits;
@@ -86,8 +89,8 @@ public class SplitGenerator
 	/**
 	 * A helper method for generating a split along a nominal attribute
 	 * 
-	 * @param attrId
-	 * @return
+	 * @param attr the nominal attribute along which we wish to make the split
+	 * @return the split along this nominal attribute
 	 */
 	private static Split createSplitNominal(Attribute attr)
 	{				
@@ -95,7 +98,9 @@ public class SplitGenerator
 				
 		for (Integer nominalValueId : attr.getNominalValueMap().values())
 		{
-			SplitBranch newBranch = new SplitBranch(attr, new Double(nominalValueId),  DtNode.EQUALS);
+			SplitBranch newBranch = new SplitBranch(attr, 
+			                                        new Double(nominalValueId),  
+			                                        DtNode.EQUALS);
 			split.addBranch(newBranch);
 		}
 				
@@ -103,30 +108,29 @@ public class SplitGenerator
 	}
 	
 	/**
-	 * A helper method for generating all possible splits along a continuous attribute
+	 * A helper method for generating all possible splits along a continuous 
+	 * attribute
 	 * 
-	 * @param attrId
-	 * @return
+	 * @param attr the continuous attribute along which we wish to make the 
+	 * split
+	 * @return all splits along this continuous attribute
 	 */
-	private static ArrayList<Split> createSplitsContinuous(Attribute attr, DataSet data)
+	private static ArrayList<Split> createSplitsContinuous(Attribute attr, 
+	                                                       DataSet data)
 	{
 		ArrayList<Split> contSplits = new ArrayList<Split>();
 		
 		Map<Double, Bin> bins = new HashMap<Double, Bin>();
 		
-		// Bin instances by their attribute value.  We create one bin per unique
-		// continuous value of this attribute.
-		for (Instance instance : data.getInstanceSet().getInstanceList())
+		/*
+		 * Bin instances by their attribute value.  We create one bin per unique
+		 * continuous value of this attribute.
+		 */ 
+		for (Instance instance : data.getInstanceList())
 		{
-			// The instances value for the given attribute
 			double value = instance.getAttributeValue(attr);
-			
-			// The class attribute
 			Attribute classAttr = data.getClassAttribute();
-
-			// The instance's class label
 			Integer instanceClassLabel = instance.getAttributeValue(classAttr).intValue();
-			
 			
 			if (bins.containsKey(value))
 			{
@@ -148,8 +152,11 @@ public class SplitGenerator
 		{
 			boolean generateSplit = false;
 			
-			// Determine if there exists a pair of instances (i1, i2) where i1 is in
-			// bin1, i2 is in bin2, and i1's class does not equal i2's class
+			/*
+			 *  Determine if there exists a pair of instances (i1, i2) where i1
+			 *  is in bin1, i2 is in bin2, and i1's class does not equal i2's 
+			 *  class
+			 */
 			if (binList.get(i).getExistenceMap().size() > 1)
 			{
 				generateSplit = true;
@@ -159,14 +166,22 @@ public class SplitGenerator
 				generateSplit = true;
 			}
 			
-			// If we have found such a pair of instances between the two bins, generate a candidate split
+			/*
+			 *  If we have found such a pair of instances between the two bins, 
+			 *  generate a candidate split
+			 */
 			if (generateSplit)
 			{
-				double splitValue = (binList.get(i).getValue() + binList.get(i+1).getValue()) / 2.0;
+				double splitValue = (binList.get(i).getValue() + 
+				                     binList.get(i+1).getValue()) / 2.0;
 								
 				Split split = new Split(attr);
-				SplitBranch leftBranch = new SplitBranch(attr, new Double(splitValue), DtNode.LESS_THEN_EQUAL_TO);
-				SplitBranch rightBranch = new SplitBranch(attr, new Double(splitValue), DtNode.GREATER_THAN);
+				SplitBranch leftBranch = new SplitBranch(attr, 
+				                                         new Double(splitValue), 
+				                                         DtNode.LESS_THEN_EQUAL_TO);
+				SplitBranch rightBranch = new SplitBranch(attr, 
+				                                          new Double(splitValue), 
+				                                          DtNode.GREATER_THAN);
 				split.addBranch(leftBranch);
 				split.addBranch(rightBranch);
 				
@@ -179,11 +194,14 @@ public class SplitGenerator
 	}
 	
 	/**
-	 * Determines if two bins' existence maps are equal
+	 * Determines if two bins' existence maps are equal.  That is, if two
+	 * bins have the same set of class attribute values represented in their
+	 * bins, this method returns true.  
 	 * 
-	 * @param bin1
-	 * @param bin2
-	 * @return
+	 * @param bin1 the first bin
+	 * @param bin2 the second bin
+	 * @return return true if the two bins have the same set of class attribute 
+	 * values represented in their bins.  Otherwise, return false.
 	 */
 	private static boolean binsHaveSameClasses(Bin bin1, Bin bin2)
 	{
