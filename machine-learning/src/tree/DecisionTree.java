@@ -112,7 +112,8 @@ public class DecisionTree
 		
 		for (Node child : childrenList)
 		{
-			TreePrinter treePrinter = new TreePrinter(this.attributeSet, this.classAttribute);
+			TreePrinter treePrinter = new TreePrinter(this.attributeSet, 
+			                                          this.classAttribute);
 			treePrinter.print( (DtNode) child, 0);
 		}
 		

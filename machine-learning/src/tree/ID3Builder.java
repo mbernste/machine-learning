@@ -60,10 +60,15 @@ public class ID3Builder
 	{		
 		DtNode newNode = null;
 
-		// Determine candidate splits
-		ArrayList<Split> candidateSplits = SplitGenerator.generateSplits(data, availableAttributes);
+		/*
+		 *  Determine candidate splits
+		 */
+		ArrayList<Split> candidateSplits = SplitGenerator.generateSplits(data, 
+		                                                                 availableAttributes);
 
-		// Check for stopping criteria
+		/*
+		 *  Check for stopping criteria
+		 */
 		boolean stoppingCriteria = checkStoppingCriteria(data, 
 														 minInstances, 
 														 availableAttributes,
@@ -71,8 +76,10 @@ public class ID3Builder
 														 );
 				
 		
-		// If the stopping criteria is met, create a leaf node with a decision class label that is
-		// the majority class of the instances at this node
+		/*
+		 *  If the stopping criteria is met, create a leaf node with a decision 
+		 *  class label that is the majority class of the instances at this node
+		 */ 
 		if (stoppingCriteria)
 		{
 			DtLeaf leaf = new DtLeaf(attribute, 
@@ -87,10 +94,17 @@ public class ID3Builder
 			newNode = new DtNode(attribute, value, relation);
 			newNode.setClassCounts(data.getClassCounts());
 		
-			// Find the best split among the candidate splits (best is determined by highest info gain)
-			Split bestSplit = SplitGenerator.determineBestSplit(data, candidateSplits);
+			/*
+			 *  Find the best split among the candidate splits (best is 
+			 *  determined by highest info gain)
+			 */
+			Split bestSplit = SplitGenerator.determineBestSplit(data, 
+			                                                    candidateSplits);
 
-			// For each branch of the best split, create a new node that roots a subtree
+			/*
+			 *  For each branch of the best split, create a new node that roots 
+			 *  a subtree
+			 */
 			for (SplitBranch branch : bestSplit.getSplitBranches())
 			{	
 				DataSet subsetData = new DataSet();
@@ -100,7 +114,9 @@ public class ID3Builder
 				
 				ArrayList<Attribute> newAvailableAttributes;
 				
-				// Only remove the attribute if it is nominal
+				/*
+				 *  Only remove the attribute if it is nominal
+				 */
 				if (branch.getAttribute().getType() == Attribute.NOMINAL)
 				{
 					newAvailableAttributes = removeAttributeById(availableAttributes,
@@ -111,7 +127,9 @@ public class ID3Builder
 					newAvailableAttributes = availableAttributes;
 				}
 					
-				// Make the recursive call to make a subtree at each child node
+				/*
+				 *  Make the recursive call to make a subtree at each child node
+				 */
 				Node child = makeSubTree(minInstances,
 										 subsetData,
 										 bestSplit.getAttribute(),
@@ -133,11 +151,13 @@ public class ID3Builder
 	 * A helper method for removing an attribute with a specific attribute ID
 	 * from an ArrayList of Attributes
 	 *  
-	 * @param currAttributes ArrayList of Attributes from which we wish to remove an Attribute
+	 * @param currAttributes ArrayList of Attributes from which we wish to 
+	 * remove an Attribute
 	 * @param attrId the ID of the Attribute we wish to remove
 	 * @return
 	 */
-	private ArrayList<Attribute> removeAttributeById(ArrayList<Attribute> currAttributes, Integer attrId)
+	private ArrayList<Attribute> removeAttributeById(ArrayList<Attribute> currAttributes, 
+	                                                 Integer attrId)
 	{
 		ArrayList<Attribute> newAttributes = new ArrayList<Attribute>();
 		
@@ -153,17 +173,21 @@ public class ID3Builder
 	}
 	
 	/**
-	 * Check for the decision-tree stopping criteria given a data set of instances.
-	 * The stopping criteria is achieved if one of the following holds true:
+	 * Check for the decision-tree stopping criteria given a data set of 
+	 * instances. The stopping criteria is achieved if one of the following 
+	 * holds true:
 	 * 
 	 * 1. All candidate splits have negative information gain
 	 * 2. There are no more available attributes to split on
-	 * 3. The number of instances at the node is less than or equal to our threshold
+	 * 3. The number of instances at the node is less than or equal to our 
+	 *    threshold
 	 * 4. All instances at this node are of the same class
 	 * 
 	 * @param data	- a data set that holds a subset of the training set
-	 * @param minInstances - if the number of instances in the data set at the current node is
-	 * less than or equal to the this argument, than the stopping criteria has been reached
+	 * @param minInstances - if the number of instances in the data set at the 
+	 * current node is
+	 * less than or equal to the this argument, than the stopping criteria has 
+	 * been reached
 	 * @return
 	 */
 	private Boolean checkStoppingCriteria(DataSet data, 
@@ -172,10 +196,10 @@ public class ID3Builder
 										  ArrayList<Split> candidateSplits)
 	{
 		
-		// **************************************************************************************
-		// ****  1. Check whether or not all candidate splits have negative information gain ****
-		// **************************************************************************************
-		
+		/*
+		 * 1. Check whether or not all candidate splits have negative 
+		 * information gain
+		 */
 		int numPosInfoGain = 0;
 		for (Split split : candidateSplits)
 		{
@@ -189,28 +213,27 @@ public class ID3Builder
 		{
 			return true;
 		}
-					
-		// **************************************************************************************
-		// ****  2. Check that we still have available attributes to split on			     ****
-		// **************************************************************************************
+			
 		
+		/*
+		 * 2. Check that we still have available attributes to split on
+		 */
 		if (availableAttributes.size() < 1)
 		{
 				return true;
 		}
 		
-		// **************************************************************************************
-		// ****  3. Check that number of instances is not less than our threshold			 ****
-		// **************************************************************************************
-		
+		/*
+		 * 3. Check that number of instances is not less than our threshold
+		 */
 		if (data.getNumInstances() < minInstances)
 		{
 			return true;
 		}
 		
-		// **************************************************************************************
-		// ****  4. Check if all instances are of the same class							 ****
-		// **************************************************************************************
+		/*
+		 *  4. Check if all instances are of the same class
+		 */
 		for (Integer count : data.getClassCounts().values()) 
 		{
 			if (count == data.getNumInstances())
@@ -219,7 +242,9 @@ public class ID3Builder
 			}
 		}
 		
-		// If none of the conditions are met, we have not met the stopping criteria
+		/*
+		 *  If none of the conditions are met, we have not met the stopping criteria
+		 */
 		return false;
 	}
 	
