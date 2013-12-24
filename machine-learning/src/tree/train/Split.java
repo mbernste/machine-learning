@@ -6,6 +6,13 @@ import data.attribute.Attribute;
 import data.instance.Instance;
 import data.instance.InstanceSet;
 
+/**
+ * This class splits a set of instances along an attribute.  It stores the
+ * separated instances sorted by the value of this split's attribute.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class Split 
 {
 	/**
@@ -27,27 +34,46 @@ public class Split
 	 */
 	private Double infoGain;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param attribute the attribute along which this split splits
+	 */
 	public Split(Attribute attribute)
 	{
 		branches = new ArrayList<SplitBranch>();
 		this.attribute = attribute;
 	}
 	
+	/**
+	 * @return this split's attribute
+	 */
 	public Attribute getAttribute()
 	{
 		return attribute;
 	}
 	
+	/**
+	 * @return the information gain along this split for the dataset's
+	 * class attribute.
+	 */
 	public Double getInfoGain()
 	{
 		return infoGain;
 	}
 	
+	// TODO: REFACTOR THIS!
+	@Deprecated
 	public void setInfoGain(Double infoGain)
 	{
 		this.infoGain = infoGain;
 	}
 	
+	/**
+	 * Split a set of instances along this split.
+	 * 
+	 * @param instances the instances being split
+	 */
 	public void splitInstances(InstanceSet instances)
 	{
 		for (Instance instance : instances.getInstanceList())
@@ -59,14 +85,21 @@ public class Split
 		}
 	}
 	
+	/**
+	 * @return each branch along this split
+	 */
 	public ArrayList<SplitBranch> getSplitBranches()
 	{
 		return branches;
 	}
 	
-	public void addBranch(SplitBranch newBranch)
+	/**
+	 * Add a branch to the split
+	 * 
+	 * @param newBranch the new branch
+	 */
+	protected void addBranch(SplitBranch newBranch)
 	{
 		branches.add(newBranch);
 	}
-	
 }

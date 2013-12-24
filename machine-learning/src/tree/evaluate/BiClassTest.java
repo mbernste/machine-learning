@@ -4,8 +4,9 @@ import java.util.Set;
 
 import tree.DecisionTree;
 import tree.DtNode;
-import tree.Leaf;
+import tree.DtLeaf;
 import data.DataSet;
+import data.attribute.Attribute;
 import data.instance.Instance;
 
 public class BiClassTest 
@@ -18,9 +19,10 @@ public class BiClassTest
 		{
 			DtNode currNode = (DtNode) dt.getRoot();
 			
-			while (!(currNode instanceof Leaf))
+			while (!(currNode instanceof DtLeaf))
 			{
-				Set<DtNode> children = ((Set<DtNode>) ((Set<?>) currNode.getChildren()));
+				@SuppressWarnings("unchecked")
+                Set<DtNode> children = ((Set<DtNode>) ((Set<?>) currNode.getChildren()));
 			
 				for (DtNode node : children)
 				{
@@ -31,14 +33,15 @@ public class BiClassTest
 					}
 				}
 			}
+
+			Attribute classAttr = data.getClassAttribute();
 			
-			//data.printInstance(instance);	
-			Leaf leaf = (Leaf) currNode;
+			DtLeaf leaf = (DtLeaf) currNode;
 			
 			String prediction = data.getClassAttribute().getNominalValueName(
 					leaf.getClassLabel().intValue() );
 			String truth = data.getClassAttribute().getNominalValueName(
-					instance.getAttributeValue(data.getClassAttributeId()).intValue() );
+					instance.getAttributeValue(classAttr).intValue() );
 			
 			// Print result of classification
 			System.out.print(prediction);
@@ -48,7 +51,7 @@ public class BiClassTest
 			
 			// Add the prediction to the test results
 			results.addClassification(leaf.getClassLabel().intValue(),
-									  instance.getAttributeValue(data.getClassAttributeId()).intValue());
+									  instance.getAttributeValue(classAttr).intValue());
 		}
 		
 		System.out.println("\n");

@@ -15,7 +15,6 @@ import data.instance.Instance;
 
 public class SplitGenerator 
 {
-	
 	/**
 	 * Find the Split with the highest information gain among the candidate splits
 	 * 
@@ -120,13 +119,14 @@ public class SplitGenerator
 		for (Instance instance : data.getInstanceSet().getInstanceList())
 		{
 			// The instances value for the given attribute
-			double value = instance.getAttributeValue(attr.getId());
+			double value = instance.getAttributeValue(attr);
 			
-			// The class attribute ID
-			Integer classLabelId = data.getClassAttributeId();
+			// The class attribute
+			Attribute classAttr = data.getClassAttribute();
 
 			// The instance's class label
-			Integer instanceClassLabel = instance.getAttributeValue(classLabelId).intValue();
+			Integer instanceClassLabel = instance.getAttributeValue(classAttr).intValue();
+			
 			
 			if (bins.containsKey(value))
 			{
@@ -134,7 +134,7 @@ public class SplitGenerator
 			}
 			else
 			{
-				Double binValue = instance.getAttributeValue(attr.getId());
+				Double binValue = instance.getAttributeValue(attr);
 				Bin newBin = new Bin(binValue);
 				newBin.includeInstance(instanceClassLabel);
 				bins.put(binValue, newBin);

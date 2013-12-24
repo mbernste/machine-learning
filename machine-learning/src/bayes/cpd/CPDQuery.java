@@ -1,13 +1,10 @@
 package bayes.cpd;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import data.attribute.Attribute;
-
-import pair.Pair;
 
 /**
  * Objects of this class are used for querying a conditional probability 

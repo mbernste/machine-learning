@@ -73,6 +73,7 @@ public class ArffReader
 	    		parseLine(line);
 		    }
 		    
+		    scan.close();	    
 		} 
 		catch (FileNotFoundException x) 
 		{

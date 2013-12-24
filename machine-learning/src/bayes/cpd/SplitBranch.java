@@ -91,7 +91,7 @@ public class SplitBranch
     public Boolean doesInstanceMakeSplit(Instance instance)
     {		
         Double instanceAttrValue = 
-                instance.getAttributeValue(this.attribute.getId());
+                instance.getAttributeValue(this.attribute);
 
         return (instanceAttrValue.doubleValue() == branchValue.doubleValue());
     }

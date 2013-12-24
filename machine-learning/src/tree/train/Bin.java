@@ -18,8 +18,9 @@ public class Bin
 	private Double value;
 	
 	/**
-	 * The classExistenceMap maps the nominal value ID of the class attribute to a Boolean variable.
-	 * This Boolean is true if an instance with the given class label is in this bin. 
+	 * The classExistenceMap maps the nominal value ID of the class attribute to 
+	 * a Boolean variable.  This Boolean is true if an instance with the given 
+	 * class label is in this bin. 
 	 */
 	private Map<Integer, Boolean> classExistenceMap;
 	

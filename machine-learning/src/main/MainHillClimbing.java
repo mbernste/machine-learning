@@ -4,8 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import common.evaluate.BNEvaluator;
-import common.evaluate.BNResultWriter;
 import common.kfold.KFoldCreator;
 
 import data.DataSet;
@@ -14,6 +12,8 @@ import data.arff.ArffReader;
 
 import pair.Pair;
 
+import bayes.BNEvaluator;
+import bayes.BNResultWriter;
 import bayes.BayesianNetwork;
 import bayes.builders.HillClimbingBuilder;
 import bayes.builders.scoring.BIC;

@@ -7,7 +7,6 @@ import data.instance.InstanceSet;
 
 public class SplitBranch 
 {
-	
 	/**
 	 * This describes the relation to the {@branchValue} that an instance is 
 	 * tested against. Possible relations are defined in {@code DtNode}:
@@ -33,7 +32,16 @@ public class SplitBranch
 	 */
 	private InstanceSet instanceSet;
 		
-	public SplitBranch(Attribute attribute, Double branchValue, Integer relation)
+	/**
+	 * Constructor 
+	 * 
+	 * @param attribute the attribute along which this branch's split splits
+	 * instances
+	 * @param branchValue the value of the attribute that this branch tests
+	 * @param relation the relation to the attribute an instance must be to
+	 * make this branch
+	 */
+	protected SplitBranch(Attribute attribute, Double branchValue, Integer relation)
 	{
 		this.instanceSet = new InstanceSet();
 		this.attribute = attribute;
@@ -41,6 +49,9 @@ public class SplitBranch
 		this.relation = relation;
 	}
 	
+	/**
+	 * @return the set of instances that have made this branch
+	 */
 	public InstanceSet getInstanceSet()
 	{
 		return instanceSet;
@@ -63,7 +74,7 @@ public class SplitBranch
 	public Attribute getAttribute() 
 	{ 
 		return attribute;
-	} 
+	}
 	
 	public Integer getRelation()
 	{
@@ -77,7 +88,7 @@ public class SplitBranch
 	
 	public Boolean doesInstanceMakeSplit(Instance instance)
 	{		
-		Double instanceAttrValue = instance.getAttributeValue(this.attribute.getId());
+		Double instanceAttrValue = instance.getAttributeValue(this.attribute);
 				
 		switch(this.relation)
 		{
@@ -88,8 +99,8 @@ public class SplitBranch
 		case DtNode.LESS_THEN_EQUAL_TO:
 			return (instanceAttrValue.doubleValue() <= branchValue.doubleValue());
 		default:
-			throw new RuntimeException("Error testing instance in branch.  This branch's relation is not set to a" +
-					"valid relation.");
+			throw new RuntimeException("Error testing instance in branch.  " +
+					"This branch's relation is not set to a valid relation.");
 		}
 	}
 

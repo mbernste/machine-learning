@@ -82,7 +82,7 @@ public class DtNode extends Node {
 	}
 	
 	@Override
-	public String getNodeString()
+	public String toString()
 	{
 		String nodeStr = "";
 		

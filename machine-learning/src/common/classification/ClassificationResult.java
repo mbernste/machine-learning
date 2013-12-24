@@ -56,7 +56,7 @@ public class ClassificationResult
             Integer classification = resultList.get(i).getFirst();
             Integer truth = testData.getInstanceSet()
                     .getInstanceAt(i)
-                    .getAttributeValue(classAttr.getId()).intValue();
+                    .getAttributeValue(classAttr).intValue();
 
             /*
              *  Check for correct classification

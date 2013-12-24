@@ -5,8 +5,19 @@ import java.util.Set;
 
 public class Node 
 {
+    /**
+     * This nodes parent in the tree
+     */
 	protected Node parent = null;
+	
+	/**
+	 * This node's child in the tree
+	 */
 	protected Set<Node> children;
+	
+	/**
+	 * This node's ID
+	 */
 	protected Integer nodeId;
 		
 	/**
@@ -18,6 +29,9 @@ public class Node
 		children = new HashSet<Node>();
 	}
 	
+	/**
+	 * @return this node's ID
+	 */
 	public Integer getId()
 	{
 		return this.nodeId;
@@ -47,14 +61,16 @@ public class Node
 		return  children.remove(child);
 	}
 	
-
+	/**
+	 * @return this node's children nodes
+	 */
 	public Set<Node> getChildren()
 	{
 		return children;
 	}
 	
 	/**
-	 * Set the parent of the Node.
+	 * Set the parent of the node.
 	 * 
 	 * @param parent the node's parent
 	 */
@@ -63,7 +79,7 @@ public class Node
 		this.parent = parent;
 	}
 	
-	public String getNodeString()
+	public String toString()
 	{
 		return this.nodeId.toString();
 	}

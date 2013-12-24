@@ -145,13 +145,13 @@ public class DecisionTree
 			}
 			
 			// Print the value at the current node
-			System.out.print(node.getNodeString());
+			System.out.print(node);
 			
 			
-			if (node instanceof Leaf)
+			if (node instanceof DtLeaf)
 			{
 				System.out.print(": ");
-				String classLabel = classAttribute.getNominalValueName(((Leaf) node).getClassLabel());
+				String classLabel = classAttribute.getNominalValueName(((DtLeaf) node).getClassLabel());
 				System.out.print( classLabel );
 			}
 			

@@ -6,7 +6,7 @@ import common.classification.ClassificationResult;
 
 import data.DataSet;
 import data.arff.ArffReader;
-import bayes.classification.NaiveBayesClassifier;
+import bayes.classifiers.NaiveBayesClassifier;
 
 
 public class MainNaiveBayes 

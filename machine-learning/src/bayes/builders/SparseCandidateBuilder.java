@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import common.evaluate.BNResultWriter;
 
 import data.DataSet;
 
 import pair.Pair;
 import bayes.BNNode;
+import bayes.BNResultWriter;
 import bayes.BayesianNetwork;
 import bayes.builders.HillClimbingBuilder.StoppingCriteria;
 import bayes.builders.scoring.ScoringFunction;

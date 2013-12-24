@@ -1,8 +1,5 @@
 package tree.evaluate;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class BiClassTestResults 
 {
 	private static final int NEGATIVE = 0;

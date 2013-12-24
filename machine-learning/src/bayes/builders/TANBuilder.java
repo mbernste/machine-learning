@@ -132,10 +132,8 @@ public class TANBuilder extends NetworkBuilder
      * of the first two attributes are conditioned on
      * @return the conditional mutual information in bits
      */
-    private Double conditionalMutualInfo(Attribute attr1, 
-            Attribute attr2)
+    private Double conditionalMutualInfo(Attribute attr1, Attribute attr2)
     {
-
         Double result = 0.0;
 
         Attribute classAttr = data.getClassAttribute();

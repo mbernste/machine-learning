@@ -1,12 +1,7 @@
 package main;
 
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-
 import tree.DecisionTree;
-import tree.ID3TreeGenerator;
-import tree.evaluate.BiClassTest;
-import tree.evaluate.BiClassTestResults;
+import tree.ID3Builder;
 
 import data.DataSet;
 import data.arff.ArffReader;
@@ -26,7 +21,7 @@ public class DTMain
 		trainingData.setClassAttribute(CLASS_ATTRIBUTE);		
 				
 		// Generate the decision tree
-		ID3TreeGenerator treeGenerator = new ID3TreeGenerator();
+		ID3Builder treeGenerator = new ID3Builder();
 		DecisionTree decisionTree = treeGenerator.generateDecisionTree(minInstances, trainingData);
 		
 		// Print the tree
