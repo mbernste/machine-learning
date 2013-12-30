@@ -18,10 +18,12 @@ public class ID3Builder
 	
 	public DecisionTree generateDecisionTree(Integer minInstances, DataSet data)
 	{
-		decisionTree = new DecisionTree(data.getAttributeSet(), data.getClassAttribute());
+		decisionTree = new DecisionTree( 
+		                                data.getClassAttribute());
 		
-		ArrayList<Attribute> availableAttributes = removeAttributeById(data.getAttributeList(),
-																	   data.getClassAttributeId());
+		ArrayList<Attribute> availableAttributes 
+		                        = removeAttributeById(data.getAttributeList(),
+												      data.getClassAttributeId());
 		
 		DtNode root = makeSubTree(minInstances, 
 								  data, 

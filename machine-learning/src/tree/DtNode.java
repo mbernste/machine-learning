@@ -6,6 +6,12 @@ import java.util.Map;
 import data.attribute.Attribute;
 import data.instance.Instance;
 
+/**
+ * A node in a decision tree.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class DtNode extends Node {
 	    
 	public final static int EQUALS = 0;

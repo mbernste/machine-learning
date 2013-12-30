@@ -49,7 +49,7 @@ public class DecisionTree
 	 * @param attributeSet set of attributes used in learning
 	 * @param classAttribute the class attribute this tree predicts
 	 */
-	public DecisionTree(AttributeSet attributeSet, Attribute classAttribute)
+	public DecisionTree(Attribute classAttribute)
 	{
 		nodeSet = new HashMap<Integer, DtNode>();
 		this.classAttribute = classAttribute;
