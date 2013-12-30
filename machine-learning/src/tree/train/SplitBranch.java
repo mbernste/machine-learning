@@ -24,7 +24,7 @@ public class SplitBranch
 	 * GREATER_THAN			 : instance value >  branch value
 	 * GREATER_THAN_EQUAL_TO : instance value >= branch value
 	 */
-	private Integer relation;
+	private DtNode.Relation relation;
 	
 	/**
 	 * The value that an instance is tested against to make this split
@@ -50,7 +50,9 @@ public class SplitBranch
 	 * @param relation the relation to the attribute an instance must be to
 	 * make this branch
 	 */
-	protected SplitBranch(Attribute attribute, Double branchValue, Integer relation)
+	protected SplitBranch(Attribute attribute, 
+	                      Double branchValue, 
+	                      DtNode.Relation relation)
 	{
 		this.instanceSet = new InstanceSet();
 		this.attribute = attribute;
@@ -92,7 +94,7 @@ public class SplitBranch
 	 * @return the relation to the attribute for which all instances in this
 	 * split branch fall
 	 */
-	public Integer getRelation()
+	public DtNode.Relation getRelation()
 	{
 		return relation;
 	}
@@ -117,11 +119,11 @@ public class SplitBranch
 				
 		switch(this.relation)
 		{
-		case DtNode.EQUALS:
+		case EQUALS:
 			return (instanceAttrValue.doubleValue() == branchValue.doubleValue());
-		case DtNode.GREATER_THAN:
+		case GREATER_THAN:
 			return (instanceAttrValue.doubleValue() > branchValue.doubleValue());
-		case DtNode.LESS_THEN_EQUAL_TO:
+		case LESS_THEN_EQUAL_TO:
 			return (instanceAttrValue.doubleValue() <= branchValue.doubleValue());
 		default:
 			throw new RuntimeException("Error testing instance in branch.  " +

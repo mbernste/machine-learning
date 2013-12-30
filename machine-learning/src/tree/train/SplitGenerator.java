@@ -100,7 +100,7 @@ public class SplitGenerator
 		{
 			SplitBranch newBranch = new SplitBranch(attr, 
 			                                        new Double(nominalValueId),  
-			                                        DtNode.EQUALS);
+			                                        DtNode.Relation.EQUALS);
 			split.addBranch(newBranch);
 		}
 				
@@ -178,10 +178,10 @@ public class SplitGenerator
 				Split split = new Split(attr);
 				SplitBranch leftBranch = new SplitBranch(attr, 
 				                                         new Double(splitValue), 
-				                                         DtNode.LESS_THEN_EQUAL_TO);
+				                                         DtNode.Relation.LESS_THEN_EQUAL_TO);
 				SplitBranch rightBranch = new SplitBranch(attr, 
 				                                          new Double(splitValue), 
-				                                          DtNode.GREATER_THAN);
+				                                          DtNode.Relation.GREATER_THAN);
 				split.addBranch(leftBranch);
 				split.addBranch(rightBranch);
 				

@@ -14,10 +14,14 @@ import data.instance.Instance;
  */
 public class DtNode extends Node {
 	    
-	public final static int EQUALS = 0;
-	public final static int LESS_THEN_EQUAL_TO = 1;
-	public final static int GREATER_THAN = 2;
+    /**
+     * How an attribute is tested against a value at a decision tree node
+     */
+    public static enum  Relation {EQUALS, LESS_THEN_EQUAL_TO, GREATER_THAN};
 	
+    /**
+     * Compares two decision tree nodes
+     */
 	public static final Comparator<DtNode> DTNODE_ORDER = 
             new Comparator<DtNode>() 
             {
@@ -39,17 +43,12 @@ public class DtNode extends Node {
 					return 0;
 				}
             };
-	
-	/**
-	 * This describes the relation to node value that an instance
-	 * must meet to satisfy this node's test
-	 * 
-	 * EQUALS 				 : instance value == branch value
-	 * GREATER_THAN			 : instance value >  branch value
-	 * GREATER_THAN_EQUAL_TO : instance value >= branch value
-	 */
-	private Integer relation;
-	
+
+    /**
+     * How this attribute is tested against this value at this decision tree 
+     * node
+     */
+	private Relation relation;
 	
 	/**
 	 * The lower bound of values that an instance must meet 
@@ -70,18 +69,25 @@ public class DtNode extends Node {
 	
 	public DtNode(Attribute attribute, 
 				  Double nodeValue, 
-				  Integer relation)
+				  Relation relation)
 	{
 		this.attribute = attribute;
 		this.nodeValue = nodeValue;
 		this.relation = relation;
 	}
 	
+	/**
+	 * @return the attribute tested at this decision tree node
+	 */
 	public Attribute getAttribute() 
 	{ 
 		return attribute;
 	} 
 	
+	/**
+	 * @return the value the attribute at this decision tree node is tested
+	 * against
+	 */
 	public Double getNodevalue()
 	{
 		return this.nodeValue;
@@ -121,19 +127,23 @@ public class DtNode extends Node {
 		return nodeStr;
 	}
 	
+	/**
+	 * @return "<", "=", or "<=" based on the relation to the value tested
+	 * at this decision tree node
+	 */
 	private String getRelationString()
 	{
 		String relationStr = "";
 		
 		switch(this.relation)
 		{
-		case DtNode.EQUALS:
+		case EQUALS:
 			relationStr = "=";
 			break;
-		case DtNode.GREATER_THAN:
+		case GREATER_THAN:
 			relationStr = ">";
 			break;
-		case DtNode.LESS_THEN_EQUAL_TO:
+		case LESS_THEN_EQUAL_TO:
 			relationStr = "<=";
 			break;
 		}
@@ -154,13 +164,13 @@ public class DtNode extends Node {
 		
 		switch(this.relation)
 		{
-		case DtNode.EQUALS:
+		case EQUALS:
 			result = instanceAttrValue.doubleValue() == nodeValue.doubleValue();
 			break;
-		case DtNode.GREATER_THAN:
+		case GREATER_THAN:
 			result = instanceAttrValue.doubleValue() > nodeValue.doubleValue();
 			break;
-		case DtNode.LESS_THEN_EQUAL_TO:
+		case LESS_THEN_EQUAL_TO:
 			result = instanceAttrValue.doubleValue() <= nodeValue.doubleValue();
 			break;
 		}

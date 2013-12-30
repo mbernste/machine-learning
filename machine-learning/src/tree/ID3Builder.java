@@ -57,7 +57,7 @@ public class ID3Builder
 							 DataSet data,
 							 Attribute attribute,
 							 Double value,
-							 Integer relation,
+							 DtNode.Relation relation,
 							 ArrayList<Attribute> availableAttributes)
 	{		
 		DtNode newNode = null;

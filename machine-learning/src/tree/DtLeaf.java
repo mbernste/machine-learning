@@ -18,7 +18,7 @@ public class DtLeaf extends DtNode
 	
 	public DtLeaf(Attribute attribute,
 				Double value,
-				Integer relation, 
+				Relation relation, 
 				Integer classLabel)
 	{
 		super(attribute, value, relation);
