@@ -12,7 +12,6 @@ import pair.Pair;
 import bayes.BNNode;
 import bayes.BNResultWriter;
 import bayes.BayesianNetwork;
-import bayes.builders.HillClimbingBuilder.StoppingCriteria;
 import bayes.builders.scoring.ScoringFunction;
 import bayes.information.KLDivergence;
 

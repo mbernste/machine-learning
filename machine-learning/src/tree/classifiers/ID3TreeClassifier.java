@@ -1,13 +1,7 @@
 package tree.classifiers;
 
-import java.util.ArrayList;
-
-import pair.Pair;
-
 import tree.DecisionTree;
 import tree.ID3Builder;
-import common.classification.ClassificationResult;
-import common.classification.Classifier;
 import data.DataSet;
 
 public class ID3TreeClassifier// implements Classifier

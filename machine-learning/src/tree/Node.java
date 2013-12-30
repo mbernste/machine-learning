@@ -3,6 +3,12 @@ package tree;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A node in a tree. 
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class Node 
 {
     /**

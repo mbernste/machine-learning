@@ -10,12 +10,31 @@ import tree.train.SplitGenerator;
 import data.DataSet;
 import data.attribute.Attribute;
 
+/**
+ * Builds a decision tree using the ID3 algorithm.  Splits are
+ * determined by finding the split that yields maximal information gain on each
+ * iteration.  The stopping criteria is met when either a minimum number of 
+ * instances are found at the leaf node, all instances at the leaf node are of 
+ * the same class, or there are no more splits to split on.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class ID3Builder 
 {
-	DecisionTree decisionTree = null;
+    /**
+     * The decision tree under construction
+     */
+	private DecisionTree decisionTree = null;
 	
-	public ID3Builder() {}
-	
+	/**
+	 * Builds a decision tree using the ID3 algorithm
+	 * 
+	 * @param minInstances the minimum number of instances at the leaf node for
+	 * the stopping criteria to be met.
+	 * @param data the training data set
+	 * @return a constructed decision tree
+	 */
 	public DecisionTree generateDecisionTree(Integer minInstances, DataSet data)
 	{
 		decisionTree = new DecisionTree( 
@@ -38,19 +57,20 @@ public class ID3Builder
 	
 	
 	/**
-	 * A recursive method that returns a node that roots a subtree of the decision tree given
-	 * a subset of training instances, and a set of attributes that are available to use in 
-	 * order to split the instances.  
+	 * A recursive method that returns a node that roots a subtree of the 
+	 * decision tree given a subset of training instances, and a set of 
+	 * attributes that are available to use in order to split the instances.  
 	 * 
-	 * @param minInstances - the stopping criteria for the recursion is met when the minimum number of 
-	 * instances reaches this node 
-	 * @param data - a data set of training instances that will be used to construct the subtree
+	 * @param minInstances - the stopping criteria for the recursion is met when 
+	 * the minimum number of instances reaches this node 
+	 * @param data - a data set of training instances that will be used to 
+	 * construct the subtree
 	 * @param attribute - the attribute that the root node should test
 	 * @param value - the value of the attribute the root node should test
-	 * @param relation - how an instances attribute is compared to the root node's value
-	 * 					 See {@DtNode} for valid relations 
-	 * @param availableAttributes - a list of available attributes that are available to split the
-	 * training instances
+	 * @param relation - how an instances attribute is compared to the root 
+	 * node's value.
+	 * @param availAttrs - a list of available attributes that are 
+	 * available to split the training instances
 	 * @return the root of the subtree
 	 */
 	private DtNode makeSubTree(Integer minInstances, 
@@ -58,22 +78,22 @@ public class ID3Builder
 							 Attribute attribute,
 							 Double value,
 							 DtNode.Relation relation,
-							 ArrayList<Attribute> availableAttributes)
+							 ArrayList<Attribute> availAttrs)
 	{		
 		DtNode newNode = null;
 
 		/*
 		 *  Determine candidate splits
 		 */
-		ArrayList<Split> candidateSplits = SplitGenerator.generateSplits(data, 
-		                                                                 availableAttributes);
+		ArrayList<Split> candidateSplits 
+		                      = SplitGenerator.generateSplits(data, availAttrs);
 
 		/*
 		 *  Check for stopping criteria
 		 */
 		boolean stoppingCriteria = checkStoppingCriteria(data, 
 														 minInstances, 
-														 availableAttributes,
+														 availAttrs,
 														 candidateSplits
 														 );
 				
@@ -100,8 +120,8 @@ public class ID3Builder
 			 *  Find the best split among the candidate splits (best is 
 			 *  determined by highest info gain)
 			 */
-			Split bestSplit = SplitGenerator.determineBestSplit(data, 
-			                                                    candidateSplits);
+			Split bestSplit 
+			         = SplitGenerator.determineBestSplit(data, candidateSplits);
 
 			/*
 			 *  For each branch of the best split, create a new node that roots 
@@ -121,12 +141,12 @@ public class ID3Builder
 				 */
 				if (branch.getAttribute().getType() == Attribute.NOMINAL)
 				{
-					newAvailableAttributes = removeAttributeById(availableAttributes,
+					newAvailableAttributes = removeAttributeById(availAttrs,
 											                     bestSplit.getAttribute().getId());
 				}
 				else
 				{
-					newAvailableAttributes = availableAttributes;
+					newAvailableAttributes = availAttrs;
 				}
 					
 				/*
@@ -143,7 +163,9 @@ public class ID3Builder
 			}
 		}
 		
-		// Add the current node to the tree
+		/*
+		 *  Add the current node to the tree
+		 */
 		decisionTree.addNode(newNode);
 		
 		return newNode;
@@ -153,17 +175,17 @@ public class ID3Builder
 	 * A helper method for removing an attribute with a specific attribute ID
 	 * from an ArrayList of Attributes
 	 *  
-	 * @param currAttributes ArrayList of Attributes from which we wish to 
+	 * @param currAttrs ArrayList of Attributes from which we wish to 
 	 * remove an Attribute
 	 * @param attrId the ID of the Attribute we wish to remove
 	 * @return
 	 */
-	private ArrayList<Attribute> removeAttributeById(ArrayList<Attribute> currAttributes, 
+	private ArrayList<Attribute> removeAttributeById(ArrayList<Attribute> currAttrs, 
 	                                                 Integer attrId)
 	{
 		ArrayList<Attribute> newAttributes = new ArrayList<Attribute>();
 		
-		for (Attribute attr : currAttributes)
+		for (Attribute attr : currAttrs)
 		{
 			if (attr.getId() != attrId)
 			{
@@ -194,7 +216,7 @@ public class ID3Builder
 	 */
 	private Boolean checkStoppingCriteria(DataSet data, 
 										  int minInstances, 
-										  ArrayList<Attribute> availableAttributes,
+										  ArrayList<Attribute> availAttributes,
 										  ArrayList<Split> candidateSplits)
 	{
 		
@@ -220,7 +242,7 @@ public class ID3Builder
 		/*
 		 * 2. Check that we still have available attributes to split on
 		 */
-		if (availableAttributes.size() < 1)
+		if (availAttributes.size() < 1)
 		{
 				return true;
 		}
@@ -245,11 +267,19 @@ public class ID3Builder
 		}
 		
 		/*
-		 *  If none of the conditions are met, we have not met the stopping criteria
+		 *  If none of the conditions are met, we have not met the stopping 
+		 *  criteria
 		 */
 		return false;
 	}
 	
+	/**
+	 * Get the class value most represented in a data set.
+	 * 
+	 * @param data the data set 
+	 * @return the nominal value ID of the class attribute most represented in
+	 * the given data set
+	 */
 	private Integer getMajorityClass(DataSet data)
 	{
 		int largestCount = 0;
