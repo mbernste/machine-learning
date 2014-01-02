@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import pair.Pair;
+
 import data.attribute.Attribute;
 import data.attribute.AttributeSet;
+import data.instance.Instance;
 
 /**
  * Encapsulates a learned decision tree.
@@ -103,7 +106,7 @@ public class DecisionTree
 	 * 
 	 * @param root the node that roots the subtree being printed
 	 */
-	public void printTree(Node root)
+	public void printTree()
 	{
 		@SuppressWarnings("unchecked")
 		Set<DtNode> children = ((Set<DtNode>) ((Set<?>) root.getChildren()));
@@ -169,5 +172,52 @@ public class DecisionTree
 				print(dtChild, depth+1);
 			}			
 		}
+	}
+	
+	/**
+	 * Classify an instance using this decision tree.
+	 * 
+	 * @param instance the instance to be classified
+	 * @return the nominal value ID of the class attribute predicted for the
+	 * given instance
+	 */
+	public Pair<Integer, Double> classifyInstance(Instance instance)
+	{
+	    DtNode currNode = (DtNode) this.getRoot();
+        
+        while (!(currNode instanceof DtLeaf))
+        {
+            @SuppressWarnings("unchecked")
+            Set<DtNode> children = ((Set<DtNode>) ((Set<?>) currNode.getChildren()));
+        
+            for (DtNode node : children)
+            {
+                if (node.doesInstanceSatisfyNode(instance))
+                {
+                    currNode = node;
+                    break;
+                }
+            }
+        }
+
+        DtLeaf leaf = (DtLeaf) currNode;
+        
+        Integer prediction = leaf.getClassLabel().intValue();
+        
+        /*
+         *  Get total number of instances that reached the leaf node 
+         */
+        Integer totalCount = 0;
+        for (Integer count : leaf.getClassCounts().values())
+        {
+            totalCount += count;
+        }
+        
+        /*
+         * Calculate the confidence
+         */
+        Double confidence = (double) (leaf.getClassCounts().get(prediction)) / totalCount;
+      
+        return  new Pair<Integer, Double>(prediction, confidence);        
 	}
 }

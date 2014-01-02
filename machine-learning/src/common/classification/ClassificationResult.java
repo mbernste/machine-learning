@@ -46,14 +46,13 @@ public class ClassificationResult
     public ClassificationResult(ArrayList<Pair<Integer, Double>> resultList,
             DataSet testData)
     {
-
         Attribute classAttr = testData.getClassAttribute();
-
+        
         int correctCount = 0;
 
         for (int i = 0; i < resultList.size(); i++)
         {			
-            Integer classification = resultList.get(i).getFirst();
+            Integer classification = resultList.get(i).getFirst();            
             Integer truth = testData.getInstanceSet()
                     .getInstanceAt(i)
                     .getAttributeValue(classAttr).intValue();

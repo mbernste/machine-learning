@@ -321,5 +321,11 @@ public class NaiveBayesClassifier implements Classifier
     {
         return this.bayesNet.toString();
     }
+    
+    @Override
+    public Object getModel()
+    {
+        return this.bayesNet;
+    }
 
 }

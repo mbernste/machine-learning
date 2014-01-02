@@ -58,7 +58,7 @@ public class DtNode extends Node {
 	
 	/**
 	 * Counts the number of instances that finally reached this node.
-	 * The map maps a nominal value (class label) ID to a count
+	 * The map maps a nominal value ID of the class label to a count
 	 */
 	private Map<Integer, Integer> classCounts;
 	
@@ -154,6 +154,11 @@ public class DtNode extends Node {
 	public void setClassCounts(Map<Integer, Integer> classLabelCounts)
 	{
 		this.classCounts = classLabelCounts;
+	}
+	
+	public Map<Integer, Integer> getClassCounts()
+	{
+	    return this.classCounts;
 	}
 	
 	public Boolean doesInstanceSatisfyNode(Instance instance)
