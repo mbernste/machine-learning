@@ -20,7 +20,7 @@ import data.instance.Instance;
  *
  */
 public class DecisionTree 
-{
+{   
     /**
      * The root node of the tree
      */
@@ -100,6 +100,8 @@ public class DecisionTree
 		nodeSet.put(nodeCount, rootNode);
 		nodeCount++;
 	}
+	
+	
 	
 	@Override
 	public String toString()

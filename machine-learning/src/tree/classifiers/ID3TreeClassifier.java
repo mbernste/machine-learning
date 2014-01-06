@@ -54,7 +54,7 @@ public class ID3TreeClassifier implements Classifier
     @Override 
     public String toString()
     {
-        return dtTree.toString();
+        return "ID3\n\n" + dtTree;
     }
 
 }
