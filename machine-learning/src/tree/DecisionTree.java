@@ -100,14 +100,12 @@ public class DecisionTree
 		nodeSet.put(nodeCount, rootNode);
 		nodeCount++;
 	}
-
-	/**
-	 * Print the subtree rooted at the input Node to standard output.
-	 * 
-	 * @param root the node that roots the subtree being printed
-	 */
-	public void printTree()
+	
+	@Override
+	public String toString()
 	{
+	    String result = "";
+	    
 		@SuppressWarnings("unchecked")
 		Set<DtNode> children = ((Set<DtNode>) ((Set<?>) root.getChildren()));
 		List<DtNode> childrenList = new ArrayList<DtNode>(children);
@@ -115,51 +113,54 @@ public class DecisionTree
 		
 		for (Node child : childrenList)
 		{
-			TreePrinter treePrinter = new TreePrinter(this.attributeSet, 
-			                                          this.classAttribute);
-			treePrinter.print( (DtNode) child, 0);
+			StringGenerator strGen = new StringGenerator(this.attributeSet, 
+			                                             this.classAttribute);
+			result +=  strGen.print( (DtNode) child, 0);
 		}
 		
+		return result;
 	}
 	
 	/**
 	 * A private helper class used for traversing the tree recursively
 	 * in order to print the print the tree to standard output
 	 * 
-	 * @author matthewbernstein
+	 * @author Matthew Bernstein - matthewb@cs.wisc.edu
 	 */
-	private static class TreePrinter
+	private static class StringGenerator
 	{
 		@SuppressWarnings("unused")
 		private AttributeSet attributeSet;
 		private Attribute classAttribute;
 		
-		public TreePrinter(AttributeSet attributeSet, Attribute classAttribute)
+		public StringGenerator(AttributeSet attributeSet, 
+		                           Attribute classAttribute)
 		{
 			this.attributeSet = attributeSet;
 			this.classAttribute = classAttribute;
 		}
 		
-		public void print(DtNode node, Integer depth)
+		public String print(DtNode node, Integer depth)
 		{
+		    String result = "";
+		    
 			// Print the indentated "|" characters
 			for (int i = 0; i < depth; i++)
 			{
-				System.out.print("|     ");
+			    result += "|     ";
 			}
 			
 			// Print the value at the current node
-			System.out.print(node);
-			
+			result += node;
 			
 			if (node instanceof DtLeaf)
 			{
-				System.out.print(": ");
+			    result += ": ";
 				String classLabel = classAttribute.getNominalValueName(((DtLeaf) node).getClassLabel());
-				System.out.print( classLabel );
+				result += classLabel;
 			}
 			
-			System.out.print("\n");
+			result += "\n";
 			
 			@SuppressWarnings("unchecked")
 			Set<DtNode> children = ((Set<DtNode>) ((Set<?>) node.getChildren()));
@@ -169,8 +170,10 @@ public class DecisionTree
 			for (Node child : childrenList)
 			{
 				DtNode dtChild = (DtNode) child;
-				print(dtChild, depth+1);
-			}			
+				result += print (dtChild, depth+1);
+			}
+			
+			return result;
 		}
 	}
 	

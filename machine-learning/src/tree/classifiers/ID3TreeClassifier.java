@@ -50,5 +50,11 @@ public class ID3TreeClassifier implements Classifier
     {
         return this.dtTree;
     }
+    
+    @Override 
+    public String toString()
+    {
+        return dtTree.toString();
+    }
 
 }

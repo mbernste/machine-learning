@@ -29,7 +29,7 @@ public class DTMain
 		
 		ClassificationResult result = classifier.classifyData(testData);
 		
-		((DecisionTree)classifier.getModel()).printTree();
+		System.out.println(classifier);
 		System.out.println(result);
 	}
 }
