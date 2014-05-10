@@ -1,21 +1,19 @@
 package hmm;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import common.LogP;
-
-
 
 
 /**
  * This class implements a single state in the HMM.  Each State object
  * stores all Transition objects that transition from this state to 
- * other states in the model. 
+ * other states in the model.
+ * 
+ *  @author Matthew Bernstein - matthewb@cs.wisc.edu
  */
 public class State
 {
@@ -49,6 +47,11 @@ public class State
 		this.isSilent = false;
 	}
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param id the ID of the state
+	 */
 	public State(String id)
 	{
 		this();
@@ -56,7 +59,7 @@ public class State
 	}
 	
 	/**
-	 * Copy constructor.
+	 * Copy constructor
 	 */
 	public State(State s)
 	{
@@ -134,6 +137,14 @@ public class State
 		}
 	}
 	
+	/**
+	 * Get the transition probability of transitioning from this state to the 
+	 * state with the target ID
+	 * 
+	 * @param destId the target ID
+	 * @return the transition probability of moving to the state with the target
+	 * ID
+	 */
 	public double getTransitionProb(String destId)
 	{
 		if (transitions.containsKey(destId))
@@ -158,6 +169,13 @@ public class State
 		}
 	}
 	
+	/**
+	 * Determine if a transition exists from this state to the state with the 
+	 * target ID.
+	 * 
+	 * @param destId the ID of the destination state 
+	 * @return true if the transition exists, false otherwise.
+	 */
 	public boolean transitionExists(String destId)
 	{
 		return transitions.containsKey(destId);

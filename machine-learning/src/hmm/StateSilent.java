@@ -6,7 +6,12 @@ import java.util.Map.Entry;
 import common.LogP;
 
 
-
+/**
+ * Implements a state that does not emit any symbols.
+ * 
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ *
+ */
 public class StateSilent extends State
 {
 	/**

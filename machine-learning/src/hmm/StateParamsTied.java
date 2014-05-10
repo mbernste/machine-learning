@@ -6,8 +6,19 @@ import java.util.Map.Entry;
 
 import common.LogP;
 
+/**
+ * Implements a state whose emission probability distribution is tied to that
+ * of another state.
+ *
+ * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ * 
+ */
 public class StateParamsTied extends State
 {
+    /**
+     * Stores all emission probability distributions for all states with 
+     * tied emission parameters
+     */
 	public static Map<String,Map<String, Double>> tiedEmissionParams
 		= new HashMap<String, Map<String, Double>>();
 	

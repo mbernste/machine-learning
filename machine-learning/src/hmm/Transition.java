@@ -12,8 +12,19 @@ import common.LogP;
  */
 public class Transition
 {
+    /**
+     * ID of the origin state
+     */
 	private String originId;
+	
+	/**
+	 * ID of the destination state
+	 */
 	private String destinationId;
+	
+	/**
+	 * The transition's associated probability
+	 */
 	private double probability;
 	
 	/**

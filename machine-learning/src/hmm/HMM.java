@@ -6,14 +6,32 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map.Entry;
 
+/**
+ * Objects of this class represent an entire hidden Markov model.
+ * 
+ * @author matthewbernstein
+ *
+ */
 public class HMM 
 {
+    /**
+     * Stores the states comprising the model
+     */
 	protected StateContainer states;
 	
+	/**
+	 * The ID of the model's begin state
+	 */
 	private String beginStateId;
+	
+	/**
+	 * The ID of the model's end state
+	 */
 	private String endStateId;
 
-	
+	/**
+	 * Constructor
+	 */
 	public HMM()
 	{
 		states = new StateContainer();
@@ -69,21 +87,37 @@ public class HMM
 		return this.states;
 	}
 	
+	/**
+	 * @return the model's collection of states
+	 */
 	public Collection<State> getStates()
 	{
 		return this.states.getStates();
 	}
 	
+	/**
+	 * @return only the model's silent states
+	 */
 	public Collection<State> getSilentStates()
 	{
 		return this.states.getSilentStates();
 	}
 	
+	/**
+	 * @return the model's silent states sorted topologically.  This method
+	 * is needed for the Forward, Backward and Viterbi algorithms.
+	 */
 	public ArrayList<State> getSortedSilentStates()
 	{
 		return SortSilentStates.run(this);
 	}
 	
+	/**
+	 * Retrieve a state with a specific ID
+	 * 
+	 * @param id the target ID
+	 * @return the state with the target ID
+	 */
 	public State getStateById(String id)
 	{
 		return this.states.getStateById(id);
@@ -121,6 +155,11 @@ public class HMM
 		return beginStateId;
 	}
 	
+	/**
+	 * Add a state to the model
+	 * 
+	 * @param newState the new state
+	 */
 	public void addState(State newState)
 	{
 		this.states.addState(newState);
@@ -148,6 +187,5 @@ public class HMM
 	public void setEndStateId(String endStateId)
 	{
 		this.endStateId = endStateId;
-	}
-	
+	}	
 }
