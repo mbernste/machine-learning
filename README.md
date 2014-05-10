@@ -23,9 +23,9 @@ Bayesian Networks:
     
 Hidden Markov Models:
    
-   Forward Algorithm
+    Forward Algorithm
    
-   Backward Algorithm
+    Backward Algorithm
     
 Generic Graph Theory Algorithms:
     
