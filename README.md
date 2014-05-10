@@ -21,6 +21,11 @@ Bayesian Networks:
     
     Artificial Data Generation
     
+Hidden Markov Models:
+   
+   Forward Algorithm
+   
+   Backward Algorithm
     
 Generic Graph Theory Algorithms:
     
