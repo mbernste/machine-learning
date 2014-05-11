@@ -23,17 +23,17 @@ public class DpMatrix
 	/**
 	 * Map each time step (i.e. column) to a symbol
 	 */
-	private ArrayList<Character> colSymbolMap;
+	private ArrayList<String> colSymbolMap;
 	
 	/**
 	 * The matrix
 	 */
 	private DpMatrixElement[][] matrix;
 
-	public DpMatrix(HMM model, String sequence)
+	public DpMatrix(HMM model, String[] sequence)
 	{		
 		numRows = model.getNumStates();
-		numCols = sequence.length() + 1;
+		numCols = sequence.length + 1;
 		
 		initStateRowMap(model);
 		initColSymbolMap(sequence);
@@ -44,7 +44,8 @@ public class DpMatrix
 	{
 		stateRowMap = new BiMap<State, Integer>();
 		
-		ArrayList<State> states = new ArrayList<State>(model.getStateContainer().getStates());
+		ArrayList<State> states = new ArrayList<State>(model.getStateContainer()
+		                                                    .getStates());
 		
 		for (int index = 0; index < states.size(); index++)
 		{
@@ -52,18 +53,18 @@ public class DpMatrix
 		}
 	}
 	
-	public void initColSymbolMap(String sequence)
+	public void initColSymbolMap(String[] sequence)
 	{
-		colSymbolMap = new ArrayList<Character>();
+		colSymbolMap = new ArrayList<String>();
 		
 		/*
 		 *  The first time unit does not see a symbol emitted
 		 */
-		colSymbolMap.add('-');
+		colSymbolMap.add("-");
 		
-		for (int i = 0; i < sequence.length(); i++)
+		for (int i = 0; i < sequence.length; i++)
 		{
-			colSymbolMap.add(sequence.charAt(i));
+			colSymbolMap.add(sequence[i]);
 		}
 	}
 	
@@ -142,7 +143,7 @@ public class DpMatrix
 		result += "\t\t";
 		
 		// Print the character over each columns
-		for (Character c : colSymbolMap)
+		for (String c : colSymbolMap)
 		{
 			result += (c + "\t");
 		}

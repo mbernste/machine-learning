@@ -31,7 +31,7 @@ public class ForwardAlgorithm
 	 * @return the full probability of the sequence as well as the dynamic
 	 * programming matrix
 	 */
-	public static Pair<Double, DpMatrix> run(HMM model, String sequence)
+	public static Pair<Double, DpMatrix> run(HMM model, String[] sequence)
 	{
 		DpMatrix dpMatrix = new DpMatrix(model, sequence);
 	
@@ -50,7 +50,7 @@ public class ForwardAlgorithm
 
 	private static Double runIteration(DpMatrix dpMatrix, 
 									  HMM model, 
-									  String sequence)
+									  String[] sequence)
 	{	
 		for (int t = 1; t < dpMatrix.getNumColumns(); t++)
 		{				
@@ -66,7 +66,7 @@ public class ForwardAlgorithm
 					 *  ith time step.
 					 */
 					double eProb = model.getEmissionProb(currState.getId(), 
-							  			Character.toString(sequence.charAt(t-1)));
+							  			                 sequence[t-1]);
 					
 					/*
 					 * Sum over previous time-step
@@ -131,17 +131,23 @@ public class ForwardAlgorithm
 		 * joint probability of observing the sequence (i.e. of being in the 
 		 * last time step) in each state.
 		 */
-		double sum = Double.NaN;
-		for (State state : model.getStates())
-		{	
-			if (!state.isSilent())
-			{
-				double fValue = dpMatrix.getValue(state, dpMatrix.getNumColumns() - 1);
-				sum = LogP.sum(sum, fValue);
-			}
+		if (model.getEndState() == null)
+		{
+    		double sum = Double.NaN;
+    		for (State state : model.getStates())
+    		{	
+    			if (!state.isSilent())
+    			{
+    				double fValue = dpMatrix.getValue(state, dpMatrix.getNumColumns() - 1);
+    				sum = LogP.sum(sum, fValue);
+    			}
+    		}
+    		return sum;
 		}
-		
-		return sum;
+		else
+		{
+		    return dpMatrix.getValue(model.getEndState(), dpMatrix.getNumColumns() - 1);
+		}
 	}
 	
 	/**
