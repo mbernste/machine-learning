@@ -12,14 +12,15 @@ import hmm.algorithms.ForwardAlgorithm;
 
 public class HMMExamples 
 {
+    /**
+     * Example running the forward and backward algorithms on an HMM object
+     */
     public static void main(String[] args)
     {
-        HMM toyHmm = buildToyHMM();
-        
+      
+        HMM toyHmm = buildToyHMM();  
         String[] sequence = {"x", "y", "x", "x"};
-        
-        ForwardAlgorithm.run(toyHmm, sequence);
-        
+         
         /*
          * Forward algorithm
          */
@@ -28,12 +29,17 @@ public class HMMExamples
         /*
          * Backward algorithm
          */
-        Pair<Double, DpMatrix> resultB = ForwardAlgorithm.run(toyHmm, sequence);
+        Pair<Double, DpMatrix> resultB = BackwardAlgorithm.run(toyHmm, sequence);
 
-        System.out.println("Forward probability: " 
+        System.out.println("Probability of sequence: " 
                                 + LogP.exp(resultF.getFirst()));
     }
     
+    /**
+     * Example building an HMM object
+     * 
+     * @return an example HMM
+     */
     public static HMM buildToyHMM()
     {
         HMM hmm = new HMM();
@@ -60,7 +66,6 @@ public class HMMExamples
         C.addTransition(new Transition("C", "D", LogP.ln(1.0)));
         D.addTransition(new Transition("D", "E", LogP.ln(1.0)));
         E.addTransition(new Transition("E", "E", LogP.ln(0.5)));
-        F.addTransition(new Transition("F", "E", LogP.ln(1.0)));
         E.addTransition(new Transition("E", "G", LogP.ln(0.5)));
         
         /*
@@ -82,7 +87,6 @@ public class HMMExamples
         hmm.addState(D);
         hmm.addState(C);
         hmm.addState(E);
-        hmm.addState(F);
         hmm.addState(G);
         hmm.addState(A);
 
@@ -90,6 +94,7 @@ public class HMMExamples
          * Set the begin state
          */
         hmm.setBeginStateId("A");
+        hmm.setEndStateId("E");
         
         return hmm;
     }    

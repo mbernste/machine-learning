@@ -146,7 +146,15 @@ public class ForwardAlgorithm
 		}
 		else
 		{
-		    return dpMatrix.getValue(model.getEndState(), dpMatrix.getNumColumns() - 1);
+		    double sum = Double.NaN;
+            for (State state : model.getStates())
+            {                   
+                double fValue = dpMatrix.getValue(state, dpMatrix.getNumColumns() - 1);
+                double tProb = state.getTransitionProb(model.getEndStateId());
+                double prod = LogP.prod(fValue, tProb);
+                sum = LogP.sum(sum, prod);
+            }
+            return sum;
 		}
 	}
 	

@@ -33,6 +33,7 @@ public class DpMatrix
 	public DpMatrix(HMM model, String[] sequence)
 	{		
 		numRows = model.getNumStates();
+		
 		numCols = sequence.length + 1;
 		
 		initStateRowMap(model);

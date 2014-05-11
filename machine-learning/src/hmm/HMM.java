@@ -4,7 +4,6 @@ import hmm.algorithms.SortSilentStates;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map.Entry;
 
 /**
  * Objects of this class represent an entire hidden Markov model.

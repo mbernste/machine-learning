@@ -3,7 +3,6 @@ package hmm.algorithms;
 import hmm.HMM;
 import hmm.State;
 
-import java.util.Collection;
 import java.util.ArrayList;
 
 import common.LogP;

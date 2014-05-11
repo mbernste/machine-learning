@@ -1,4 +1,4 @@
-package main;
+package applications;
 
 import common.classification.ClassificationResult;
 
