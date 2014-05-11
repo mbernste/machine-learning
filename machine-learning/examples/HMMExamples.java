@@ -52,8 +52,7 @@ public class HMMExamples
         State C = new StateSilent("C");     
         State D = new StateSilent("D");
         State E = new State("E");
-        State F = new State("F");
-        State G = new StateSilent("G");
+        State G = new State("G");
         
         /*
          * Add transitions between states
@@ -62,7 +61,7 @@ public class HMMExamples
         A.addTransition(new Transition("A", "X", LogP.ln(1.0 / 3.0)));
         A.addTransition(new Transition("A", "B", LogP.ln(1.0 / 3.0)));
         B.addTransition(new Transition("B", "C", LogP.ln(0.5)));
-        B.addTransition(new Transition("B", "F", LogP.ln(0.5)));
+        B.addTransition(new Transition("B", "G", LogP.ln(0.5)));
         C.addTransition(new Transition("C", "D", LogP.ln(1.0)));
         D.addTransition(new Transition("D", "E", LogP.ln(1.0)));
         E.addTransition(new Transition("E", "E", LogP.ln(0.5)));
@@ -75,10 +74,10 @@ public class HMMExamples
         E.addEmission("y", LogP.ln(0.5));
       
         /*
-         * Create emission distribution for state F
+         * Create emission distribution for state G
          */
-        F.addEmission("x", LogP.ln(0.9));
-        F.addEmission("y", LogP.ln(0.1));
+        G.addEmission("x", LogP.ln(0.9));
+        G.addEmission("y", LogP.ln(0.1));
         
         /*
          * Add states to model
