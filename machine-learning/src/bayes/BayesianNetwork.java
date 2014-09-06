@@ -15,8 +15,6 @@ import data.DataSet;
 
 /**
  * Objects of this class encapsulate a complete Bayesian Network.
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
  */
 public class BayesianNetwork 
@@ -27,20 +25,20 @@ public class BayesianNetwork
     public int verbose = 0;
 
     /**
-     * Network structure inference algorithms
+     * Network structure search algorithms
      */
-    public static enum Type { TEST, NAIVE_BAYES, TAN, HILL_CLIMBING,
+    public static enum StructureSearch { TEST, NAIVE_BAYES, TAN, HILL_CLIMBING,
                                SPARSE_CANDIDATE };
   
     /**
      * The algorithm used to build the network
      */
-    private Type netInference;
+    private StructureSearch structureSearch;
 
     /**
      * The set of nodes in the network
      */
-    protected BNNodeManager nodes;
+    protected BNNodes nodes;
     
     /**
      * The number of free parameters in this model
@@ -52,12 +50,12 @@ public class BayesianNetwork
      */
     public BayesianNetwork()
     {
-        this.nodes = new BNNodeManager();
+        this.nodes = new BNNodes();
     }
 
-    public void setNetInference(BayesianNetwork.Type netInference)
+    public void setNetInference(BayesianNetwork.StructureSearch netInference)
     {
-        this.netInference = netInference;
+        this.structureSearch = netInference;
     }
 
     /**
@@ -559,7 +557,7 @@ public class BayesianNetwork
     {
         String result = "";
 
-        switch(netInference)
+        switch(structureSearch)
         {
         case NAIVE_BAYES:
             result = "Naive Bayes";
@@ -585,9 +583,9 @@ public class BayesianNetwork
      * @param netInference the algorithm used to create the network's
      * structure
      */
-    protected void setInference(BayesianNetwork.Type netInference)
+    protected void setInference(BayesianNetwork.StructureSearch netInference)
     {
-        this.netInference = netInference;
+        this.structureSearch = netInference;
     }
 
     /**

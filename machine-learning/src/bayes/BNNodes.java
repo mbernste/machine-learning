@@ -24,7 +24,7 @@ import data.DataSet;
  * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
  */
-public class BNNodeManager 
+public class BNNodes 
 {
     /**
      * Verbose debug output
@@ -49,7 +49,7 @@ public class BNNodeManager
     /**
      * Constructor
      */
-    public BNNodeManager()
+    public BNNodes()
     {
         attributes = new AttributeSet();
         nodeMap = new HashMap<Attribute, BNNode>();

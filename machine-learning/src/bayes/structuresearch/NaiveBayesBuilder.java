@@ -28,7 +28,7 @@ public class NaiveBayesBuilder extends NetworkBuilder
          * Create a new network
          */
         BayesianNetwork net = super.buildNetwork(data, laplaceCount);
-        net.setNetInference(BayesianNetwork.Type.NAIVE_BAYES);
+        net.setNetInference(BayesianNetwork.StructureSearch.NAIVE_BAYES);
 
         /*
          *  Get the Node that represents the class attribute
