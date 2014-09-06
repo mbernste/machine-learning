@@ -9,16 +9,18 @@ Decision Trees:
     
 Bayesian Networks:
    
+   Classifiers:
     Naïve Bayes classifier
-    
     Tree Augmented Naïve (TAN) Bayes classifier
     
+   Structure Search:
     Hill Climbing Structure Search
-    
     Sparse Candidate Structure Search
     
+   Scoring Functions:
     Bayesian Information Criterion (BIC)
     
+   Features:
     Artificial Data Generation
     
 Hidden Markov Models:
