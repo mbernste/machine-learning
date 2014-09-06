@@ -1,10 +1,10 @@
-package common.classification;
+package classify;
 
 import java.util.ArrayList;
 
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
 
 import pair.Pair;
 

@@ -2,15 +2,16 @@ package tree.classifiers;
 
 import java.util.ArrayList;
 
+import classify.ClassificationResult;
+import classify.Classifier;
+
 import pair.Pair;
 
-import common.classification.ClassificationResult;
-import common.classification.Classifier;
 
 import tree.DecisionTree;
 import tree.ID3TreeBuilder;
 import data.DataSet;
-import data.instance.Instance;
+import data.Instance;
 
 public class ID3TreeClassifier implements Classifier
 {

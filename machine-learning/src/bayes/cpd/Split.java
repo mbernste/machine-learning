@@ -3,10 +3,10 @@ package bayes.cpd;
 import java.util.ArrayList;
 
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.instance.Instance;
-import data.instance.InstanceSet;
+import data.Instance;
+import data.InstanceSet;
 
 /**
  * Splits all instances along a specific attribute.

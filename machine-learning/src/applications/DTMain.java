@@ -1,12 +1,12 @@
 package applications;
 
-import common.classification.ClassificationResult;
+import classify.ClassificationResult;
 
 import tree.DecisionTree;
 import tree.classifiers.ID3TreeClassifier;
 
 import data.DataSet;
-import data.arff.ArffReader;
+import data.reader.ArffReader;
 
 public class DTMain 
 {	

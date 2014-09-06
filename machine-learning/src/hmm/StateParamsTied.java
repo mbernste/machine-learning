@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import common.LogP;
+import math.LogP;
+
 
 /**
  * Implements a state whose emission probability distribution is tied to that

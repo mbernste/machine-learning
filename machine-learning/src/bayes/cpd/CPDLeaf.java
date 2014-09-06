@@ -1,6 +1,6 @@
 package bayes.cpd;
 
-import data.attribute.Attribute;
+import data.Attribute;
 
 /**
  * A leaf node in a CPD tree.

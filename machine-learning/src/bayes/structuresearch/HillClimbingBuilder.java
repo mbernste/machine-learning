@@ -1,4 +1,4 @@
-package bayes.builders;
+package bayes.structuresearch;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import data.DataSet;
 import pair.Pair;
 import bayes.BNNode;
 import bayes.BayesianNetwork;
-import bayes.builders.scoring.ScoringFunction;
+import bayes.structuresearch.score.ScoringFunction;
 
 /**
  * Implements a standard hill climbing search through the Bayes Nets structures

@@ -3,7 +3,8 @@ package hmm;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import common.LogP;
+import math.LogP;
+
 
 
 /**

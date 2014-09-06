@@ -3,8 +3,8 @@ package bayes.cpd;
 import java.util.ArrayList;
 
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
 
 /**
  * Used for creating a new {@code CPDTree} object

@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import data.attribute.Attribute;
-import data.attribute.AttributeSet;
-import data.instance.Instance;
-import data.instance.InstanceSet;
 
 /**
  * Represents a data set.  Objects of this class store all instances as well

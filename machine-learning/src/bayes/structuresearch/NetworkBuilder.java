@@ -1,10 +1,10 @@
-package bayes.builders;
+package bayes.structuresearch;
 
 
 import bayes.BNNode;
 import bayes.BayesianNetwork;
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
 
 /**
  * Constructs a {@code BayesianNetwork} object

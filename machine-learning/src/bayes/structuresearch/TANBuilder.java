@@ -1,4 +1,4 @@
-package bayes.builders;
+package bayes.structuresearch;
 
 import graph.prim.Edge;
 import graph.prim.Prim;
@@ -10,9 +10,9 @@ import java.util.List;
 import pair.Pair;
 import bayes.BNNode;
 import bayes.BayesianNetwork;
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.instance.Instance;
+import data.Instance;
 
 public class TANBuilder extends NetworkBuilder
 {

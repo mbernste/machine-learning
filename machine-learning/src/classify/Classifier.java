@@ -1,4 +1,4 @@
-package common.classification;
+package classify;
 
 import data.DataSet;
 

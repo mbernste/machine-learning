@@ -3,7 +3,7 @@ package bayes;
 import java.util.ArrayList;
 
 import pair.Pair;
-import data.attribute.Attribute;
+import data.Attribute;
 
 /**
  * This class represents represents a set of attribute/value pairs.  This is 

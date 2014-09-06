@@ -3,11 +3,11 @@ package tree.evaluate;
 import java.util.Set;
 
 import tree.DecisionTree;
-import tree.DtNode;
 import tree.DtLeaf;
+import tree.DtNode;
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.instance.Instance;
+import data.Instance;
 
 public class BiClassTest 
 {	

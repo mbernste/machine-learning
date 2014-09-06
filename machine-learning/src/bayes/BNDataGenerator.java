@@ -10,10 +10,10 @@ import java.util.Random;
 
 import pair.Pair;
 import bayes.cpd.CPDQuery;
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.instance.Instance;
-import data.instance.InstanceSet;
+import data.Instance;
+import data.InstanceSet;
 
 /**
  * Used for generating a data set from a learned Bayesian Network.
@@ -45,13 +45,11 @@ public class BNDataGenerator
         InstanceSet instances = new InstanceSet();
         for (int i = 0; i < numInstances; i++)
         {
-            Instance newInst = new Instance(i);
-
+            Instance newInst = new Instance();
             for (BNNode node : net.nodes.topologicallySorted())
             {                              
                 setAttrInstance(node, newInst); 
-            }
-            
+            }       
             instances.addInstance(newInst);
         } 
         generated.setInstanceSet(instances);

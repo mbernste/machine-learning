@@ -8,8 +8,8 @@ import tree.train.Split;
 import tree.train.SplitBranch;
 import tree.train.SplitGenerator;
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
 
 /**
  * Builds a decision tree using the ID3 algorithm.  Splits are
@@ -38,9 +38,8 @@ public class ID3TreeBuilder
 	 */
 	public DecisionTree buildDecisionTree(Integer minInstances, DataSet data)
 	{
-		decisionTree = new DecisionTree( 
-		                                data.getClassAttribute());
 		
+	    decisionTree = new DecisionTree(data.getClassAttribute());
 		List<Attribute> availableAttributes = removeAttributeById(data.getAttributeSet().getAttributes(),
 		                                                          data.getClassAttributeId());
 		
@@ -51,7 +50,7 @@ public class ID3TreeBuilder
 								  null,
 								  availableAttributes);
 		
-		decisionTree.setRoot(root);
+		decisionTree.setRoot(root);		
 		return decisionTree;	
 	}
 	

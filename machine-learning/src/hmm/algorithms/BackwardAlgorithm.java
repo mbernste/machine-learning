@@ -5,7 +5,8 @@ import hmm.State;
 
 import java.util.ArrayList;
 
-import common.LogP;
+import math.LogP;
+
 
 
 

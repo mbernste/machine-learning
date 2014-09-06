@@ -6,14 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-import data.attribute.Attribute;
+import data.Attribute;
 
 /**
  * A single node in a CPD tree.  Each node splits the instances in the training
  * set on a certain value of a certain attribute.
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
- *
  */
 public class CPDNode 
 {

@@ -1,6 +1,6 @@
 package tree;
 
-import data.attribute.Attribute;
+import data.Attribute;
 
 /**
  * The leaf of a decision tree.

@@ -1,5 +1,5 @@
+import math.LogP;
 import pair.Pair;
-import common.LogP;
 
 import hmm.HMM;
 import hmm.State;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import data.attribute.Attribute;
+import data.Attribute;
 
 /**
  * Objects of this class are used for querying a conditional probability 

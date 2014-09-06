@@ -6,7 +6,7 @@ import java.util.Set;
 import bayes.cpd.CPDQuery;
 import bayes.cpd.CPDTree;
 
-import data.attribute.Attribute;
+import data.Attribute;
 
 /**
  * A single node in a {@code BayesianNetwork} object

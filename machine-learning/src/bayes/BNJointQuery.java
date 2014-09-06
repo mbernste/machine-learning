@@ -2,7 +2,7 @@ package bayes;
 
 import java.util.ArrayList;
 
-import data.attribute.Attribute;
+import data.Attribute;
 
 import pair.Pair;
 

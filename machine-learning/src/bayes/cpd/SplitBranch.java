@@ -1,9 +1,9 @@
 package bayes.cpd;
 
 
-import data.attribute.Attribute;
-import data.instance.Instance;
-import data.instance.InstanceSet;
+import data.Attribute;
+import data.Instance;
+import data.InstanceSet;
 
 /**
  * This class stores all instances for which a specific attribute matches a 

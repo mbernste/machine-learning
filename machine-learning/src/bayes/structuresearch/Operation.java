@@ -1,4 +1,4 @@
-package bayes.builders;
+package bayes.structuresearch;
 
 import bayes.BNNode;
 

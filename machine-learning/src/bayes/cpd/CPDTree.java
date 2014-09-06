@@ -1,6 +1,6 @@
 package bayes.cpd;
 
-import data.attribute.AttributeSet;
+import data.AttributeSet;
 
 /**
  * A tree data structure used for representing and storing the 

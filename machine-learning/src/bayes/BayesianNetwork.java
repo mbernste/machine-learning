@@ -10,8 +10,8 @@ import bayes.cpd.CPDQuery;
 
 import pair.Pair;
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
 
 /**
  * Objects of this class encapsulate a complete Bayesian Network.

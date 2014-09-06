@@ -9,9 +9,9 @@ import java.util.Set;
 
 import pair.Pair;
 
-import data.attribute.Attribute;
-import data.attribute.AttributeSet;
-import data.instance.Instance;
+import data.Attribute;
+import data.AttributeSet;
+import data.Instance;
 
 /**
  * Encapsulates a learned decision tree.
@@ -96,8 +96,6 @@ public class DecisionTree
 		nodeSet.put(nodeCount, rootNode);
 		nodeCount++;
 	}
-	
-	
 	
 	@Override
 	public String toString()

@@ -1,6 +1,6 @@
 package hmm;
 
-import common.LogP;
+import math.LogP;
 
 /**
  * This class implements a transition between two states in the Markov model: 

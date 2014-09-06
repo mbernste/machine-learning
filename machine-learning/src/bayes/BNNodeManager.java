@@ -12,9 +12,9 @@ import java.util.Map;
 import bayes.cpd.CPDTree;
 import bayes.cpd.CPDTreeBuilder;
 
+import data.Attribute;
+import data.AttributeSet;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.attribute.AttributeSet;
 
 /**
  * Manages the nodes and all node and edge operations in a Bayesian network

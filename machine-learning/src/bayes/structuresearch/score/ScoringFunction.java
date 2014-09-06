@@ -1,4 +1,4 @@
-package bayes.builders.scoring;
+package bayes.structuresearch.score;
 
 import data.DataSet;
 

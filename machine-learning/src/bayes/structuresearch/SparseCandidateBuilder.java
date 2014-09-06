@@ -1,4 +1,4 @@
-package bayes.builders;
+package bayes.structuresearch;
 
 
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import pair.Pair;
 import bayes.BNNode;
 import bayes.BNResultWriter;
 import bayes.BayesianNetwork;
-import bayes.builders.scoring.ScoringFunction;
 import bayes.information.KLDivergence;
+import bayes.structuresearch.score.ScoringFunction;
 
 public class SparseCandidateBuilder extends HillClimbingBuilder
 {   

@@ -2,10 +2,10 @@ package applications;
 
 
 
-import common.classification.ClassificationResult;
+import classify.ClassificationResult;
 
 import data.DataSet;
-import data.arff.ArffReader;
+import data.reader.ArffReader;
 import bayes.classifiers.NaiveBayesClassifier;
 
 

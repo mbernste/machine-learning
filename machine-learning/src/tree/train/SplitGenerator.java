@@ -9,15 +9,13 @@ import java.util.Map;
 
 import tree.DtNode;
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.instance.Instance;
+import data.Instance;
 
 /**
  * This utility class is used for splitting instances by values of specific 
  * attributes.
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
  */
 public class SplitGenerator 

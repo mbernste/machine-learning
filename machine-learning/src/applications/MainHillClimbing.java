@@ -5,10 +5,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.kfold.KFoldCreator;
 
 import data.DataSet;
-import data.arff.ArffReader;
+import data.fold.KFoldCreator;
+import data.reader.ArffReader;
 
 
 import pair.Pair;
@@ -16,8 +16,8 @@ import pair.Pair;
 import bayes.BNEvaluator;
 import bayes.BNResultWriter;
 import bayes.BayesianNetwork;
-import bayes.builders.HillClimbingBuilder;
-import bayes.builders.scoring.BIC;
+import bayes.structuresearch.HillClimbingBuilder;
+import bayes.structuresearch.score.BIC;
 
 public class MainHillClimbing 
 {

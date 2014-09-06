@@ -1,6 +1,6 @@
 package hmm.algorithms;
 
-import common.LogP;
+import math.LogP;
 
 import hmm.HMM;
 import hmm.State;

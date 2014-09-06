@@ -1,11 +1,12 @@
 package tree.train;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.instance.Instance;
-import data.instance.InstanceSet;
+import data.Instance;
+import data.InstanceSet;
 
 /**
  * This class splits a set of instances along an attribute.  It stores the
@@ -23,7 +24,7 @@ public class Split
 	 * value greater than the threshold and one branch for all instances less 
 	 * than or equal to the threshold value.
 	 */
-	private ArrayList<SplitBranch> branches;
+	private List<SplitBranch> branches;
 	
 	/**
 	 * The attribute this Split splits instances on
@@ -93,7 +94,7 @@ public class Split
 	/**
 	 * @return each branch along this split
 	 */
-	public ArrayList<SplitBranch> getSplitBranches()
+	public List<SplitBranch> getSplitBranches()
 	{
 		return branches;
 	}

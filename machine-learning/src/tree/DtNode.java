@@ -3,8 +3,8 @@ package tree;
 import java.util.Comparator;
 import java.util.Map;
 
-import data.attribute.Attribute;
-import data.instance.Instance;
+import data.Attribute;
+import data.Instance;
 
 /**
  * A node in a decision tree.

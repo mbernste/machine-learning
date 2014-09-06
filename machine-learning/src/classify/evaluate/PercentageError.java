@@ -1,10 +1,8 @@
-package common.evaluate;
+package classify.evaluate;
 
 /**
- * Methods for evaluating percentage errors
+ * Methods for evaluating percentage errors from classification experiments.
  * 
- * @author Matthew Bernstein
- *
  */
 public class PercentageError 
 {

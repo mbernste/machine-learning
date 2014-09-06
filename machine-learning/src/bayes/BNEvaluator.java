@@ -3,9 +3,9 @@ package bayes;
 import java.util.ArrayList;
 
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.instance.Instance;
+import data.Instance;
 
 public class BNEvaluator 
 {

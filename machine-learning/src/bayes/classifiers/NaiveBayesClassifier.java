@@ -3,21 +3,22 @@ package bayes.classifiers;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import common.classification.ClassificationResult;
-import common.classification.Classifier;
+import classify.ClassificationResult;
+import classify.Classifier;
+
 
 
 
 import pair.Pair;
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.instance.Instance;
+import data.Instance;
 import bayes.BNNode;
 import bayes.BayesianNetwork;
-import bayes.builders.NaiveBayesBuilder;
-import bayes.builders.TANBuilder;
 import bayes.cpd.CPDQuery;
+import bayes.structuresearch.NaiveBayesBuilder;
+import bayes.structuresearch.TANBuilder;
 
 /**
  * A classifier for performing a classification task using a Naive Bayesian 

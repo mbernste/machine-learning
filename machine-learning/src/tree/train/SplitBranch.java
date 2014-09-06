@@ -1,18 +1,15 @@
 package tree.train;
 
 import tree.DtNode;
-import data.attribute.Attribute;
-import data.instance.Instance;
-import data.instance.InstanceSet;
+import data.Attribute;
+import data.Instance;
+import data.InstanceSet;
 
 /**
  * This class represents a single branch along a split.  If a split splits 
  * instances along attribute A where A can take values {a1, a2, a3}, this split
- * will have 3 split branches for storing instances whose value of A is a1, a2, 
- * and a3.
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
- *
+ * will store 3 split branches for storing instances whose value of A is a1, a2, 
+ * and a3. 
  */
 public class SplitBranch 
 {

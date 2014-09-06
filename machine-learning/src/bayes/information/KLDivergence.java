@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
+import data.Attribute;
 import data.DataSet;
-import data.attribute.Attribute;
-import data.instance.Instance;
+import data.Instance;
 
 /**
  * This class is used to calculate the Kullback-Leibler Divergence 

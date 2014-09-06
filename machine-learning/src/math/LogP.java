@@ -1,13 +1,10 @@
-package common;
+package math;
 
 /**
  * Methods for dealing in log-probability space.  This class includes methods
  * for converting to and from log-values as well as taking products and 
  * summations over log-probabilities.
  * 
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
- *
  */
 public class LogP 
 {
@@ -130,6 +127,5 @@ public class LogP
 		{
 			return eLnX - eLnY;
 		}
-	}
-	
+	}	
 }
