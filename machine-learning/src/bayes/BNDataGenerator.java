@@ -2,6 +2,7 @@ package bayes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -38,9 +39,6 @@ public class BNDataGenerator
          */
         DataSet generated = new DataSet();
         
-        // TODO REMOVE
-        //generated.setAttributeSet(net.nodes.getAttributeSet());
-        
         /*
          * Build instance set and set the instance set to the new data set
          */
@@ -52,9 +50,6 @@ public class BNDataGenerator
             for (BNNode node : net.nodes.topologicallySorted())
             {                              
                 setAttrInstance(node, newInst); 
-                
-                // TODO REMOVE:
-                //System.out.print("\n");
             }
             
             instances.addInstance(newInst);
@@ -91,13 +86,10 @@ public class BNDataGenerator
         Map<Double, Double> valueProbabilities = 
                     new HashMap<Double, Double>();
         
-        // TODO REMOVE
-        //System.out.println("ATTRIBUTE: " + thisAttr.getName());
-        
         /*
          * Stores attribute/value pairs
          */
-        ArrayList<Pair<Attribute, Integer>> parentValues
+        List<Pair<Attribute, Integer>> parentValues
                                    = new ArrayList<Pair<Attribute, Integer>>();
         /*
          * Organize all parent's attribute/value pairs
@@ -107,9 +99,6 @@ public class BNDataGenerator
 
             Attribute parentAttr = parentNode.getAttribute();
             Double instValue = instance.getAttributeValue(parentAttr);
-            
-            // TODO REMOVE
-            //System.out.println("PARENT:" + parentNode.getAttribute().getName());
             
             if (instValue == null)
             {
@@ -148,16 +137,6 @@ public class BNDataGenerator
          */
         Double value = pickRandomValue(valueProbabilities);
         instance.addAttributeInstance(thisAttr.getId(), value);
-        
-        //TODO REMOVE ALL THIS DEBUG STUFF
-        /*
-        System.out.println("PICKED " + thisAttr.getNominalValueName(value.intValue()));
-        System.out.println("PROBABILITIES" + thisAttr.getName());
-        for (Entry<Double, Double> entry : valueProbabilities.entrySet())
-        {   
-            String valName = thisAttr.getNominalValueName(entry.getKey().intValue());
-            System.out.println(valName + " : " + entry.getValue());
-        }*/
     }
     
     /**
@@ -197,6 +176,4 @@ public class BNDataGenerator
         
         return null;
     }
-    
-
 }

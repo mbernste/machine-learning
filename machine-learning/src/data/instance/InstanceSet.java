@@ -1,6 +1,7 @@
 package data.instance;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a set of {@code Instance} objects.
@@ -13,7 +14,7 @@ public class InstanceSet
 	/**
 	 * All instances in this instance set
 	 */
-	ArrayList<Instance> instances;
+	private final List<Instance> instances;
 	
 	/**
 	 * Constructor
@@ -26,7 +27,7 @@ public class InstanceSet
 	/**
 	 * @return a list of all instances in this instance set
 	 */
-	public ArrayList<Instance> getInstanceList()
+	public List<Instance> getInstances()
 	{
 		return instances;
 	}
@@ -42,23 +43,12 @@ public class InstanceSet
 	}
 	
 	/**
-	 * Get an instance at a specific index of the internal list storing all
-	 * instances
-	 * 
-	 * @param index the index of the instance to be retrieved
-	 * @return the instance at the target instance
+	 * @param id the unique ID of a specific instance
+	 * @return the instance with specified ID
 	 */
-	public Instance getInstanceAt(int index)
+	public Instance getInstanceById(int id)
 	{
-		return instances.get(index);
-	}
-	
-	/**
-	 * @return the number of instances in the instance set
-	 */
-	public int getNumInstances()
-	{
-		return instances.size();
+		return instances.get(id);
 	}
 	
 	public String toString(){

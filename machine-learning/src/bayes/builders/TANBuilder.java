@@ -4,6 +4,7 @@ import graph.prim.Edge;
 import graph.prim.Prim;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 import pair.Pair;
@@ -21,7 +22,7 @@ public class TANBuilder extends NetworkBuilder
 
     private DataSet data;
 
-    private ArrayList<Attribute> nonClassAttributes;
+    private List<Attribute> nonClassAttributes;
 
     @SuppressWarnings("unchecked")
     public void Initialize(DataSet data, Integer laplaceCount)
@@ -30,8 +31,11 @@ public class TANBuilder extends NetworkBuilder
         this.laplaceCount = laplaceCount;
 
         // Get all Attributes not including the class attribute
-        nonClassAttributes = (ArrayList<Attribute>)
-                data.getAttributeList().clone();
+      //  nonClassAttributes = (ArrayList<Attribute>)
+        //        data.getAttributeSet().getAttributes().clone();
+    
+       // nonClassAttributes = new AttributeSet(data.getAttributeSet()).getAttributes();
+        
         nonClassAttributes.remove(data.getClassAttribute());
     }
 
@@ -226,7 +230,7 @@ public class TANBuilder extends NetworkBuilder
         int numeratorCount = 0;
         int denomCount = 0;
 
-        for (Instance instance : data.getInstanceSet().getInstanceList())
+        for (Instance instance : data.getInstanceSet().getInstances())
         {
             // Get the IDs of the two non-class Attributes
             Integer attrId1 = pair1.getFirst().getId();
@@ -289,7 +293,7 @@ public class TANBuilder extends NetworkBuilder
         int numeratorCount = 0;
         int denomCount = 0;
 
-        for (Instance instance : data.getInstanceSet().getInstanceList())
+        for (Instance instance : data.getInstanceSet().getInstances())
         {
             // Get the IDs of the two non-class Attributes
             Integer attrId = pair.getFirst().getId();
@@ -346,9 +350,9 @@ public class TANBuilder extends NetworkBuilder
         int classAttrId = data.getClassAttributeId();
 
         int numeratorCount = 0;
-        int denomCount = data.getNumInstances();
+        int denomCount = data.getInstanceSet().getInstances().size();
 
-        for (Instance instance : data.getInstanceSet().getInstanceList())
+        for (Instance instance : data.getInstanceSet().getInstances())
         {
             // Get the IDs of the two non-class Attributes
             Integer attrId1 = pair1.getFirst().getId();

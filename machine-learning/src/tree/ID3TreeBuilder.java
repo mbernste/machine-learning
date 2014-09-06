@@ -1,6 +1,7 @@
 package tree;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import tree.train.Split;
@@ -20,7 +21,7 @@ import data.attribute.Attribute;
  * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
  */
-public class ID3Builder 
+public class ID3TreeBuilder 
 {
     /**
      * The decision tree under construction
@@ -35,14 +36,13 @@ public class ID3Builder
 	 * @param data the training data set
 	 * @return a constructed decision tree
 	 */
-	public DecisionTree generateDecisionTree(Integer minInstances, DataSet data)
+	public DecisionTree buildDecisionTree(Integer minInstances, DataSet data)
 	{
 		decisionTree = new DecisionTree( 
 		                                data.getClassAttribute());
 		
-		ArrayList<Attribute> availableAttributes 
-		                        = removeAttributeById(data.getAttributeList(),
-												      data.getClassAttributeId());
+		List<Attribute> availableAttributes = removeAttributeById(data.getAttributeSet().getAttributes(),
+		                                                          data.getClassAttributeId());
 		
 		DtNode root = makeSubTree(minInstances, 
 								  data, 
@@ -78,14 +78,14 @@ public class ID3Builder
 							 Attribute attribute,
 							 Double value,
 							 DtNode.Relation relation,
-							 ArrayList<Attribute> availAttrs)
+							 List<Attribute> availAttrs)
 	{		
 		DtNode newNode = null;
 
 		/*
 		 *  Determine candidate splits
 		 */
-		ArrayList<Split> candidateSplits 
+		List<Split> candidateSplits 
 		                      = SplitGenerator.generateSplits(data, availAttrs);
 
 		/*
@@ -134,7 +134,7 @@ public class ID3Builder
 				subsetData.setInstanceSet(branch.getInstanceSet());
 				subsetData.setClassAttribute(data.getClassAttribute().getName());
 				
-				ArrayList<Attribute> newAvailableAttributes;
+				List<Attribute> newAvailableAttributes;
 				
 				/*
 				 *  Only remove the attribute if it is nominal
@@ -180,10 +180,10 @@ public class ID3Builder
 	 * @param attrId the ID of the Attribute we wish to remove
 	 * @return
 	 */
-	private ArrayList<Attribute> removeAttributeById(ArrayList<Attribute> currAttrs, 
+	private List<Attribute> removeAttributeById(List<Attribute> currAttrs, 
 	                                                 Integer attrId)
 	{
-		ArrayList<Attribute> newAttributes = new ArrayList<Attribute>();
+		List<Attribute> newAttributes = new ArrayList<>();
 		
 		for (Attribute attr : currAttrs)
 		{
@@ -214,63 +214,50 @@ public class ID3Builder
 	 * been reached
 	 * @return
 	 */
-	private Boolean checkStoppingCriteria(DataSet data, 
+	private boolean checkStoppingCriteria(DataSet data, 
 										  int minInstances, 
-										  ArrayList<Attribute> availAttributes,
-										  ArrayList<Split> candidateSplits)
+										  List<Attribute> availAttributes,
+										  List<Split> candidateSplits)
 	{
-		
-		/*
-		 * 1. Check whether or not all candidate splits have negative 
-		 * information gain
-		 */
-		int numPosInfoGain = 0;
-		for (Split split : candidateSplits)
-		{
-			if (split.getInfoGain() > 0)
-			{
-				numPosInfoGain++;
-			}
-		}
-		
-		if (numPosInfoGain == 0)
-		{
-			return true;
-		}
-			
-		
-		/*
-		 * 2. Check that we still have available attributes to split on
-		 */
-		if (availAttributes.size() < 1)
-		{
-				return true;
-		}
-		
-		/*
-		 * 3. Check that number of instances is not less than our threshold
-		 */
-		if (data.getNumInstances() < minInstances)
-		{
-			return true;
-		}
-		
-		/*
-		 *  4. Check if all instances are of the same class
-		 */
-		for (Integer count : data.getClassCounts().values()) 
-		{
-			if (count == data.getNumInstances())
-			{
-				return true;
-			}
-		}
-		
-		/*
-		 *  If none of the conditions are met, we have not met the stopping 
-		 *  criteria
-		 */
-		return false;
+	    int numInstances = data.getInstanceSet().getInstances().size();
+		return isAllCandidateSplitsNegativeInfoGain(candidateSplits) || 
+		       availAttributes.isEmpty() ||
+		       numInstances < minInstances ||
+		       isAllInstancesOfSameClass(data);
+	}
+	
+	/**
+	 * @param candidateSplits all candidate splits
+	 * @return true if all candidate splits have negative information gain. 
+	 * False otherwise.
+	 */
+	private boolean isAllCandidateSplitsNegativeInfoGain(List<Split> candidateSplits) 
+	{
+        for (Split split : candidateSplits)
+        {
+            if (split.getInfoGain() > 0)
+            {
+                return false;
+            }
+        }
+        return true;
+	}
+	
+	/**
+	 * @param data the dataset
+	 * @return true if if all instances are of the same class.  False otherwise.
+	 */
+	private boolean isAllInstancesOfSameClass(DataSet data)
+	{
+        for (Integer count : data.getClassCounts().values()) 
+        {
+            int numInstances = data.getInstanceSet().getInstances().size();
+            if (count == numInstances)
+            {
+                return true;
+            }
+        }
+        return false;
 	}
 	
 	/**

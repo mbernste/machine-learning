@@ -31,7 +31,7 @@ public class SplitGenerator
 	 * @return
 	 */
 	public static Split determineBestSplit(DataSet data, 
-	                                       ArrayList<Split> candidateSplits)
+	                                       List<Split> candidateSplits)
 	{
 		Split bestSplit = null;
 		double highestInfoGain = -Double.MAX_VALUE;
@@ -54,10 +54,10 @@ public class SplitGenerator
 	 * @param attrId the attribute ID of the attribute we wish to split on
 	 * @return a list of Splits
 	 */
-	public static ArrayList<Split> generateSplits(DataSet data, 
-	                                              ArrayList<Attribute> availAttrs)
+	public static List<Split> generateSplits(DataSet data, 
+	                                              List<Attribute> availAttrs)
 	{
-		ArrayList<Split> splits = new ArrayList<Split>();
+		List<Split> splits = new ArrayList<Split>();
 		
 		for (Attribute currAttr : availAttrs)
 		{	
@@ -126,7 +126,7 @@ public class SplitGenerator
 		 * Bin instances by their attribute value.  We create one bin per unique
 		 * continuous value of this attribute.
 		 */ 
-		for (Instance instance : data.getInstanceList())
+		for (Instance instance : data.getInstanceSet().getInstances())
 		{
 			double value = instance.getAttributeValue(attr);
 			Attribute classAttr = data.getClassAttribute();

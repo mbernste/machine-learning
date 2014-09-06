@@ -30,7 +30,7 @@ public class Instance
 	 */
 	public Instance(int id)
 	{
-		attributes = new HashMap<Integer, Double>();
+		attributes = new HashMap<>();
 		this.id = id;
 	}
 	

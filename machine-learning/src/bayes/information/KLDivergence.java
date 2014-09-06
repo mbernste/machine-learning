@@ -122,20 +122,20 @@ public class KLDivergence {
 				
 		//iterate through instances and update count of relevant entry in
 		//the probability table
-		for(Instance inst: dataP.getInstanceList()){
+		for(Instance inst: dataP.getInstanceSet().getInstances()){
 			int[] indices = convertInstanceToIndices(inst);
 			pProbabilities[convertIndicesToIndex(indices)]++;
 		}
 		
-		for(Instance inst: dataQ.getInstanceList()){
+		for(Instance inst: dataQ.getInstanceSet().getInstances()){
 			int[] indices = convertInstanceToIndices(inst);
 			qProbabilities[convertIndicesToIndex(indices)]++;
 		}
 		
 		
 		//divide each count by num instances to get probability
-		int numPInstances = dataP.getNumInstances();
-		int numQInstances = dataQ.getNumInstances();
+		int numPInstances = dataP.getInstanceSet().getInstances().size();
+		int numQInstances = dataQ.getInstanceSet().getInstances().size();;
 		for(int i = 0; i < pProbabilities.length; i++){
 			pProbabilities[i] /= numPInstances;
 			qProbabilities[i] /= numQInstances;
@@ -169,7 +169,7 @@ public class KLDivergence {
 		ArrayList<Instance> uniqueP = new ArrayList<Instance>();
 		ArrayList<Instance> uniqueQ = new ArrayList<Instance>();
 		
-		for(Instance inst: dataP.getInstanceSet().getInstanceList()){
+		for(Instance inst: dataP.getInstanceSet().getInstances()){
 			//If not yet seen, can add to both lists.
 			if(!contains(uniqueP, inst)){
 				uniqueP.add(inst);
@@ -177,7 +177,7 @@ public class KLDivergence {
 			}
 		}
 		
-		for(Instance inst: dataQ.getInstanceSet().getInstanceList()){
+		for(Instance inst: dataQ.getInstanceSet().getInstances()){
 			//If not yet seen in uniqueQ, may still be in union
 			if(!contains(uniqueQ,inst)){
 				uniqueQ.add(inst);

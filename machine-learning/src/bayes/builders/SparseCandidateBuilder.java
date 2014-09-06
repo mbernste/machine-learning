@@ -418,7 +418,8 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
         /*
          * Generate the dataset
          */
-        DataSet bayesData = net.generateDataSet(data.getNumInstances());
+        int numInstances = data.getInstanceSet().getInstances().size();
+        DataSet bayesData = net.generateDataSet(numInstances);
         
         /*
          * Remove the edge
@@ -438,9 +439,6 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
      * A directed edge in the network paired with the KL-Divergence of the 
      * two attributes' joint probability between the training distribution and
      * the current net distribution
-     * 
-     * @author matthewbernstein
-     *
      */
     private static class KlEdgeScorePair
     {

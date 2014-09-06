@@ -35,7 +35,7 @@ public class CPDTreeBuilder
         /*
          *  Set total instances
          */
-        CPDTree.totalInstances = data.getNumInstances();
+        CPDTree.totalInstances = data.getInstanceSet().getInstances().size();
 
         /*
          * Build the tree
@@ -86,17 +86,18 @@ public class CPDTreeBuilder
          *  If the stopping criteria is met, create a leaf node with a 
          *	probability of the condition being met
          */
+        int numInstances = data.getInstanceSet().getInstances().size();
         if (stoppingCriteria)
         {
             CPDLeaf leaf = new CPDLeaf(attribute, 
                                        value, 
-                                       data.getNumInstances(),
+                                       numInstances,
                                        laplaceCount);
             newNode = leaf;
         }
         else
         {
-            newNode = new CPDNode(attribute, value, data.getNumInstances());
+            newNode = new CPDNode(attribute, value, numInstances);
 
             /*
              *  Create the split on the current attribute

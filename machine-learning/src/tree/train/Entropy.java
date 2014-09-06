@@ -56,10 +56,8 @@ public class Entropy
 	public static Double entropy(DataSet data)
 	{
 		double entropy = 0;
-		
+	    double totalInstances = data.getInstanceSet().getInstances().size();
 		Map<Integer, Integer> classCounts = data.getClassCounts();
-		
-		double totalInstances = data.getNumInstances();
 
 		/*
 		 *  Calculate the entropy by summer P*log(P) for each P,
@@ -98,7 +96,7 @@ public class Entropy
 	public static Double conditionalEntropy(DataSet data, Split split)
 	{
 		double conditionalEntropy = 0;	
-		double totalInstances = data.getNumInstances();
+		double totalInstances = data.getInstanceSet().getInstances().size();
 		
 		if (totalInstances > 0)
 		{
@@ -109,8 +107,9 @@ public class Entropy
 				branchData.setInstanceSet(branch.getInstanceSet());
 				branchData.setClassAttribute(data.getClassAttribute().getName());
 				
+				int branchNumInstances = branchData.getInstanceSet().getInstances().size();
 				conditionalEntropy += 
-						((branchData.getNumInstances() / totalInstances) * entropy(branchData));
+						((branchNumInstances / totalInstances) * entropy(branchData));
 			}
 		}
 		

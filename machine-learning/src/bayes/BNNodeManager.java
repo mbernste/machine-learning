@@ -5,6 +5,7 @@ import graph.dag.TopologicalSort;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -78,7 +79,7 @@ public class BNNodeManager
      * @return a list of all attributes that are represented by nodes in the
      * network
      */
-    public ArrayList<Attribute> getAttributes()
+    public List<Attribute> getAttributes()
     {
         return this.attributes.getAttributes();
     }

@@ -1,7 +1,7 @@
 package data;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -127,14 +127,6 @@ public class DataSet
 	}
 	
 	/**
-	 * @return a list of all instances in the data set
-	 */
-	public ArrayList<Instance> getInstanceList()
-	{
-	    return instanceSet.getInstanceList();
-	}
-	
-	/**
 	 * @return the set of all attributes that all instances in this data set
 	 * have
 	 */
@@ -142,53 +134,25 @@ public class DataSet
 	{
 		return attributeSet;
 	}
-	
-	/**
-	 * @return a list of all attributes that all instances in this data set
-	 * have 
-	 */
-	public ArrayList<Attribute> getAttributeList()
-	{
-		return attributeSet.getAttributes();
-	}
 
 	/**
-	 * Return an attribute based on its name
-	 * 
-	 * @param attrName the target attribute's name
-	 * @return the target attribute
+	 * @param attrName an attribute's name
+	 * @return the attribute with the specified name
 	 */
 	public Attribute getAttributeByName(String attrName)
 	{
 		return attributeSet.getAttributeByName(attrName);
 	}
 	
-	/**
-	 * Return an attribute based on its unique integer ID
-	 * 
-	 * @param attrId the target attribute's unique integer ID
-	 * @return the target attribute
+	/** 
+	 * @param attrId an attribute's unique ID
+	 * @return the attribute with the specified ID
 	 */
 	public Attribute getAttributeById(Integer attrId)
 	{
 		return attributeSet.getAttributeById(attrId);
 	}
 	
-	/** 
-	 * @return the number of instances in the data set
-	 */
-	public int getNumInstances()
-	{
-		return instanceSet.getNumInstances();
-	}
-	
-	/**
-	 * @return the number of attributes that all instances in the data set have
-	 */
-	public int getNumAttributes()
-	{
-		return attributeSet.getNumAttributes();
-	}
 	
 	/**
 	 * Print the attributes in a descriptive easy to read format such that each
@@ -207,12 +171,7 @@ public class DataSet
 	 */
 	public void printInstances()
 	{
-		ArrayList<Instance> instances = instanceSet.getInstanceList();
-		
-		/*
-		 *  For each instance, iterate through each attribute and print the
-		 *  instances value for each attribute 
-		 */
+		List<Instance> instances = instanceSet.getInstances();
 		for (Instance instance : instances)
 		{
 			printInstance(instance);	
@@ -227,7 +186,6 @@ public class DataSet
 	public void printClassCounts()
 	{
 		System.out.println("Class Attribute -> " + classAttribute.getName());
-		
 		for (Integer classLabelValue : classCounts.keySet())
 		{
 			System.out.print( classAttribute.getNominalValueName(classLabelValue) );
@@ -235,7 +193,6 @@ public class DataSet
 			System.out.print( classCounts.get(classLabelValue) );
 			System.out.print("\n");
 		}
-		
 		System.out.print("\n");
 	}
 	
@@ -248,15 +205,12 @@ public class DataSet
 	{
 		classCounts = new HashMap<Integer, Integer>();
 
-		/*
-		 *  Get the ID of the class attribute
-		 */
+
+        /*
+         *  Create an entry in the classCounts map for each possible value
+         *  (i.e. label of the class attribute) 
+         */
 		int classAttrId = classAttribute.getId();
-		
-		/*
-		 *  Create an entry in the classCounts map for each possible value
-		 *  (i.e. label of the class attribute) 
-		 */
 		for (Integer classLabelValue : classAttribute.getNominalValueMap().values())
 		{
 			classCounts.put(new Integer(classLabelValue), new Integer(0));
@@ -266,7 +220,7 @@ public class DataSet
 		 *  For each instance in the instance set, increment the count of the class label
 		 *  for each instance of that class
 		 */
-		for (Instance instance : instanceSet.getInstanceList())
+		for (Instance instance : instanceSet.getInstances())
 		{
 			classCounts.put(
 					new Integer( instance.getAttributeValue(classAttrId).intValue() ),

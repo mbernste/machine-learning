@@ -2,6 +2,7 @@ package common.kfold;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import data.DataSet;
 import data.arff.ArffReader;
@@ -16,7 +17,7 @@ public class KFoldCreator {
 		ArffReader ar = new ArffReader();
 		DataSet data = ar.readFile("data/kfold_test.arff");
 		data.setClassAttribute("digit");
-		ArrayList<Pair<DataSet, DataSet>> pairs = KFoldCreator.create(data, 5);
+		List<Pair<DataSet, DataSet>> pairs = KFoldCreator.create(data, 5);
 		for(Pair<DataSet, DataSet> pair: pairs){
 			System.out.println("TRAIN:");
 			System.out.println(pair.getFirst());
@@ -26,22 +27,22 @@ public class KFoldCreator {
 		}
 	}
 	
-	public static ArrayList<Pair<DataSet, DataSet>> create(DataSet data, int K) {
+	public static List<Pair<DataSet, DataSet>> create(DataSet data, int K) {
 
 		InstanceSet is = data.getInstanceSet();
 		
-		ArrayList<Instance> instances = is.getInstanceList();
+		List<Instance> instances = is.getInstances();
 		Collections.shuffle(instances);
 		
 		
 		int numPerSplice = instances.size()/K;
-		ArrayList<Pair<DataSet, DataSet>> pairs = new ArrayList<Pair<DataSet, DataSet>>();
+		List<Pair<DataSet, DataSet>> pairs = new ArrayList<>();
 		
 		//For each fold
 		for(int i = 0; i < K; i++){
 			//fill training and testing lists
-			ArrayList<Instance> trainInst = new ArrayList<Instance>();
-			ArrayList<Instance> testInst = new ArrayList<Instance>();
+			List<Instance> trainInst = new ArrayList<>();
+			List<Instance> testInst = new ArrayList<>();
 			int left = i * numPerSplice;
 			int right = i * numPerSplice + numPerSplice;
 			trainInst.addAll(instances.subList(0, left));

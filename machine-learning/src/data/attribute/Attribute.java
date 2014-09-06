@@ -5,7 +5,9 @@ import java.util.Map;
 import bimap.BiMap;
 
 /**
- * Represents a single attribute that an instance can have.
+ * Represents a quantity describing an instance.  Every attribute has a domain
+ * of possible values.  An attribute, value pair forms a feature for a given
+ * instance.
  * 
  * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
@@ -25,23 +27,23 @@ public class Attribute
 	/**
 	 * Attribute name
 	 */
-	private String name;
+	private final String name;
 	
 	/**
 	 * This maps a name of a nominal value for this attribute to a unique
 	 * nominal value integer ID
 	 */
-	BiMap<String, Integer> nominalValueMap = null;
+	private final BiMap<String, Integer> nominalValueMap;
 	
 	/**
 	 * This Attribute's type (e.g. nominal)
 	 */
-	private int type;
+	private final int type;
 	
 	/**
 	 * This Attribute's unique integer ID
 	 */
-	private int id;
+	private final int id;
 	
 	/**
 	 * Constructor
@@ -56,13 +58,9 @@ public class Attribute
 		this.id = id;
 		this.type = type;
 		
-		/*
-		 * If this attribute is a nominal attribute, create its nominal value
-		 * mapping
-		 */
 		if (type == NOMINAL)
 		{
-			nominalValueMap = new BiMap<String, Integer>();
+			this.nominalValueMap = new BiMap<>();
 			
 			int count = 0;
 			for (String value : nominalValues)
@@ -72,21 +70,12 @@ public class Attribute
 			}
 			
 		}
-		else if (type == CONTINUOUS)
+		else
 		{
 			nominalValueMap = null;	
 		}
 	}
 	
-	/**
-	 * Get the name of the attribute.
-	 * 
-	 * @return the name of the attribute
-	 */
-	public String getName()
-	{
-		return name;
-	}
 	
 	/**
 	 * Get this attribute's id.  In an ARFF file, this ID corresponds
@@ -107,6 +96,14 @@ public class Attribute
 	public Integer getType()
 	{
 		return type;
+	}
+	
+	/**
+	 * @return the attribute's name
+	 */
+	public String getName()
+	{
+	    return name;
 	}
 	
 	/**

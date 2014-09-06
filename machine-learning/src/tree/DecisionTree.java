@@ -77,11 +77,9 @@ public class DecisionTree
 		return root;
 	}
 	
-	/**
-	 * Get a node with specific ID
-	 * 
+	/** 
 	 * @param nodeId the node's ID
-	 * @return the node
+	 * @return the node with given ID
 	 */
 	public Node getNode(Integer nodeId)
 	{
@@ -89,9 +87,7 @@ public class DecisionTree
 	}
 	
 	/**
-	 * Set the tree's root node
-	 * 
-	 * @param rootNode the root node
+	 * @param rootNode the tree's root node
 	 */
 	protected void setRoot(DtNode rootNode)
 	{

@@ -2,6 +2,7 @@ package data.attribute;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -21,7 +22,7 @@ public class AttributeSet
 	/**
 	 * All of the attributes in this attribute set
 	 */
-	ArrayList<Attribute> attributes;
+	List<Attribute> attributes;
 	
 	/**
 	 * Total number of attributes in this set
@@ -38,8 +39,17 @@ public class AttributeSet
 	 */
 	public AttributeSet()
 	{
-		nameIdMapping = new HashMap<String, Integer>();
-		attributes = new ArrayList<Attribute>();
+		nameIdMapping = new HashMap<>();
+		attributes = new ArrayList<>();
+	}
+	
+	/**
+	 * Copy constructor 
+	 * 
+	 * @param original AttributeSet
+	 */
+	public AttributeSet(AttributeSet original) 
+	{
 	}
 	
 	/**
@@ -143,17 +153,9 @@ public class AttributeSet
 	}
 	
 	/**
-	 * @return
-	 */
-	public Integer getNumAttributes()
-	{
-		return attributes.size();
-	}
-	
-	/**
 	 * @return a list of all attributes in the attribute set
 	 */
-	public ArrayList<Attribute> getAttributes()
+	public List<Attribute> getAttributes()
 	{
 		return attributes;
 	}

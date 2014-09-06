@@ -3,6 +3,7 @@ package applications;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import common.kfold.KFoldCreator;
 
@@ -37,7 +38,7 @@ public class MainSparseCandidate
              */
             BIC bic = new BIC();
             
-            ArrayList<Pair<DataSet, DataSet>> folds = KFoldCreator.create(data, 5);
+            List<Pair<DataSet, DataSet>> folds = KFoldCreator.create(data, 5);
             
             
             out.println("Result on folds:");

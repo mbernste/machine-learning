@@ -25,7 +25,7 @@ public class BNEvaluator
     {
         Double logProduct = 0.0;
         
-        for (Instance instance : data.getInstanceList())
+        for (Instance instance : data.getInstanceSet().getInstances())
         {        
             ArrayList<BNConditionalQuery> queries = createQueries(instance, net, data);
             

@@ -15,7 +15,7 @@ public class BiClassTest
 	{
 		BiClassTestResults results = new BiClassTestResults();
 		
-		for (Instance instance : data.getInstanceSet().getInstanceList())
+		for (Instance instance : data.getInstanceSet().getInstances())
 		{
 			DtNode currNode = (DtNode) dt.getRoot();
 			

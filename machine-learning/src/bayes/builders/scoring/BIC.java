@@ -58,7 +58,8 @@ public class BIC implements ScoringFunction
     {
         Integer freeParameters = net.getTotalFreeParameters();
        
-        Double dataPointsWeight = Math.log(data.getNumInstances()) / 
+        int numInstances = data.getInstanceSet().getInstances().size();
+        Double dataPointsWeight = Math.log(numInstances) / 
                                   (Math.log(2));
                 
         return freeParameters * dataPointsWeight * 0.5;
@@ -79,7 +80,7 @@ public class BIC implements ScoringFunction
     {
         Double logProduct = 0.0;
         
-        for (Instance instance : data.getInstanceList())
+        for (Instance instance : data.getInstanceSet().getInstances())
         {        
             ArrayList<BNConditionalQuery> queries = createQueries(instance, net, data);
             

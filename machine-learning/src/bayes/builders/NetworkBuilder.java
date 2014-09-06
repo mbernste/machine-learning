@@ -40,7 +40,7 @@ abstract class NetworkBuilder
          *  Create a node corresponding to each nominal attribute in the 
          *  dataset. Continuous attributes are ignored.
          */
-        for (Attribute attr : data.getAttributeList())
+        for (Attribute attr : data.getAttributeSet().getAttributes())
         {
             if (attr.getType() == Attribute.NOMINAL)
             {
@@ -51,5 +51,4 @@ abstract class NetworkBuilder
 
         return net;
     }
-   
 }

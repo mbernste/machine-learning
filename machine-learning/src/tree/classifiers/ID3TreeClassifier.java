@@ -8,7 +8,7 @@ import common.classification.ClassificationResult;
 import common.classification.Classifier;
 
 import tree.DecisionTree;
-import tree.ID3Builder;
+import tree.ID3TreeBuilder;
 import data.DataSet;
 import data.instance.Instance;
 
@@ -18,8 +18,8 @@ public class ID3TreeClassifier implements Classifier
     
     public ID3TreeClassifier(int minInstances, DataSet trainData)
     {
-        ID3Builder id3Builder = new ID3Builder();       
-        dtTree = id3Builder.generateDecisionTree(minInstances, trainData);
+        ID3TreeBuilder id3Builder = new ID3TreeBuilder();       
+        dtTree = id3Builder.buildDecisionTree(minInstances, trainData);
     }
     
     
@@ -32,7 +32,7 @@ public class ID3TreeClassifier implements Classifier
         /*
          *  Classify each instance in the test dataset 
          */
-        for (Instance instance : testData.getInstanceSet().getInstanceList())
+        for (Instance instance : testData.getInstanceSet().getInstances())
         { 
             resultList.add( dtTree.classifyInstance(instance) );
         }

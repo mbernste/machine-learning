@@ -54,7 +54,7 @@ public class ClassificationResult
         {			
             Integer classification = resultList.get(i).getFirst();            
             Integer truth = testData.getInstanceSet()
-                    .getInstanceAt(i)
+                    .getInstanceById(i)
                     .getAttributeValue(classAttr).intValue();
 
             /*
@@ -77,7 +77,7 @@ public class ClassificationResult
         resultStr += correctCount;
 
         // Set metrics
-        this.testDataSize = testData.getNumInstances();
+        this.testDataSize = testData.getInstanceSet().getInstances().size();
         this.accuracy = (double) correctCount / this.testDataSize;
     }
 

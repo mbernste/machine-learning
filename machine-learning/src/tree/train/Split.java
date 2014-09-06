@@ -79,7 +79,7 @@ public class Split
     {
 	    InstanceSet instances = data.getInstanceSet();
 	    
-        for (Instance instance : instances.getInstanceList())
+        for (Instance instance : instances.getInstances())
         {
             for (SplitBranch branch : this.branches)
             {

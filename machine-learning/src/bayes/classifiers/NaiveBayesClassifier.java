@@ -85,7 +85,7 @@ public class NaiveBayesClassifier implements Classifier
         /*
          *	Classify each instance in the test dataset 
          */
-        for (Instance instance : testData.getInstanceSet().getInstanceList())
+        for (Instance instance : testData.getInstanceSet().getInstances())
         {
             resultList.add( this.classifyInstance(instance) );
         }
