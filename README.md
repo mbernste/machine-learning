@@ -17,7 +17,7 @@ Bayesian Networks:
     Hill Climbing Structure Search
     Sparse Candidate Structure Search
     
-   Scoring Functions:
+    *Scoring Functions:*
     Bayesian Information Criterion (BIC)
     
    Features:
