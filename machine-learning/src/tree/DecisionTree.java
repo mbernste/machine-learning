@@ -64,9 +64,7 @@ public class DecisionTree
 	 */
 	protected void addNode(DtNode newNode)
 	{
-		newNode.setNodeId(nodeCount);
 		nodeSet.put(nodeCount, newNode);
-		nodeCount++;
 	}
 	
 	/**
@@ -77,24 +75,13 @@ public class DecisionTree
 		return root;
 	}
 	
-	/** 
-	 * @param nodeId the node's ID
-	 * @return the node with given ID
-	 */
-	public Node getNode(Integer nodeId)
-	{
-		return nodeSet.get(nodeId);
-	}
-	
 	/**
 	 * @param rootNode the tree's root node
 	 */
 	protected void setRoot(DtNode rootNode)
 	{
 		root = rootNode;
-		root.setNodeId(nodeCount);
 		nodeSet.put(nodeCount, rootNode);
-		nodeCount++;
 	}
 	
 	@Override

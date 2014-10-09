@@ -42,7 +42,7 @@ abstract class NetworkBuilder
          */
         for (Attribute attr : data.getAttributeSet().getAttributes())
         {
-            if (attr.getType() == Attribute.NOMINAL)
+            if (attr.getType() == Attribute.Type.NOMINAL)
             {
                 BNNode newNode = new BNNode(attr);
                 net.addNode( newNode, data, this.laplaceCount );

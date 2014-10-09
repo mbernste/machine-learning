@@ -29,7 +29,7 @@ public class DtLeaf extends DtNode
 	public void addChild(Node child)
 	{
 		throw new UnsupportedOperationException("Error. Attempting to add" +
-				" a child Node to Leaf with ID of " + super.nodeId);
+				" a child Node to Leaf " + super.toString());
 	}
 	
 	public Integer getClassLabel()

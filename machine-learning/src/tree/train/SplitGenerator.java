@@ -59,13 +59,13 @@ public class SplitGenerator
 		
 		for (Attribute currAttr : availAttrs)
 		{	
-			if (currAttr.getType() == Attribute.NOMINAL)
+			if (currAttr.getType() == Attribute.Type.NOMINAL)
 			{
 				Split nominalSplit = createSplitNominal(currAttr);
 				nominalSplit.splitInstances(data);
 				splits.add(nominalSplit);
 			}
-			else if (currAttr.getType() == Attribute.CONTINUOUS)
+			else if (currAttr.getType() == Attribute.Type.CONTINUOUS)
 			{
 				/*
 				 *  Create all possible splits along the continuous attribute 

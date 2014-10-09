@@ -18,7 +18,6 @@ import data.DataSet;
  * instances are found at the leaf node, all instances at the leaf node are of 
  * the same class, or there are no more splits to split on.
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
  */
 public class ID3TreeBuilder 
@@ -138,7 +137,7 @@ public class ID3TreeBuilder
 				/*
 				 *  Only remove the attribute if it is nominal
 				 */
-				if (branch.getAttribute().getType() == Attribute.NOMINAL)
+				if (branch.getAttribute().getType() == Attribute.Type.NOMINAL)
 				{
 					newAvailableAttributes = removeAttributeById(availAttrs,
 											                     bestSplit.getAttribute().getId());

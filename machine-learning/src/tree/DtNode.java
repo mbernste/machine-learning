@@ -30,11 +30,11 @@ public class DtNode extends Node {
 					if (n1.attribute == n2.attribute)
 					{
 						Attribute attr = n1.attribute;
-						if (attr.getType() == Attribute.NOMINAL)
+						if (attr.getType() == Attribute.Type.NOMINAL)
 						{
 							return n1.nodeValue.compareTo(n2.nodeValue);
 						}
-						else if (attr.getType() == Attribute.CONTINUOUS)
+						else if (attr.getType() == Attribute.Type.CONTINUOUS)
 						{
 							return n1.relation.compareTo(n2.relation);
 						}
@@ -103,11 +103,11 @@ public class DtNode extends Node {
 		nodeStr += getRelationString();
 		nodeStr += " ";
 		
-		if (this.attribute.getType() == Attribute.NOMINAL)
+		if (this.attribute.getType() == Attribute.Type.NOMINAL)
 		{
 			nodeStr += attribute.getNominalValueName(nodeValue.intValue());
 		}
-		else if (this.attribute.getType() == Attribute.CONTINUOUS)
+		else if (this.attribute.getType() == Attribute.Type.CONTINUOUS)
 		{
 			nodeStr += nodeValue;
 		}

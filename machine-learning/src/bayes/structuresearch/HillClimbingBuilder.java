@@ -23,8 +23,6 @@ import bayes.structuresearch.score.ScoringFunction;
  * <br>
  * The algorithm stops its search when some stopping criteria is met.
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
- *
  */
 public class HillClimbingBuilder extends NetworkBuilder
 {
@@ -126,20 +124,11 @@ public class HillClimbingBuilder extends NetworkBuilder
      */
     protected void runIteration()
     {
-        /*
-         * Increment number of iterations run
-         */
         this.numIterations++;
-        
-        /*
-         * Find all valid operations on the current net
-         */
+       
         ArrayList<Operation> validOperations = getValidOperations(net.getNodes());
-    
-        /*
-         *  Calculate the score for each operation 
-         */
         ArrayList<Double> operationScores = new ArrayList<Double>();
+        
         for (int i = 0; i < validOperations.size(); i++)
         {
             Operation operation = validOperations.get(i);
@@ -177,7 +166,6 @@ public class HillClimbingBuilder extends NetworkBuilder
         
         if (currNetScore < prevNetScore)
         {
-            
             System.out.println(net);
             executeOperation(minOperation);
             

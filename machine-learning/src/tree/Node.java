@@ -5,8 +5,6 @@ import java.util.Set;
 
 /**
  * A node in a tree. 
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
  */
 public class Node 
@@ -19,12 +17,7 @@ public class Node
 	/**
 	 * This node's child in the tree
 	 */
-	protected Set<Node> children;
-	
-	/**
-	 * This node's ID
-	 */
-	protected Integer nodeId;
+	protected final Set<Node> children;
 		
 	/**
 	 * Constructor for creating a node
@@ -33,14 +26,6 @@ public class Node
 	public Node()
 	{
 		children = new HashSet<Node>();
-	}
-	
-	/**
-	 * @return this node's ID
-	 */
-	public Integer getId()
-	{
-		return this.nodeId;
 	}
 	
 	/**
@@ -83,20 +68,5 @@ public class Node
 	public void setParent(Node parent)
 	{
 		this.parent = parent;
-	}
-	
-	public String toString()
-	{
-		return this.nodeId.toString();
-	}
-	
-	/**
-	 * Set the node's ID.
-	 * 
-	 * @param id the node ID
-	 */
-	protected void setNodeId(Integer id)
-	{
-		this.nodeId = id;
 	}
 }

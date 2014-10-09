@@ -243,11 +243,11 @@ public class DataSet
 				/*
 				 *  Print the value of the attribute
 				 */
-				if (attribute.getType() == Attribute.CONTINUOUS)
+				if (attribute.getType() == Attribute.Type.CONTINUOUS)
 				{
 					System.out.print(attrValue);
 				}
-				else if (attribute.getType() == Attribute.NOMINAL)
+				else if (attribute.getType() == Attribute.Type.NOMINAL)
 				{
 					/*
 					 *  If the attribute is nominal, we need to get the name of the nominal value ID
