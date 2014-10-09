@@ -5,8 +5,6 @@ import data.Attribute;
 /**
  * The leaf of a decision tree.
  * 
- * @author Matthew Bernstein
- *
  */
 public class DtLeaf extends DtNode 
 {

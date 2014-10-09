@@ -1,6 +1,8 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.List;
 
 import bimap.BiMap;
 
@@ -24,7 +26,6 @@ public class Attribute
 	 * nominal value integer ID
 	 */
 	private final BiMap<String, Integer> nominalValueMap;
-	
 
 	private final Type type;
 	
@@ -50,19 +51,17 @@ public class Attribute
 		{
 		case NOMINAL:
 		    this.nominalValueMap = new BiMap<>();
-            
+		    
             int count = 0;
             for (String value : nominalValues)
-            {
-                nominalValueMap.put(value, count);
-                count++;
+            {     
+                nominalValueMap.put(value, count++);
             }
             break;
 		default:
 	          nominalValueMap = null; 
 	          break;
-		}
-		
+		}	
 	}
 	
 	

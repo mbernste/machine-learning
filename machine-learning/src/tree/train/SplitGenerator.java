@@ -176,7 +176,7 @@ public class SplitGenerator
 				Split split = new Split(attr);
 				SplitBranch leftBranch = new SplitBranch(attr, 
 				                                         new Double(splitValue), 
-				                                         DtNode.Relation.LESS_THEN_EQUAL_TO);
+				                                         DtNode.Relation.LESS_THAN_EQUAL_TO);
 				SplitBranch rightBranch = new SplitBranch(attr, 
 				                                          new Double(splitValue), 
 				                                          DtNode.Relation.GREATER_THAN);

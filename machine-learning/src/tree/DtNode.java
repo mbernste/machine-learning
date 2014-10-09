@@ -7,17 +7,15 @@ import data.Attribute;
 import data.Instance;
 
 /**
- * A node in a decision tree.
+ * A node in a decision tree. 
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
- *
  */
 public class DtNode extends Node {
 	    
     /**
-     * How an attribute is tested against a value at a decision tree node
+     * How an attribute is tested against the value at a decision tree node
      */
-    public static enum  Relation {EQUALS, LESS_THEN_EQUAL_TO, GREATER_THAN};
+    public static enum Relation {EQUALS, LESS_THAN_EQUAL_TO, GREATER_THAN};
 	
     /**
      * Compares two decision tree nodes
@@ -27,9 +25,9 @@ public class DtNode extends Node {
             {
 				public int compare(DtNode n1, DtNode n2) 
 				{
-					if (n1.attribute == n2.attribute)
+					if (n1.testedAttribute == n2.testedAttribute)
 					{
-						Attribute attr = n1.attribute;
+						Attribute attr = n1.testedAttribute;
 						if (attr.getType() == Attribute.Type.NOMINAL)
 						{
 							return n1.nodeValue.compareTo(n2.nodeValue);
@@ -65,13 +63,13 @@ public class DtNode extends Node {
 	/**
 	 * The attribute this node tests
 	 */
-	private Attribute attribute;
+	private Attribute testedAttribute;
 	
 	public DtNode(Attribute attribute, 
 				  Double nodeValue, 
 				  Relation relation)
 	{
-		this.attribute = attribute;
+		this.testedAttribute = attribute;
 		this.nodeValue = nodeValue;
 		this.relation = relation;
 	}
@@ -79,9 +77,9 @@ public class DtNode extends Node {
 	/**
 	 * @return the attribute tested at this decision tree node
 	 */
-	public Attribute getAttribute() 
+	public Attribute getTestedAttribute() 
 	{ 
-		return attribute;
+		return testedAttribute;
 	} 
 	
 	/**
@@ -91,64 +89,6 @@ public class DtNode extends Node {
 	public Double getNodevalue()
 	{
 		return this.nodeValue;
-	}
-	
-	@Override
-	public String toString()
-	{
-		String nodeStr = "";
-		
-		nodeStr += attribute.getName();
-		nodeStr += " ";
-		nodeStr += getRelationString();
-		nodeStr += " ";
-		
-		if (this.attribute.getType() == Attribute.Type.NOMINAL)
-		{
-			nodeStr += attribute.getNominalValueName(nodeValue.intValue());
-		}
-		else if (this.attribute.getType() == Attribute.Type.CONTINUOUS)
-		{
-			nodeStr += nodeValue;
-		}
-		
-		if (this.classCounts != null)
-		{
-			nodeStr += " [";
-			for (int nominalValueId = 0; nominalValueId < classCounts.size(); nominalValueId++)
-			{
-				//System.out.println(classLabelCounts.get(nominalValueId));
-				nodeStr += classCounts.get(nominalValueId).toString();
-				nodeStr += ", ";
-			}
-			nodeStr = nodeStr.substring(0, nodeStr.length() - 2 );
-			nodeStr += "]"; 
-		}	
-		return nodeStr;
-	}
-	
-	/**
-	 * @return "<", "=", or "<=" based on the relation to the value tested
-	 * at this decision tree node
-	 */
-	private String getRelationString()
-	{
-		String relationStr = "";
-		
-		switch(this.relation)
-		{
-		case EQUALS:
-			relationStr = "=";
-			break;
-		case GREATER_THAN:
-			relationStr = ">";
-			break;
-		case LESS_THEN_EQUAL_TO:
-			relationStr = "<=";
-			break;
-		}
-		
-		return relationStr; 
 	}
 	
 	public void setClassCounts(Map<Integer, Integer> classLabelCounts)
@@ -163,7 +103,7 @@ public class DtNode extends Node {
 	
 	public Boolean doesInstanceSatisfyNode(Instance instance)
 	{
-		Double instanceAttrValue = instance.getAttributeValue(attribute);
+		Double instanceAttrValue = instance.getAttributeValue(testedAttribute);
 		
 		Boolean result = null;
 		
@@ -175,12 +115,70 @@ public class DtNode extends Node {
 		case GREATER_THAN:
 			result = instanceAttrValue.doubleValue() > nodeValue.doubleValue();
 			break;
-		case LESS_THEN_EQUAL_TO:
+		case LESS_THAN_EQUAL_TO:
 			result = instanceAttrValue.doubleValue() <= nodeValue.doubleValue();
 			break;
 		}
 		
 		return result;	
 	}
+	
+	@Override
+    public String toString()
+    {
+        String nodeStr = "";
+        
+        nodeStr += testedAttribute.getName();
+        nodeStr += " ";
+        nodeStr += getRelationString();
+        nodeStr += " ";
+        
+        switch(this.testedAttribute.getType())
+        {
+            case NOMINAL:
+                nodeStr += testedAttribute.getNominalValueName(nodeValue.intValue());
+                break;
+            case CONTINUOUS:
+                nodeStr += nodeValue;
+                break;       
+        }
+        
+        if (this.classCounts != null)
+        {
+            nodeStr += " [";
+            for (int nominalValueId = 0; nominalValueId < classCounts.size(); nominalValueId++)
+            {
+                nodeStr += classCounts.get(nominalValueId).toString();
+                nodeStr += ", ";
+            }
+            nodeStr = nodeStr.substring(0, nodeStr.length() - 2 );
+            nodeStr += "]"; 
+        }   
+        return nodeStr;
+    }
+    
+    /**
+     * @return "<", "=", or "<=" based on the relation to the value tested
+     * at this decision tree node
+     */
+    private String getRelationString()
+    {
+        String relationStr = "";
+        
+        switch(this.relation)
+        {
+        case EQUALS:
+            relationStr = "=";
+            break;
+        case GREATER_THAN:
+            relationStr = ">";
+            break;
+        case LESS_THAN_EQUAL_TO:
+            relationStr = "<=";
+            break;
+        }
+        
+        return relationStr; 
+    }
 
 }

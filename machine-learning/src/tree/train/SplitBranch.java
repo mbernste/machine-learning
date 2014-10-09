@@ -120,7 +120,7 @@ public class SplitBranch
 			return (instanceAttrValue.doubleValue() == branchValue.doubleValue());
 		case GREATER_THAN:
 			return (instanceAttrValue.doubleValue() > branchValue.doubleValue());
-		case LESS_THEN_EQUAL_TO:
+		case LESS_THAN_EQUAL_TO:
 			return (instanceAttrValue.doubleValue() <= branchValue.doubleValue());
 		default:
 			throw new RuntimeException("Error testing instance in branch.  " +

@@ -10,9 +10,7 @@ import data.InstanceSet;
 
 /**
  * This class splits a set of instances along an attribute.  It stores the
- * separated instances sorted by the value of this split's attribute.
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ * separated instances sorted by the value of this split's attribute. 
  *
  */
 public class Split 
