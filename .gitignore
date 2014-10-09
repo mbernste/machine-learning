@@ -4,6 +4,7 @@ bin
 .settings
 .classpath
 .project
-data
+data_sets
+gold_standard
 results
 *.class
