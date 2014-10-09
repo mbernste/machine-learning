@@ -1,11 +1,10 @@
 package classify;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 import data.Attribute;
 import data.DataSet;
-
 import pair.Pair;
 
 /**
@@ -42,7 +41,7 @@ public class ClassificationResult
      *  
      * @param testData the DataSet object containing all test instances
      */
-    public ClassificationResult(ArrayList<Pair<Integer, Double>> resultList,
+    public ClassificationResult(List<Pair<Integer, Double>> resultList,
             DataSet testData)
     {
         Attribute classAttr = testData.getClassAttribute();

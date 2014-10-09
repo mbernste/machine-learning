@@ -154,7 +154,7 @@ public class DecisionTree
 	 * 
 	 * @param instance the instance to be classified
 	 * @return the nominal value ID of the class attribute predicted for the
-	 * given instance
+	 * given instance and a confidence value for that prediction
 	 */
 	public Pair<Integer, Double> classifyInstance(Instance instance)
 	{

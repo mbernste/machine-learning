@@ -1,6 +1,7 @@
 package tree.classifiers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import classify.ClassificationResult;
 import classify.Classifier;
@@ -23,12 +24,10 @@ public class ID3TreeClassifier implements Classifier
     @Override
     public ClassificationResult classifyData(DataSet testData) 
     {
-        ArrayList<Pair<Integer, Double>> resultList = 
-                new ArrayList<Pair<Integer, Double>>();
-
         /*
          *  Classify each instance in the test dataset 
          */
+        List<Pair<Integer, Double>> resultList = new ArrayList<>();
         for (Instance instance : testData.getInstanceSet().getInstances())
         { 
             resultList.add( dtTree.classifyInstance(instance) );
@@ -38,7 +37,6 @@ public class ID3TreeClassifier implements Classifier
          *  Process the results 
          */
         ClassificationResult result = new ClassificationResult(resultList, testData);
-
         return result;
     }
     

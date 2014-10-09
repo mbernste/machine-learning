@@ -13,7 +13,7 @@ import hmm.algorithms.ForwardAlgorithm;
 public class HMMExamples 
 {
     /**
-     * Example running the forward and backward algorithms on an HMM object
+     * Example running the forward and backward algorithms on an HMM object.
      */
     public static void main(String[] args)
     {
