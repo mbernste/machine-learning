@@ -20,31 +20,7 @@ import data.Instance;
  */
 public class SplitGenerator 
 {
-	/**
-	 * Find the Split with the highest information gain among the candidate 
-	 * splits
-	 * 
-	 * @param data
-	 * @param candidateSplits
-	 * @return
-	 */
-	public static Split determineBestSplit(DataSet data, 
-	                                       List<Split> candidateSplits)
-	{
-		Split bestSplit = null;
-		double highestInfoGain = -Double.MAX_VALUE;
-		
-		for (Split split : candidateSplits)
-		{
-			if (split.getInfoGain().doubleValue() > highestInfoGain)
-			{
-				highestInfoGain = split.getInfoGain().doubleValue();
-				bestSplit = split;
-			}
-		}
-				
-		return bestSplit;
-	}
+	
 	
 	/**
 	 * Generate all possible splits along a set of attribute

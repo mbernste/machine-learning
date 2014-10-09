@@ -12,7 +12,6 @@ import pair.Pair;
  * Objects of this class are used to store the results of a single 
  * classification experiment.
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
  */
 public class ClassificationResult 
 {

@@ -4,12 +4,9 @@ import java.util.ArrayList;
 
 import classify.ClassificationResult;
 import classify.Classifier;
-
 import pair.Pair;
-
-
 import tree.DecisionTree;
-import tree.ID3TreeBuilder;
+import tree.algorithms.ID3TreeBuilder;
 import data.DataSet;
 import data.Instance;
 
@@ -19,10 +16,9 @@ public class ID3TreeClassifier implements Classifier
     
     public ID3TreeClassifier(int minInstances, DataSet trainData)
     {
-        ID3TreeBuilder id3Builder = new ID3TreeBuilder();       
-        dtTree = id3Builder.buildDecisionTree(minInstances, trainData);
+        ID3TreeBuilder id3Builder = new ID3TreeBuilder(minInstances);       
+        dtTree = id3Builder.buildDecisionTree(trainData);
     }
-    
     
     @Override
     public ClassificationResult classifyData(DataSet testData) 

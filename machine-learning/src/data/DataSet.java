@@ -3,6 +3,7 @@ package data;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 
 
@@ -223,6 +224,30 @@ public class DataSet
 					new Integer(classCounts.get(instance.getAttributeValue(classAttrId).intValue()) + 1)
 					);
 		}
+	}
+	
+	/**
+	 * Get the class value most represented in a data set.
+	 * 
+	 * @param data the data set 
+	 * @return the nominal value ID of the class attribute most represented in
+	 * the given data set
+	 */
+	public Integer getMajorityClass()
+	{
+		int largestCount = 0;
+		Integer currMajorityId = 0;
+
+		for (Entry<Integer, Integer> entry : getClassCounts().entrySet())
+		{
+			if (entry.getValue() > largestCount)
+			{
+				currMajorityId = entry.getKey();
+				largestCount = entry.getValue();
+			}
+		}
+
+		return currMajorityId;
 	}
 	
 	/**

@@ -1,13 +1,15 @@
 package applications;
 
 import classify.ClassificationResult;
-
 import tree.DecisionTree;
 import tree.classifiers.ID3TreeClassifier;
-
 import data.DataSet;
 import data.reader.ArffReader;
 
+/**
+ * Test
+ *
+ */
 public class DTMain 
 {	
 	public final static String CLASS_ATTRIBUTE = "class";

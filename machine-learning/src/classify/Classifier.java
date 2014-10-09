@@ -3,12 +3,9 @@ package classify;
 import data.DataSet;
 
 /**
- * Any model learned to perform a supervised classificiation task should 
- * implement this interface so that it can be integrated into an experimental/
- * learning framework.
+ * Any model learned to perform a supervised classification task should 
+ * implement this interface.
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
- *
  */
 public interface Classifier 
 {

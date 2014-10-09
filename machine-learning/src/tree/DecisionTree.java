@@ -14,17 +14,15 @@ import data.AttributeSet;
 import data.Instance;
 
 /**
- * Encapsulates a learned decision tree.
+ * A learned decision tree model.
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
- *
  */
 public class DecisionTree 
 {   
     /**
      * The root node of the tree
      */
-	private DtNode root = null;
+	private final DtNode root;
 	
 	/**
 	 * A mapping of node ID to node objects 
@@ -42,7 +40,7 @@ public class DecisionTree
 	private Attribute classAttribute;
 	
 	/**
-	 * Used for assinging unique node Id's to new nodes
+	 * Used for assigning unique node Id's to new nodes
 	 */
 	private int nodeCount = 0;
 	
@@ -52,9 +50,10 @@ public class DecisionTree
 	 * @param attributeSet set of attributes used in learning
 	 * @param classAttribute the class attribute this tree predicts
 	 */
-	public DecisionTree(Attribute classAttribute)
+	public DecisionTree(DtNode root, Attribute classAttribute)
 	{
-		nodeSet = new HashMap<Integer, DtNode>();
+		this.root = root;
+		this.nodeSet = new HashMap<>();
 		this.classAttribute = classAttribute;
 	}
 	
@@ -75,15 +74,6 @@ public class DecisionTree
 		return root;
 	}
 	
-	/**
-	 * @param rootNode the tree's root node
-	 */
-	protected void setRoot(DtNode rootNode)
-	{
-		root = rootNode;
-		nodeSet.put(nodeCount, rootNode);
-	}
-	
 	@Override
 	public String toString()
 	{
@@ -98,7 +88,7 @@ public class DecisionTree
 		{
 			StringGenerator strGen = new StringGenerator(this.attributeSet, 
 			                                             this.classAttribute);
-			result +=  strGen.print( (DtNode) child, 0);
+			result +=  strGen.recurseStringGenerate( (DtNode) child, 0);
 		}
 		
 		return result;
@@ -108,7 +98,6 @@ public class DecisionTree
 	 * A private helper class used for traversing the tree recursively
 	 * in order to print the print the tree to standard output
 	 * 
-	 * @author Matthew Bernstein - matthewb@cs.wisc.edu
 	 */
 	private static class StringGenerator
 	{
@@ -123,7 +112,7 @@ public class DecisionTree
 			this.classAttribute = classAttribute;
 		}
 		
-		public String print(DtNode node, Integer depth)
+		public String recurseStringGenerate(DtNode node, Integer depth)
 		{
 		    String result = "";
 		    
@@ -153,7 +142,7 @@ public class DecisionTree
 			for (Node child : childrenList)
 			{
 				DtNode dtChild = (DtNode) child;
-				result += print (dtChild, depth+1);
+				result += recurseStringGenerate (dtChild, depth+1);
 			}
 			
 			return result;
