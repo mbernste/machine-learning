@@ -3,13 +3,11 @@ package bayes;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-
 import bayes.cpd.CPDQuery;
-
 import pair.Pair;
-
 import data.Attribute;
 import data.DataSet;
 
@@ -38,7 +36,7 @@ public class BayesianNetwork
     /**
      * The set of nodes in the network
      */
-    protected BNNodes nodes;
+    protected BNNodeSet nodes;
     
     /**
      * The number of free parameters in this model
@@ -50,7 +48,7 @@ public class BayesianNetwork
      */
     public BayesianNetwork()
     {
-        this.nodes = new BNNodes();
+        this.nodes = new BNNodeSet();
     }
 
     public void setNetInference(BayesianNetwork.StructureSearch netInference)
@@ -62,7 +60,7 @@ public class BayesianNetwork
      * @return an ArrayList holding all Node objects in the network sorted
      * in topological order in the DAG
      */
-    public ArrayList<BNNode> getNodes()
+    public List<BNNode> getNodes()
     {
        return nodes.topologicallySorted();
     }

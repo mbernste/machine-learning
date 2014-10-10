@@ -77,15 +77,8 @@ public class ArffReader
 		{
 		    System.err.format("FileNotFountException: %s%n", x);
 		}
-				
-		/*
-		 * Create the final data set
-		 */
-		DataSet dataSet = new DataSet();
-		dataSet.setAttributeSet(attributeSet);
-		dataSet.setInstanceSet(instanceSet);
-		
-		return dataSet;
+
+		return new DataSet(attributeSet, instanceSet);		
 	}
 	
 	/**

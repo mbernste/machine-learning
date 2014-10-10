@@ -102,9 +102,7 @@ public class Entropy
 		{
 			for (SplitBranch branch : split.getSplitBranches())
 			{
-				DataSet branchData = new DataSet();
-				branchData.setAttributeSet(data.getAttributeSet());
-				branchData.setInstanceSet(branch.getInstanceSet());
+				DataSet branchData = new DataSet(data.getAttributeSet(), branch.getInstanceSet());
 				branchData.setClassAttribute(data.getClassAttribute().getName());
 				
 				int branchNumInstances = branchData.getInstanceSet().getInstances().size();

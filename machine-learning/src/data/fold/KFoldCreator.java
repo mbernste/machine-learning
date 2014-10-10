@@ -64,14 +64,8 @@ public class KFoldCreator {
 				testSet.addInstance(inst);
 			}
 			//create data sets
-			DataSet trainData = new DataSet();
-			DataSet testData = new DataSet(); 
-			
-			//set up data sets
-			trainData.setAttributeSet(data.getAttributeSet());
-			testData.setAttributeSet(data.getAttributeSet());
-			trainData.setInstanceSet(trainSet);
-			testData.setInstanceSet(testSet);
+			DataSet trainData = new DataSet(data.getAttributeSet(), trainSet);
+			DataSet testData = new DataSet(data.getAttributeSet(),testSet); 
 			
 			//Add to list of pairs
 			pairs.add(new Pair<DataSet, DataSet>(trainData, testData));

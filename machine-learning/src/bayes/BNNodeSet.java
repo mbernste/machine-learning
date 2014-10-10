@@ -20,11 +20,9 @@ import data.DataSet;
  * Manages the nodes and all node and edge operations in a Bayesian network
  * such as adding/removing nodes and edges and updating the parameters in the
  * model.
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
  *
  */
-public class BNNodes 
+public class BNNodeSet 
 {
     /**
      * Verbose debug output
@@ -44,12 +42,12 @@ public class BNNodes
     /**
      * A sorted list of the nodes in the network.  Sorted topologically.
      */
-    private ArrayList<BNNode> nodeList;
+    private List<BNNode> nodeList;
     
     /**
      * Constructor
      */
-    public BNNodes()
+    public BNNodeSet()
     {
         attributes = new AttributeSet();
         nodeMap = new HashMap<Attribute, BNNode>();
@@ -87,7 +85,7 @@ public class BNNodes
     /**
      * @return the nodes in the network sorted topologically
      */
-    public ArrayList<BNNode> topologicallySorted()
+    public List<BNNode> topologicallySorted()
     {
         return nodeList;
     }

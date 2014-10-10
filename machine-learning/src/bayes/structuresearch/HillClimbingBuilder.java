@@ -1,10 +1,9 @@
 package bayes.structuresearch;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 import data.DataSet;
-
 import pair.Pair;
 import bayes.BNNode;
 import bayes.BayesianNetwork;
@@ -78,7 +77,7 @@ public class HillClimbingBuilder extends NetworkBuilder
     {
         this.data = data;
         this.scoringFunction = function;
-        this.net = super.buildNetwork(data, laplaceCount);
+        this.net = super.setupNetwork(data, laplaceCount);
        
         /*
          * Run the hill climbing search
@@ -126,8 +125,8 @@ public class HillClimbingBuilder extends NetworkBuilder
     {
         this.numIterations++;
        
-        ArrayList<Operation> validOperations = getValidOperations(net.getNodes());
-        ArrayList<Double> operationScores = new ArrayList<Double>();
+        List<Operation> validOperations = getValidOperations(net.getNodes());
+        List<Double> operationScores = new ArrayList<>();
         
         for (int i = 0; i < validOperations.size(); i++)
         {
@@ -269,10 +268,10 @@ public class HillClimbingBuilder extends NetworkBuilder
      * @return an exhaustive list of all valid operations that can be 
      * performed on the network
      */
-    public  ArrayList<Operation> getValidOperations(ArrayList<BNNode> nodes)
+    public  List<Operation> getValidOperations(List<BNNode> nodes)
     {
-        ArrayList<Operation> operations
-                = new ArrayList<Operation>();
+        List<Operation> operations
+                = new ArrayList<>();
         
         for (BNNode parent : nodes)
         {
@@ -290,10 +289,10 @@ public class HillClimbingBuilder extends NetworkBuilder
         return operations;
     }
     
-    protected ArrayList<Operation> getOperationsOnEdge(BNNode parent, 
+    protected List<Operation> getOperationsOnEdge(BNNode parent, 
                                                        BNNode child)
     {
-        ArrayList<Operation> operations = new ArrayList<Operation>();
+        List<Operation> operations = new ArrayList<>();
         
         boolean exists = net.doesEdgeExist(parent, child);
         boolean valid = net.isValidEdge(parent, child);
@@ -333,6 +332,12 @@ public class HillClimbingBuilder extends NetworkBuilder
         
         return operations;
    }
+
+	@Override
+	public BayesianNetwork buildNetwork(DataSet data, Integer laplaceCount) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 
 }

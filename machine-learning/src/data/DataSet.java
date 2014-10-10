@@ -19,12 +19,12 @@ public class DataSet
 	/**
 	 * The attributes of all instances in this data set
 	 */
-	protected AttributeSet attributeSet;
+	protected final AttributeSet attributeSet;
 	
 	/**
 	 * The instances in this data set
 	 */
-	protected InstanceSet instanceSet;
+	protected final InstanceSet instanceSet;
 	
 	/**
 	 * Maps each nominal value ID of the class attribute to the number of
@@ -36,6 +36,12 @@ public class DataSet
 	 * The attribute representing the class attribute
 	 */
 	protected Attribute classAttribute = null;
+	
+	public DataSet(AttributeSet attributes, InstanceSet instances)
+	{
+		this.attributeSet = attributes;
+		this.instanceSet = instances;
+	}
 	
 	/**
 	 * Assign the Attribute that labels the class of each instance in the data
@@ -100,22 +106,6 @@ public class DataSet
 	}
 	
 	/**
-	 * @param attrSet the set of attributes that all instances should have
-	 */
-	public void setAttributeSet(AttributeSet attrSet)
-	{
-		this.attributeSet = attrSet;
-	}
-	
-	/**
-	 * @param instSet the set of all instances in this dataset
-	 */
-	public void setInstanceSet(InstanceSet instSet)
-	{
-		this.instanceSet = instSet;
-	}
-	
-	/**
 	 * @return the set of all instances in this data set
 	 */
 	public InstanceSet getInstanceSet()
@@ -162,7 +152,7 @@ public class DataSet
 	}
 	
 	/**
-	 * Print the instances in a descriptave easy to read format.  This method checks
+	 * Print the instances in a descriptive easy to read format.  This method checks
 	 * that the data being read mirrors the ARFF file.  Use this method to check the data
 	 * being read in.
 	 */

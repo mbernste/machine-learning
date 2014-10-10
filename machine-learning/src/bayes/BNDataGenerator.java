@@ -34,12 +34,6 @@ public class BNDataGenerator
     public static DataSet generateDataSet(BayesianNetwork net, int numInstances)
     {
         /*
-         * Create data set and set the net's attributes to the new 
-         * data set
-         */
-        DataSet generated = new DataSet();
-        
-        /*
          * Build instance set and set the instance set to the new data set
          */
         InstanceSet instances = new InstanceSet();
@@ -52,9 +46,8 @@ public class BNDataGenerator
             }       
             instances.addInstance(newInst);
         } 
-        generated.setInstanceSet(instances);
         
-        return generated;   
+        return new DataSet(null, instances);   
     }
     
     

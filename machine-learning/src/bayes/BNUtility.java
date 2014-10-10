@@ -1,6 +1,7 @@
 package bayes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A utility class for miscellaneous methods needed for Bayesian network
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 public class BNUtility 
 {
-    public static Double[][] convertToAdjacencyMatrix(ArrayList<BNNode> nodes)
+    public static Double[][] convertToAdjacencyMatrix(List<BNNode> nodes)
     {
         int numNodes = nodes.size();  
         Double[][] graph = new Double[numNodes][numNodes];
@@ -63,7 +64,7 @@ public class BNUtility
         /*
          * Assign graph[P][C] to 1.0 if C is a child of P
          */
-        ArrayList<BNNode> nodes = net.getNodes();
+        List<BNNode> nodes = net.getNodes();
         for (int pIndex = 0; pIndex < nodes.size(); pIndex++)
         {
             BNNode currNode = nodes.get(pIndex);

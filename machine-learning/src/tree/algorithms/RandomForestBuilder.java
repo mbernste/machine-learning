@@ -12,7 +12,9 @@ public class RandomForestBuilder
 
 	private DataSet sampleDataSet(DataSet fullData)
 	{
-		return null;
+		AttributeSet attributes = sampleAttributes(fullData.getAttributeSet());
+		InstanceSet instances = sampleInstances(fullData.getInstanceSet());
+		return new DataSet(attributes, instances);
 	}
 	
 	private AttributeSet sampleAttributes(AttributeSet fullAttributeSet)

@@ -95,9 +95,7 @@ public abstract class DecisionTreeBuilder
 			Split bestSplit = determineBestSplit(data, candidateSplits);
 			for (SplitBranch branch : bestSplit.getSplitBranches())
 			{	
-				DataSet subsetData = new DataSet();
-				subsetData.setAttributeSet(data.getAttributeSet());
-				subsetData.setInstanceSet(branch.getInstanceSet());
+				DataSet subsetData = new DataSet(data.getAttributeSet(), branch.getInstanceSet());
 				subsetData.setClassAttribute(data.getClassAttribute().getName());
 
 				/*

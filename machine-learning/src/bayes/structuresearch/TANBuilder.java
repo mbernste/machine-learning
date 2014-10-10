@@ -45,7 +45,7 @@ public class TANBuilder extends NetworkBuilder
         this.Initialize(data, laplaceCount);
 
         // Create the Bayesian Network
-        BayesianNetwork net = super.buildNetwork(data, laplaceCount);
+        BayesianNetwork net = super.setupNetwork(data, laplaceCount);
         net.setNetInference(BayesianNetwork.StructureSearch.TAN);
 
         // Get the Node that represents the class attribute

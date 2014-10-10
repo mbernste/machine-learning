@@ -9,8 +9,6 @@ import data.DataSet;
 /**
  * Constructs a {@code BayesianNetwork} object
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.eud
- *
  */
 abstract class NetworkBuilder 
 {
@@ -19,6 +17,8 @@ abstract class NetworkBuilder
      */
     protected Integer laplaceCount;
 
+    public abstract BayesianNetwork buildNetwork(DataSet data, Integer laplaceCount);
+    
     /**
      * Builds a new Bayesian network given a dataset.
      * 
@@ -27,11 +27,8 @@ abstract class NetworkBuilder
      * parameters in the network
      * @return a constructed Bayesian network
      */
-    public BayesianNetwork buildNetwork(DataSet data, Integer laplaceCount)
+    public BayesianNetwork setupNetwork(DataSet data, Integer laplaceCount)
     {
-        /*
-         *  Set laplace count
-         */
         this.laplaceCount = laplaceCount;
 
         BayesianNetwork net = new BayesianNetwork();

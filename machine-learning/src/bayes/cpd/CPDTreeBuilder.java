@@ -115,9 +115,7 @@ public class CPDTreeBuilder
                  * Create a subset of the data with only the instances that
                  * have filtered down to this node
                  */
-                DataSet subsetData = new DataSet();
-                subsetData.setAttributeSet(data.getAttributeSet());
-                subsetData.setInstanceSet(branch.getInstanceSet());
+                DataSet subsetData = new DataSet(data.getAttributeSet(), branch.getInstanceSet());
 
                 /*
                  *  Remove the attribute we just split on

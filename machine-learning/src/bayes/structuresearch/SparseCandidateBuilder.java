@@ -4,10 +4,9 @@ package bayes.structuresearch;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+import java.util.List;
 
 import data.DataSet;
-
 import pair.Pair;
 import bayes.BNNode;
 import bayes.BNResultWriter;
@@ -42,7 +41,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
     {
         this.data = data;
         this.scoringFunction = function;
-        this.net = super.buildNetwork(data, laplaceCount);
+        this.net = super.setupNetwork(data, laplaceCount);
        
         /*
          * Run the hill climbing search
@@ -101,7 +100,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
         // TODO: CLEAN
         System.out.println("ITERATION " + numIterations);
         System.out.println("GETTING CANDIDATE PARENTS");
-        ArrayList<Operation> validOperations = getValidOperations(net.getNodes());
+        List<Operation> validOperations = getValidOperations(net.getNodes());
           
         boolean firstCall = true;
         maximizeStoppingMet = false;
@@ -125,7 +124,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
     }
     
     protected void maximizeStep(boolean firstCall, 
-                                ArrayList<Operation> validOperations )
+                                List<Operation> validOperations )
     {
         if (verbose > 3)
         {
@@ -221,9 +220,9 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
         return null;
     }
     
-    public void filterOperations(ArrayList<Operation> ops)
+    public void filterOperations(List<Operation> ops)
     {
-        ArrayList<Operation> toRemove = new ArrayList<Operation>();
+        List<Operation> toRemove = new ArrayList<>();
         
         for (Operation o : ops)
         {
@@ -265,14 +264,14 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
      * performed on the network
      */
     @Override
-    public  ArrayList<Operation> getValidOperations(ArrayList<BNNode> nodes)
+    public  List<Operation> getValidOperations(List<BNNode> nodes)
     { 
         /*
          * Get all candidate edges
          */
-        ArrayList<Pair<BNNode, BNNode>> candidateEdges = getCandidateEdges();
+        List<Pair<BNNode, BNNode>> candidateEdges = getCandidateEdges();
          
-        ArrayList<Operation> operations = new ArrayList<Operation>();
+        List<Operation> operations = new ArrayList<>();
         
         /*
          * For each candidate edge, create all operations that can be executed
@@ -343,7 +342,7 @@ public class SparseCandidateBuilder extends HillClimbingBuilder
      */
     public ArrayList<Pair<BNNode, BNNode>> getTopKEdges(int k, 
                                                         BNNode child, 
-                                                        ArrayList<BNNode> nodes)
+                                                        List<BNNode> nodes)
     {
         ArrayList<Pair<BNNode, BNNode>> topKEdges 
                                         = new ArrayList<Pair<BNNode, BNNode>>();

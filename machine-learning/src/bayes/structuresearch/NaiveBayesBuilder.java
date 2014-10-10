@@ -11,7 +11,6 @@ import data.DataSet;
 /**
  * Builds a Bayesian Network with a Naive Bayes Structure
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
  */
 public class NaiveBayesBuilder extends NetworkBuilder
 {
@@ -27,7 +26,7 @@ public class NaiveBayesBuilder extends NetworkBuilder
         /*
          * Create a new network
          */
-        BayesianNetwork net = super.buildNetwork(data, laplaceCount);
+        BayesianNetwork net = super.setupNetwork(data, laplaceCount);
         net.setNetInference(BayesianNetwork.StructureSearch.NAIVE_BAYES);
 
         /*
