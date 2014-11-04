@@ -2,9 +2,7 @@ package tree;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import pair.Pair;
@@ -14,7 +12,7 @@ import data.AttributeSet;
 import data.Instance;
 
 /**
- * A learned decision tree model.
+ * A generic decision tree model.
  * 
  */
 public class DecisionTree 
@@ -25,12 +23,7 @@ public class DecisionTree
 	private final DtNode root;
 	
 	/**
-	 * A mapping of node ID to node objects 
-	 */
-	private Map<Integer, DtNode> nodeSet;
-	
-	/**
-	 * The set of attributes used in the learning of the tree
+	 * The set of attributes used in the learning of this tree
 	 */
 	private AttributeSet attributeSet;
 	
@@ -38,11 +31,6 @@ public class DecisionTree
 	 * The class attribute that the tree predicts
 	 */
 	private Attribute classAttribute;
-	
-	/**
-	 * Used for assigning unique node Id's to new nodes
-	 */
-	private int nodeCount = 0;
 	
 	/**
 	 * Constructor
@@ -53,17 +41,7 @@ public class DecisionTree
 	public DecisionTree(DtNode root, Attribute classAttribute)
 	{
 		this.root = root;
-		this.nodeSet = new HashMap<>();
 		this.classAttribute = classAttribute;
-	}
-	
-	/**
-	 * Add a node to the tree
-	 * @param newNode
-	 */
-	protected void addNode(DtNode newNode)
-	{
-		nodeSet.put(nodeCount, newNode);
 	}
 	
 	/**

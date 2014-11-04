@@ -22,7 +22,7 @@ import data.DataSet;
  * model.
  *
  */
-public class BNNodeSet 
+public class BNStructure 
 {
     /**
      * Verbose debug output
@@ -47,7 +47,7 @@ public class BNNodeSet
     /**
      * Constructor
      */
-    public BNNodeSet()
+    public BNStructure()
     {
         attributes = new AttributeSet();
         nodeMap = new HashMap<Attribute, BNNode>();

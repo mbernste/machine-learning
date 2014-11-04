@@ -11,7 +11,6 @@ import data.Attribute;
 /**
  * A single node in a {@code BayesianNetwork} object
  * 
- * @author Matthew Bernstien - matthewb@cs.wisc.edu
  */
 public class BNNode
 {	

@@ -40,7 +40,7 @@ public class BNDataGenerator
         for (int i = 0; i < numInstances; i++)
         {
             Instance newInst = new Instance();
-            for (BNNode node : net.nodes.topologicallySorted())
+            for (BNNode node : net.network.topologicallySorted())
             {                              
                 setAttrInstance(node, newInst); 
             }       

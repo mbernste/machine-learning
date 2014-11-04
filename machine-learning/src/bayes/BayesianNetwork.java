@@ -12,31 +12,31 @@ import data.Attribute;
 import data.DataSet;
 
 /**
- * Objects of this class encapsulate a complete Bayesian Network.
+ * A generic Bayesian Network.
  *
  */
 public class BayesianNetwork 
 {
     /**
-     * Sets verbose output on or off
+     * Sets verboseness level of output
      */
     public int verbose = 0;
 
     /**
      * Network structure search algorithms
      */
-    public static enum StructureSearch { TEST, NAIVE_BAYES, TAN, HILL_CLIMBING,
+    public static enum StructureAlgorithm { TEST, NAIVE_BAYES, TAN, HILL_CLIMBING,
                                SPARSE_CANDIDATE };
   
     /**
      * The algorithm used to build the network
      */
-    private StructureSearch structureSearch;
+    private StructureAlgorithm structureAlgorithm;
 
     /**
      * The set of nodes in the network
      */
-    protected BNNodeSet nodes;
+    protected BNStructure network;
     
     /**
      * The number of free parameters in this model
@@ -48,21 +48,21 @@ public class BayesianNetwork
      */
     public BayesianNetwork()
     {
-        this.nodes = new BNNodeSet();
+        this.network = new BNStructure();
     }
 
-    public void setNetInference(BayesianNetwork.StructureSearch netInference)
+    public void setNetStructureAlgorithm(BayesianNetwork.StructureAlgorithm structureAlgorithm)
     {
-        this.structureSearch = netInference;
+        this.structureAlgorithm = structureAlgorithm;
     }
 
     /**
-     * @return an ArrayList holding all Node objects in the network sorted
-     * in topological order in the DAG
+     * @return a list storing all nodes in the network sorted by their topological 
+     * order in the DAG
      */
     public List<BNNode> getNodes()
     {
-       return nodes.topologicallySorted();
+       return network.topologicallySorted();
     }
     
     /**
@@ -70,7 +70,7 @@ public class BayesianNetwork
      */
     public Integer getNumNodes()
     {
-        return nodes.getNumNodes();
+        return network.getNumNodes();
     }
 
     /**
@@ -80,7 +80,7 @@ public class BayesianNetwork
      */
     public void addNode(BNNode newNode, DataSet data, Integer laplaceCount)
     {
-        this.nodes.addNode(newNode, data, laplaceCount);
+        this.network.addNode(newNode, data, laplaceCount);
         calculateFreeParameters();
     }
 
@@ -92,7 +92,7 @@ public class BayesianNetwork
      */
     public BNNode getNode(Attribute attr)
     {
-        return nodes.getNode(attr);
+        return network.getNode(attr);
     }
     
     /**
@@ -104,7 +104,7 @@ public class BayesianNetwork
      */
     public Boolean doesEdgeExist(BNNode parent, BNNode child)
     {
-        return nodes.edgeExists(parent, child);
+        return network.edgeExists(parent, child);
     }
     
     /**
@@ -117,7 +117,7 @@ public class BayesianNetwork
      */
     public Boolean isValidEdge(BNNode parent, BNNode child)
     {
-        return nodes.isValidEdge(parent, child);
+        return network.isValidEdge(parent, child);
     }
     
     /**
@@ -132,7 +132,7 @@ public class BayesianNetwork
      */
     public Boolean isValidReverseEdge(BNNode parent, BNNode child)
     {
-        return nodes.isValidReverseEdge(parent, child);
+        return network.isValidReverseEdge(parent, child);
     }
 
     /**
@@ -146,7 +146,7 @@ public class BayesianNetwork
                            DataSet data,
                            Integer laplaceCount)
     {
-        nodes.removeEdge(parent, child, data, laplaceCount);
+        network.removeEdge(parent, child, data, laplaceCount);
         calculateFreeParameters();
     }
     
@@ -163,7 +163,7 @@ public class BayesianNetwork
                             DataSet data,
                             Integer laplaceCount)
     {
-        nodes.reverseEdge(parent, child, data, laplaceCount);
+        network.reverseEdge(parent, child, data, laplaceCount);
         calculateFreeParameters();
     }
     
@@ -178,7 +178,7 @@ public class BayesianNetwork
                            DataSet data, 
                            Integer laplaceCount)
     {   
-        nodes.createEdge(parent, child, data, laplaceCount);
+        network.createEdge(parent, child, data, laplaceCount);
         calculateFreeParameters();
     }
     
@@ -198,7 +198,7 @@ public class BayesianNetwork
     {
         int freeParams = 0;
         
-        for (BNNode node : this.nodes.topologicallySorted())
+        for (BNNode node : this.network.topologicallySorted())
         {
             freeParams += node.getNumFreeParamters();
         }
@@ -212,7 +212,7 @@ public class BayesianNetwork
         String result = "\n\n";
 
         // For each node, print its parents
-        for (BNNode node : nodes.topologicallySorted())
+        for (BNNode node : network.topologicallySorted())
         {	
             result += node.getName();
 
@@ -527,7 +527,7 @@ public class BayesianNetwork
     {
         int numEdges = 0;
         
-        for (BNNode node : nodes.topologicallySorted())
+        for (BNNode node : network.topologicallySorted())
         {
             numEdges += node.getChildren().size();
         }
@@ -555,7 +555,7 @@ public class BayesianNetwork
     {
         String result = "";
 
-        switch(structureSearch)
+        switch(structureAlgorithm)
         {
         case NAIVE_BAYES:
             result = "Naive Bayes";
@@ -581,9 +581,9 @@ public class BayesianNetwork
      * @param netInference the algorithm used to create the network's
      * structure
      */
-    protected void setInference(BayesianNetwork.StructureSearch netInference)
+    protected void setInference(BayesianNetwork.StructureAlgorithm netInference)
     {
-        this.structureSearch = netInference;
+        this.structureAlgorithm = netInference;
     }
 
     /**

@@ -23,21 +23,13 @@ public class NaiveBayesBuilder extends NetworkBuilder
     @Override
     public BayesianNetwork buildNetwork(DataSet data, Integer laplaceCount)
     {
-        /*
-         * Create a new network
-         */
         BayesianNetwork net = super.setupNetwork(data, laplaceCount);
-        net.setNetInference(BayesianNetwork.StructureSearch.NAIVE_BAYES);
-
-        /*
-         *  Get the Node that represents the class attribute
-         */
-        Attribute classAttr = data.getClassAttribute();
-        BNNode classAttrNode = net.getNode(classAttr);
+        net.setNetStructureAlgorithm(BayesianNetwork.StructureAlgorithm.NAIVE_BAYES);
 
         /*
          *  Create edges from the class Node to all other nodes
          */
+        BNNode classAttrNode = net.getNode(data.getClassAttribute());
         for (BNNode node : net.getNodes())
         {
             if (!node.equals( classAttrNode ))
