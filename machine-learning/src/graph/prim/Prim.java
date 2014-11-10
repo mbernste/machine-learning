@@ -2,6 +2,7 @@ package graph.prim;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ public class Prim
      * edges.
      * @return a list of edges representing the resulting spanning tree.
      */
-    public static ArrayList<Edge> runPrims(Double[][] graph)
+    public static List<Edge> runPrims(Double[][] graph)
     {
         /*
          * Stores all vertices currently in the tree

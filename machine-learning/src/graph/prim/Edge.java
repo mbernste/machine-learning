@@ -6,9 +6,7 @@ import pair.Pair;
 
 /**
  * Implements a directed edge in a weighted graph where edge weights are 
- * floating point values and nodes are represented by unique integers.
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ * floating point values and nodes are represented by unique integers. 
  *
  */
 public class Edge
@@ -50,62 +48,67 @@ public class Edge
                 }
             };
 
-            /**
-             * Constructor
-             * 
-             * @param vertices the two vertices in the edge
-             * @param weight the weight of the edge
-             */
-            public Edge(Pair<Integer, Integer> vertices, Double weight)
-            {
-                this.vertices = vertices;
-                this.weight = weight;
-            }
+    /**
+     * Constructor
+     * 
+     * @param vertices the two vertices in the edge
+     * @param weight the weight of the edge
+     */
+    public Edge(Pair<Integer, Integer> vertices, Double weight)
+    {
+        this.vertices = vertices;
+        this.weight = weight;
+    }
+    
+    public Edge(Integer origin, Integer destination, Double weight)
+    {
+        this.vertices = new Pair<Integer, Integer>(origin, destination);
+    }
 
-            /**
-             * @return the edge weight
-             */
-            public Double getWeight()
-            {
-                return this.weight;
-            }
+    /**
+     * @return the edge weight
+     */
+    public Double getWeight()
+    {
+        return this.weight;
+    }
 
-            /**
-             * @return the pair of vertices
-             */
-            public Pair<Integer, Integer> getVertices()
-            {
-                return this.vertices;
-            }
+    /**
+     * @return the pair of vertices
+     */
+    public Pair<Integer, Integer> getVertices()
+    {
+        return this.vertices;
+    }
 
-            /**
-             * @return the first vertex
-             */
-            public Integer getFirstVertex()
-            {
-                return this.vertices.getFirst();
-            }
+    /**
+     * @return the first vertex
+     */
+    public Integer getFirstVertex()
+    {
+        return this.vertices.getFirst();
+    }
 
-            /**
-             * @return the second vertex
-             */
-            public Integer getSecondVertex()
-            {
-                return this.vertices.getSecond();
-            }
+    /**
+     * @return the second vertex
+     */
+    public Integer getSecondVertex()
+    {
+        return this.vertices.getSecond();
+    }
 
-            @Override
-            public String toString()
-            {
-                String result = "<";
-                result += this.vertices.getFirst();
-                result += "--";
-                result += this.weight;
-                result += "--";
-                result += this.vertices.getSecond();
-                result += ">";
+    @Override
+    public String toString()
+    {
+        String result = "<";
+        result += this.vertices.getFirst();
+        result += "--";
+        result += this.weight;
+        result += "--";
+        result += this.vertices.getSecond();
+        result += ">";
 
-                return result;
-            }
+        return result;
+    }
 }
 

@@ -65,7 +65,7 @@ public class TANBuilder extends NetworkBuilder
         buildConditionalMutualInfoMatrix(data);
 
         // Run Prim's Algorithm
-        ArrayList<Edge> edges = Prim.runPrims(condMutualInfo);
+        List<Edge> edges = Prim.runPrims(condMutualInfo);
 
         // Add edges as determined by Prim's
         for (Edge edge : edges)
