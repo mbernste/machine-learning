@@ -29,6 +29,8 @@ Hidden Markov Models:
     
 Generic Graph Theory Algorithms:
     
+    Bellman-Ford Algorithm
+    
     Prim's Algorithm
     
     Cycle Detection
