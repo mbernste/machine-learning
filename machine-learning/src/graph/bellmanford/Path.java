@@ -1,7 +1,5 @@
 package graph.bellmanford;
 
-import graph.prim.Edge;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +52,24 @@ public class Path
     public int getPathDestination()
     {
         return this.destination;
+    }
+    
+    public double getPathLength()
+    {
+        return this.length;
+    }
+    
+    @Override
+    public String toString()
+    {
+        String str = "";
+        for (int i = 0; i < path.size() - 1; i++)
+        {
+            str += path.get(i) + " --> ";
+        }
+        str += path.get(path.size() - 1);
+        str += " : " + this.length;
+        return str;
     }
 }
 

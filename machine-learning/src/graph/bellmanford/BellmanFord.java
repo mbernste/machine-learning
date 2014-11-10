@@ -5,8 +5,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
+/**
+ * An implementation of the Bellman-Ford algorithm.  Given a directed graph
+ * and some specified node in the graph, this algorithm outputs the shortest
+ * path and distance of this path to all other nodes in the graph.  The 
+ * Bellman-Ford algorithm can detect negative cycles.
+ */
 public class BellmanFord 
 {
     private static final Integer NULL_NODE = -1;
@@ -44,17 +49,6 @@ public class BellmanFord
         for (int pass = 0; pass < numPasses; pass++)
         {
             passOverEdges(graph, nodeToShortestDistance, nodeToPredecessor);
-        }
-        
-        // TODO REMOVE!
-        for (Entry<Integer, Double> entry : nodeToShortestDistance.entrySet())
-        {
-            System.out.println("Distance to node "+ entry.getKey() + ": " + entry.getValue());
-        }
-        for (Entry<Integer, Integer> entry : nodeToPredecessor.entrySet())
-        {
-            System.out.println("Predecessor of node "+ entry.getKey() + ": " + entry.getValue());
-
         }
         
         if (detectNegativeCycle(graph))
@@ -165,7 +159,6 @@ public class BellmanFord
         int currNode = destinationNode;
         while (currNode != sourceNode)
         {
-            System.out.println("\nADDING: " + currNode);
             path.add(currNode);
             currNode = nodeToPredecessor.get(currNode);   
         }
