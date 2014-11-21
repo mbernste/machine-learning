@@ -7,4 +7,5 @@ bin
 data_sets
 gold_standard
 results
+./recommenders
 *.class
