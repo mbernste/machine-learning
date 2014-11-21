@@ -1,5 +1,6 @@
 import java.util.Map;
 
+import graph.DirectedGraph;
 import graph.bellmanford.BellmanFord;
 import graph.bellmanford.Path;
 
@@ -14,21 +15,21 @@ public class GraphAlgorithmExamples
     
     
     /**
-     * Running the Bellman-Ford algorithm to find the shortest paths to all
-     * nodes from a source node
+     * Run the Bellman-Ford algorithm to find the shortest paths to all
+     * nodes from a source node.
      */
     public static void bellmanFordExample()
     {
-        Double[][] graph = createToyGraph_NoNegativeCycles();
+        DirectedGraph<String> graph = createToyGraph_NoNegativeCycles();
         
         // Designate the source node
-        int sourceNode = 0;
+        String sourceNode = "A";
         
         // Run Bellman-Ford
-        Map<Integer, Path> shortestPaths = BellmanFord.runBellmanFord(graph, sourceNode);
+        Map<String, Path<String>> shortestPaths = BellmanFord.runBellmanFord(graph, sourceNode);
         
         // Print each path
-        for (Path path : shortestPaths.values())
+        for (Path<String> path : shortestPaths.values())
         {
             System.out.println(path);
         }  
@@ -37,21 +38,21 @@ public class GraphAlgorithmExamples
     /**
      * @return an example graph with no negative cycles.
      */
-    public static Double[][] createToyGraph_NoNegativeCycles()
+    public static DirectedGraph<String> createToyGraph_NoNegativeCycles()
     {
-        Double[][] graph = new Double[5][5];
+        DirectedGraph<String> graph = new DirectedGraph<>();
         
-        graph[0][1] = 3d;
-        graph[0][4] = 7d;
-        graph[1][2] = 5d;
-        graph[1][4] = 8d;
-        graph[1][3] = -4d;
-        graph[2][1] = -2d;
-        graph[3][2] = 7d;
-        graph[3][0] = 2d;
-        graph[4][2] = -3d;
-        graph[4][3] = 9d;
-        
+        graph.addEdge("A", "B", 3d);
+        graph.addEdge("A", "E", 7d);
+        graph.addEdge("B", "C", 5d);
+        graph.addEdge("B", "E", 8d);
+        graph.addEdge("B", "D", -4d);
+        graph.addEdge("C", "B", -2d);
+        graph.addEdge("D", "C", 7d);
+        graph.addEdge("D", "A", 2d);
+        graph.addEdge("E", "C", -3d);
+        graph.addEdge("E", "D", 9d);
+
         return graph;
     }
 }

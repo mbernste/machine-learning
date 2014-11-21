@@ -3,17 +3,17 @@ package graph.bellmanford;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Path 
+public class Path<T>
 {
     /**
      * The first node on the path
      */
-    private int origin;
+    private T origin;
     
     /**
      * The final node on the path
      */
-    private int destination;
+    private T destination;
     
     /**
      * The path's distance
@@ -23,9 +23,9 @@ public class Path
     /**
      * List of nodes representing the path
      */
-    private List<Integer> path;
+    private List<T> path;
     
-    public Path(Integer origin, Integer destinationNode)
+    public Path(T origin, T destinationNode)
     {
         this.origin = origin;
         this.destination = destinationNode;
@@ -33,23 +33,23 @@ public class Path
         this.path.add(this.origin);
     }
     
-    public void appendNodeToPath(Integer nextNode, Double edgeLength)
+    public void appendNodeToPath(T nextNode, Double edgeLength)
     {
         length += edgeLength;
         path.add(nextNode);
     }
     
-    public List<Integer> getNodesOnPath()
+    public List<T> getNodesOnPath()
     {
         return this.path;
     }
     
-    public int getPathOrigin()
+    public T getPathOrigin()
     {
         return this.origin;
     }
     
-    public int getPathDestination()
+    public T getPathDestination()
     {
         return this.destination;
     }
