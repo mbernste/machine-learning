@@ -1,3 +1,4 @@
+package examples;
 import java.util.Map;
 
 import graph.DirectedGraph;

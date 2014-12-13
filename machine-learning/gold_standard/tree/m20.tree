@@ -1,0 +1,22 @@
+
+thal = fixed_defect [4 6]: positive
+thal = normal [84 19]
+|	thalach <= 111.500000 [0 4]: positive
+|	thalach > 111.500000 [84 15]
+|	|	age <= 55.500000 [56 4]
+|	|	|	trestbps <= 113.500000 [9 3]: negative
+|	|	|	trestbps > 113.500000 [47 1]
+|	|	|	|	oldpeak <= 3.550000 [47 0]: negative
+|	|	|	|	oldpeak > 3.550000 [0 1]: positive
+|	|	age > 55.500000 [28 11]
+|	|	|	chol <= 248.500000 [14 1]: negative
+|	|	|	chol > 248.500000 [14 10]
+|	|	|	|	sex = female [13 3]: negative
+|	|	|	|	sex = male [1 7]: positive
+thal = reversable_defect [20 67]
+|	cp = typ_angina [3 1]: negative
+|	cp = asympt [5 53]
+|	|	oldpeak <= 0.650000 [5 10]: positive
+|	|	oldpeak > 0.650000 [0 43]: positive
+|	cp = non_anginal [9 10]: positive
+|	cp = atyp_angina [3 3]: negative

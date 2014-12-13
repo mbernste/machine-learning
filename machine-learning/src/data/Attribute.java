@@ -1,6 +1,9 @@
 package data;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import bimap.BiMap;
 
 /**
@@ -14,7 +17,7 @@ public class Attribute
     public enum Type {NOMINAL, CONTINUOUS};
 	
 	/**
-	 * Attribute name
+	 * Attribute name. This is the unique identifier.
 	 */
 	private final String name;
 	
@@ -23,13 +26,11 @@ public class Attribute
 	 * nominal value integer ID
 	 */
 	private final BiMap<String, Integer> nominalValueMap;
-
-	private final Type type;
 	
 	/**
-	 * This Attribute's unique integer ID
+	 * The Attribute type
 	 */
-	private final int id;
+	private final Type type;
 	
 	/**
 	 * Constructor
@@ -38,17 +39,15 @@ public class Attribute
 	 * @param id - integer id of the attribute 
 	 * @param type - {nominal, continuous}
 	 */
-	public Attribute(String name, int id, Type type, String[] nominalValues)
+	public Attribute(String name, Type type, String[] nominalValues)
 	{
 		this.name = name;
-		this.id = id;
 		this.type = type;
 		
 		switch(type)
 		{
 		case NOMINAL:
-		    this.nominalValueMap = new BiMap<>();
-		    
+		    this.nominalValueMap = new BiMap<>();	    
             int count = 0;
             for (String value : nominalValues)
             {     
@@ -56,21 +55,9 @@ public class Attribute
             }
             break;
 		default:
-	          nominalValueMap = null; 
+	          this.nominalValueMap = null; 
 	          break;
 		}	
-	}
-	
-	
-	/**
-	 * Get this attribute's id.  In an ARFF file, this ID corresponds
-	 * to its index in the ARFF header.
-	 * 
-	 * @return Integer - the attribute's ID
-	 */
-	public Integer getId()
-	{
-		return id;
 	}
 	
 	/**
@@ -184,5 +171,56 @@ public class Attribute
 		}
 		
 		return nominalValueMap.getValue(attrValueName);
+	}
+	
+	
+	@Override
+	public boolean equals(Object o)
+	{	    
+	    if (!(o instanceof Attribute))
+	    {
+	        return false;
+	    }
+	    
+	    Attribute otherAttr = (Attribute) o;
+	    if (otherAttr.getName().equals(this.name))
+	    {
+	        return true;
+	    }
+	    
+	    return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+	    return this.getName().hashCode();
+	}
+	
+	@Override
+	public String toString()
+	{
+	    String str = "Attribute: " + this.name;
+	    str += "Type: ";
+	    switch(this.type)
+	    {
+	    case NOMINAL:
+	        str += "nominal";
+	        break;
+	    case CONTINUOUS:
+	        str += "continuous";
+	        break;
+	    }
+	    
+	    if (this.type == Type.NOMINAL)
+	    {
+	        str += "Nominal values:";
+	        for (Entry<String, Integer> nomAttrValPair : nominalValueMap.entrySet())
+	        {
+	            str += nomAttrValPair.getKey() + ", " + nomAttrValPair.getValue();
+	        }
+	    }
+	    
+	    return str;
 	}
 }

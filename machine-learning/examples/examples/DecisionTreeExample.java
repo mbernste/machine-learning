@@ -1,3 +1,4 @@
+package examples;
 import tree.classifiers.ID3TreeClassifier;
 import classify.ClassificationResult;
 import data.DataSet;

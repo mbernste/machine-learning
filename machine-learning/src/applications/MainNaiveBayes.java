@@ -8,9 +8,12 @@ import data.DataSet;
 import data.reader.ArffReader;
 import bayes.classifiers.NaiveBayesClassifier;
 
-
 public class MainNaiveBayes 
 {
+    
+    private static final String CLASS_ATTR_NAME = "class";
+    private static final Integer LAPLACE_COUNT = 1;
+    
     public static void main(String[] args)
     {
         /*
@@ -45,13 +48,13 @@ public class MainNaiveBayes
          */
         ArffReader reader = new ArffReader();
         DataSet data = reader.readFile(args[0]);
-        data.setClassAttribute("class");
+        data.setClassAttribute(CLASS_ATTR_NAME);
         
         /*
          *  Create Naive Bayes classifier
          */
         NaiveBayesClassifier nbClassifier = 
-                new NaiveBayesClassifier(data, 1, tan);
+                new NaiveBayesClassifier(data, LAPLACE_COUNT, tan);
         
         /*
          *  Print network
@@ -62,7 +65,7 @@ public class MainNaiveBayes
          *  Read the training data from the arff file
          */
         DataSet testData = reader.readFile(args[1]);
-        testData.setClassAttribute("class");
+        testData.setClassAttribute(CLASS_ATTR_NAME);
         
         /*
          * Classify the data

@@ -9,9 +9,7 @@ import java.util.Map.Entry;
 
 /**
  * Represents a data set.  Objects of this class store all instances as well
- * as all information about the attributes that these instances have.  
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
+ * as all information about the attributes that these instances have.   
  *
  */
 public class DataSet 
@@ -35,7 +33,7 @@ public class DataSet
 	/**
 	 * The attribute representing the class attribute
 	 */
-	protected Attribute classAttribute = null;
+	protected Attribute classAttr = null;
 	
 	public DataSet(AttributeSet attributes, InstanceSet instances)
 	{
@@ -51,9 +49,9 @@ public class DataSet
 	 */
 	public void setClassAttribute(String attrName)
 	{
-		if (attributeSet.contains(attrName))
+		if (attributeSet.containsAttrWithName(attrName))
 		{
-			classAttribute = attributeSet.getAttributeByName(attrName);
+			classAttr = attributeSet.getAttributeByName(attrName);
 		}
 		else
 		{
@@ -73,7 +71,7 @@ public class DataSet
 	 */
 	public Attribute getClassAttribute()
 	{
-		return classAttribute;
+		return classAttr;
 	}
 	
 	/**
@@ -93,18 +91,7 @@ public class DataSet
 			return classCounts;
 		}
 	}
-	
-	/**
-	 * Get the Attribute ID of the attribute used to label the instances in
-	 * the data set
-	 * 
-	 * @return the ID of the class attribute
-	 */
-	public Integer getClassAttributeId()
-	{
-		return classAttribute.getId();
-	}
-	
+
 	/**
 	 * @return the set of all instances in this data set
 	 */
@@ -131,25 +118,6 @@ public class DataSet
 		return attributeSet.getAttributeByName(attrName);
 	}
 	
-	/** 
-	 * @param attrId an attribute's unique ID
-	 * @return the attribute with the specified ID
-	 */
-	public Attribute getAttributeById(Integer attrId)
-	{
-		return attributeSet.getAttributeById(attrId);
-	}
-	
-	
-	/**
-	 * Print the attributes in a descriptive easy to read format such that each
-	 * attribute is printed with its integer ID and each nominal value for 
-	 * nominal attributes is printed with its nominal value ID
-	 */
-	public void printAttributes()
-	{
-		attributeSet.printAttributeSet();
-	}
 	
 	/**
 	 * Print the instances in a descriptive easy to read format.  This method checks
@@ -172,10 +140,10 @@ public class DataSet
 	 */
 	public void printClassCounts()
 	{
-		System.out.println("Class Attribute -> " + classAttribute.getName());
+		System.out.println("Class Attribute -> " + classAttr.getName());
 		for (Integer classLabelValue : classCounts.keySet())
 		{
-			System.out.print( classAttribute.getNominalValueName(classLabelValue) );
+			System.out.print( classAttr.getNominalValueName(classLabelValue) );
 			System.out.print( " : ");
 			System.out.print( classCounts.get(classLabelValue) );
 			System.out.print("\n");
@@ -197,8 +165,7 @@ public class DataSet
          *  Create an entry in the classCounts map for each possible value
          *  (i.e. label of the class attribute) 
          */
-		int classAttrId = classAttribute.getId();
-		for (Integer classLabelValue : classAttribute.getNominalValueMap().values())
+		for (Integer classLabelValue : classAttr.getNominalValueMap().values())
 		{
 			classCounts.put(new Integer(classLabelValue), new Integer(0));
 		}
@@ -210,8 +177,8 @@ public class DataSet
 		for (Instance instance : instanceSet.getInstances())
 		{
 			classCounts.put(
-					new Integer( instance.getAttributeValue(classAttrId).intValue() ),
-					new Integer(classCounts.get(instance.getAttributeValue(classAttrId).intValue()) + 1)
+					new Integer( instance.getAttributeValue(classAttr).intValue() ),
+					new Integer(classCounts.get(instance.getAttributeValue(classAttr).intValue()) + 1)
 					);
 		}
 	}

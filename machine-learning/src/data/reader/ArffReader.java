@@ -2,83 +2,62 @@ package data.reader;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 import data.Attribute;
 import data.AttributeSet;
 import data.DataSet;
 import data.Instance;
 import data.InstanceSet;
+import data.Attribute.Type;
 
 
 /**
  * Reads an Attribute-Relation File Format (ARFF) file and extracts the
  * attributes and instances in the file.
  * 
- * test
- *
  */
 public class ArffReader 
 {
     private final static char ARFF_HEADER_CHAR = '@';
     private final static char ARFF_COMMENT_CHAR = '%';
+    private final static String REAL_VALUED_ATTRIBUTE = "real";
     
-	/**
-	 * Stores the attribute set extracted from the ARFF file
-	 */
-	private AttributeSet attributeSet;
-	
-	/**
-	 * Stores the instances extracted from the ARFF file
-	 */
-	private InstanceSet instanceSet;
-	
-	/**
-	 * Constructor
-	 */
-	public ArffReader()
-	{
-		attributeSet = new AttributeSet();
-		instanceSet = new InstanceSet();
-	}
-	
 	/**
 	 * Read and extract a data set from an ARFF file
 	 * 
 	 * @param file a path to the ARFF file
 	 * @return a data set storing all data in the file
 	 */
-	public DataSet readFile(String file) 
+	public static DataSet readFile(String file) 
 	{
-		attributeSet = new AttributeSet();
-		instanceSet = new InstanceSet();
+	    InstanceSet instanceSet = new InstanceSet();
+	    ImmutableList.Builder<Attribute> attributeListBuilder = new ImmutableList.Builder<>();	
 		
 		try
 		{
 			Scanner scan = new Scanner(new FileInputStream(file));
-
-			/*
-			 *	Process every line in the file
-			 */
-		    String line = null;
 		    while (scan.hasNextLine()) 
 		    {
-		    	line = scan.nextLine();
-	    		parseLine(line);
-		    }
-		    
+	    		parseLine(scan.nextLine(), instanceSet, attributeListBuilder);
+		    }    
 		    scan.close();	    
 		} 
 		catch (FileNotFoundException x) 
 		{
 		    System.err.format("FileNotFountException: %s%n", x);
 		}
-
-		return new DataSet(attributeSet, instanceSet);		
+		
+		return new DataSet(new AttributeSet(attributeListBuilder.build()), instanceSet);		
 	}
 	
 	/**
@@ -87,7 +66,7 @@ public class ArffReader
 	 * 
 	 * @param arffLine - any line from the ARFF file 
 	 */
-	private void parseLine(String arffLine)
+	private static void parseLine(String arffLine, InstanceSet instanceSet, ImmutableList.Builder<Attribute> attrListBuilder)
 	{
 		if (arffLine.length() < 2)
 		{
@@ -96,11 +75,12 @@ public class ArffReader
 		
 		if (arffLine.charAt(0) == ARFF_HEADER_CHAR) 
 		{
-			parseHeaderLine(arffLine);
+			parseHeaderLine(arffLine, attrListBuilder);
 		}
 		else if (arffLine.charAt(0) != ARFF_COMMENT_CHAR) 
-		{								
-			instanceSet.addInstance( createInstanceFromArffLine(arffLine) );
+		{			
+		    Instance newInstance = createInstanceFromArffLine(arffLine, attrListBuilder);
+			instanceSet.addInstance(newInstance);
 		}
 	}
 	
@@ -108,21 +88,15 @@ public class ArffReader
 	 * This function is called on all lines that begin with the '@' symbol
 	 * and is used for parsing all header lines.
 	 * 
-	 * If the 
 	 */
-	private void parseHeaderLine(String arffLine)
+	private static void parseHeaderLine(String arffLine, ImmutableList.Builder<Attribute> attrListBuilder)
 	{
-		/*
-		 * Tokenize the line
-		 */
 		String[] tokens = arffLine.split(" ");
 		
-		/*
-		 * If line represents an attribute, process the attribute 
-		 */
 		if (tokens[0].toLowerCase().equals("@attribute"))
 		{
-			addAttribute(arffLine);
+			Attribute newAttr = parseAttribute(arffLine);
+			attrListBuilder.add(newAttr);
 		}
 	}
 	
@@ -134,7 +108,7 @@ public class ArffReader
 	 * @param arffLine - A line from the ARFF file where the first token is 
 	 * "@attribute"
 	 */
-	private void addAttribute(String arffLine)
+	private static Attribute parseAttribute(String arffLine)
 	{
 		String[] tokens = arffLine.split(" ");
 		
@@ -157,7 +131,7 @@ public class ArffReader
 		/*
 		 *  Parse attribute type (continuous or nominal)
 		 */
-		if (tokens[2].equals("real"))
+		if (tokens[2].equals(REAL_VALUED_ATTRIBUTE))
 		{
 			attrType =  Attribute.Type.CONTINUOUS;
 		}
@@ -173,8 +147,8 @@ public class ArffReader
 		{
 			attributeValues = getNominalAttributeValues(arffLine);
 		}
-		
-		attributeSet.addAttribute(attrName, attrType, attributeValues);	
+				
+		return new Attribute(attrName, attrType, attributeValues);
 	}
 	
 	/**
@@ -185,27 +159,17 @@ public class ArffReader
 	 * @param arffline - A line in the ARFF file that begins with "@attribute"
 	 * @return The values of the nominal attributes in this line
 	 */
-	private String[] getNominalAttributeValues(String arffLine)
+	private static String[] getNominalAttributeValues(String arffLine)
 	{
 		/*
-		 *  The pattern finds the string contained in curly braces
+		 *  REGEX find string in curly braces
 		 */
 		String pattern = "\\{(.*)\\}";
-		
-		/*
-		 *  Compile regex pattern and match it in our ARFF line
-		 */
 		Pattern regexPattern = Pattern.compile(pattern);
 		Matcher regexMatcher = regexPattern.matcher(arffLine);
 		regexMatcher.find();
 		
-		/*
-		 *  Tokenize the string inside the curly braces
-		 */
-		String[] attributeValues
-						= trimAllStrings( regexMatcher.group(1).split(",") );
-		
-		return attributeValues;
+		return trimAllStrings( regexMatcher.group(1).split(",") );
 	}
 	
 	/**
@@ -215,41 +179,35 @@ public class ArffReader
 	 * @param arffLine a line in the ARFF file that corresponds to an instance
 	 * @return
 	 */
-	private Instance createInstanceFromArffLine(String arffLine)
+	private static Instance createInstanceFromArffLine(String arffLine, ImmutableList.Builder<Attribute> attrListBuilder)
 	{		    
 		String[] tokens = trimAllStrings( arffLine.split(",") );
-		
 		Instance newInstance = new Instance();
-	
-		for (int index=0; index < tokens.length; index++)
+		
+		for (int index = 0; index < tokens.length; index++)
 		{
-			
 			/*
 			 *  Find attribute at this index
 			 */
-			Attribute currAttribute = attributeSet.getAttributeById(index);
-			/*
-			if (tokens[index].equals("?"))
+			Attribute currAttribute = attrListBuilder.build().get(index);
+						
+			if (tokens[index].equals("?")) // Missing value
 			{
-				//TODO: Figure out how to handle missing attributes
+				//TODO: Figure out how to handle missing values
 			}
 			else
-			{*/			
-				/*
-				 *  Parse value of attribute
-				 */
+			{			
 				if (currAttribute.getType() == Attribute.Type.CONTINUOUS)
 				{
-					newInstance.addAttributeInstance(index, Double.parseDouble(tokens[index]));
+					newInstance.addAttributeValue(currAttribute, Double.parseDouble(tokens[index]));
 				}
 				else if (currAttribute.getType() == Attribute.Type.NOMINAL)
 				{
 					Integer nominalValueId 
 							= currAttribute.getNominalValueId(tokens[index]);
-					
-					newInstance.addAttributeInstance(index, nominalValueId.doubleValue());
+					newInstance.addAttributeValue(currAttribute, nominalValueId.doubleValue());
 				}
-			//}
+			}			
 		}
 		
 		return newInstance;
@@ -262,15 +220,13 @@ public class ArffReader
 	 * @param rawStrings the array of Strings
 	 * @return an array of these trimmed Strings
 	 */
-	private String[] trimAllStrings(String[] rawStrings)
+	private static String[] trimAllStrings(String[] rawStrings)
 	{
 		String[] trimmedStrings = new String[rawStrings.length];
-		
 		for (int i=0; i<rawStrings.length; i++)
 		{
 			trimmedStrings[i] = rawStrings[i].trim();
 		}
-		
 		return trimmedStrings;	
 	}
 }

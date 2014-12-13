@@ -1,3 +1,4 @@
+package examples;
 import math.LogP;
 import pair.Pair;
 

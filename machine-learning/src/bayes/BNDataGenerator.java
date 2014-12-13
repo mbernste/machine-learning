@@ -127,7 +127,7 @@ public class BNDataGenerator
          * Pick nominal value and assign it to the instance
          */
         Double value = pickRandomValue(valueProbabilities);
-        instance.addAttributeInstance(thisAttr.getId(), value);
+        instance.addAttributeValue(thisAttr, value);
     }
     
     /**

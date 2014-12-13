@@ -127,6 +127,11 @@ public class DirectedGraph<T>
         return  this.edges.get(nodeToId.get(origin)).get(nodeToId.get(destination));
     }
     
+    public boolean edgeExists(T origin, T destination)
+    {
+        return edges.get(nodeToId.get(origin)).get(nodeToId.get(destination)) != Double.POSITIVE_INFINITY;
+    }
+    
     /**
      * @return all the nodes in the graph
      */

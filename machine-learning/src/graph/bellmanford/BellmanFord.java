@@ -41,7 +41,7 @@ public class BellmanFord
             passOverEdges(graph, nodeToShortestDistance, nodeToPredecessor);
         }
         
-        if (detectNegativeCycle(graph))
+        if (detectNegativeCycle(graph, nodeToShortestDistance))
         {
             return null;
         }
@@ -126,13 +126,21 @@ public class BellmanFord
         }
     }
 
-    private static <T> boolean detectNegativeCycle(DirectedGraph<T> graph)
+    private static <T> boolean detectNegativeCycle(DirectedGraph<T> graph,
+            Map<T, Double> nodeToShortestDistance)
     {
         for (T orig : graph.getNodes())
         {
             for (T dest : graph.getNodes())
             {
-               // TODO something 
+               
+               if (graph.edgeExists(orig, dest) &&
+                   nodeToShortestDistance.get(dest) > nodeToShortestDistance.get(orig) + graph.getEdgeWeight(orig, dest));
+               {
+                   // TODO FIXE!!!
+                   System.out.println("HERE!");
+                   return true;
+               }
             }
         }
         

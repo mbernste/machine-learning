@@ -137,7 +137,7 @@ public class DecisionTree
 	public Pair<Integer, Double> classifyInstance(Instance instance)
 	{
 	    DtNode currNode = (DtNode) this.getRoot();
-        
+        	    
         while (!(currNode instanceof DtLeaf))
         {
             @SuppressWarnings("unchecked")

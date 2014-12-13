@@ -30,12 +30,8 @@ public class TANBuilder extends NetworkBuilder
         this.data = data;
         this.laplaceCount = laplaceCount;
 
-        // Get all Attributes not including the class attribute
-      //  nonClassAttributes = (ArrayList<Attribute>)
-        //        data.getAttributeSet().getAttributes().clone();
-    
-       // nonClassAttributes = new AttributeSet(data.getAttributeSet()).getAttributes();
-        
+        // Build list of all non-class attributes
+        nonClassAttributes = new ArrayList<>(data.getAttributeSet().getAttributes());        
         nonClassAttributes.remove(data.getClassAttribute());
     }
 
@@ -215,54 +211,50 @@ public class TANBuilder extends NetworkBuilder
      * This method calculates P(X1 = x1, X2 = x2 | Y = y) where X1 and X2
      * are two attributes, and Y is the class attribute.
      * 
-     * @param pair1 an Attribute, Integer pair referring to the pair (X1, x1)
-     * @param pair2 an Attribute, Integer pair referring to the pair (X2, x2)
+     * @param attrValPair1 an Attribute, Integer pair referring to the pair (X1, x1)
+     * @param attrValPair2 an Attribute, Integer pair referring to the pair (X2, x2)
      * @param classVal the value of the class attribute, referring to y
      * @return the value of the calculated probability
      */
-    public Double conditionalJointProbability(Pair<Attribute, Integer> pair1,
-            Pair<Attribute, Integer> pair2,
+    public Double conditionalJointProbability(Pair<Attribute, Integer> attrValPair1,
+            Pair<Attribute, Integer> attrValPair2,
             Integer classVal)
     {
 
-        int classAttrId = data.getClassAttributeId();
+        Attribute classAttrId = data.getClassAttribute();
 
         int numeratorCount = 0;
         int denomCount = 0;
 
         for (Instance instance : data.getInstanceSet().getInstances())
         {
-            // Get the IDs of the two non-class Attributes
-            Integer attrId1 = pair1.getFirst().getId();
-            Integer attrId2 = pair2.getFirst().getId();
+            Attribute attr1 = attrValPair1.getFirst();
+            Attribute attr2 = attrValPair2.getFirst();
 
-            // Get the value of the current instance's class attribute
-            Integer instanceClassAttrValue = 
+            Integer instanceClassAttrVal = 
                     instance.getAttributeValue(classAttrId).intValue();
 
-            // Get the value of the current instance's first attribute
-            Integer instanceAttrValue1 =
-                    instance.getAttributeValue(attrId1).intValue();
+            Integer instanceAttrVal1 =
+                    instance.getAttributeValue(attr1).intValue();
 
-            // Get the value of the current instance's first attribute
-            Integer instanceAttrValue2 =
-                    instance.getAttributeValue(attrId2).intValue();	
+            Integer instanceAttrVal2 =
+                    instance.getAttributeValue(attr2).intValue();	
 
-            if (instanceClassAttrValue == classVal)
+            if (instanceClassAttrVal == classVal)
             {
                 denomCount++;
             }
 
-            if (instanceClassAttrValue == classVal &&
-                    instanceAttrValue1 == pair1.getSecond() &&
-                    instanceAttrValue2 == pair2.getSecond())
+            if (instanceClassAttrVal == classVal &&
+                    instanceAttrVal1 == attrValPair1.getSecond() &&
+                    instanceAttrVal2 == attrValPair2.getSecond())
             {
                 numeratorCount++;
             }
         }
 
-        Integer numValuesAttr1 = pair1.getFirst().getNominalValueMap().size();
-        Integer numValuesAttr2 = pair2.getFirst().getNominalValueMap().size();
+        Integer numValuesAttr1 = attrValPair1.getFirst().getNominalValueMap().size();
+        Integer numValuesAttr2 = attrValPair2.getFirst().getNominalValueMap().size();
 
 
         Double numerator = numeratorCount + (double) laplaceCount;
@@ -281,14 +273,14 @@ public class TANBuilder extends NetworkBuilder
      * This method calculates P(X = x | Y = y) where X is an attribute, 
      * and Y is the class attribute.
      * 
-     * @param pair an Attribute, Integer pair referring to the pair (X, x)
+     * @param attrValPair an Attribute, Integer pair referring to the pair (X, x)
      * @param classVal the value of the class attribute, referring to y
      * @return the value of the calculated probability
      */
-    public Double conditionalProbability(Pair<Attribute, Integer> pair,
+    public Double conditionalProbability(Pair<Attribute, Integer> attrValPair,
             Integer classVal)
     {
-        int classAttrId = data.getClassAttributeId();
+        Attribute classAttr = data.getClassAttribute();
 
         int numeratorCount = 0;
         int denomCount = 0;
@@ -296,15 +288,15 @@ public class TANBuilder extends NetworkBuilder
         for (Instance instance : data.getInstanceSet().getInstances())
         {
             // Get the IDs of the two non-class Attributes
-            Integer attrId = pair.getFirst().getId();
+            Attribute attr = attrValPair.getFirst();
 
             // Get the value of the current instance's class attribute
             Integer instanceClassAttrValue = 
-                    instance.getAttributeValue(classAttrId).intValue();
+                    instance.getAttributeValue(classAttr).intValue();
 
             // Get the value of the current instance's first attribute
             Integer instanceAttrValue =
-                    instance.getAttributeValue(attrId).intValue();
+                    instance.getAttributeValue(attr).intValue();
 
             if (instanceClassAttrValue == classVal)
             {
@@ -312,13 +304,13 @@ public class TANBuilder extends NetworkBuilder
             }
 
             if (instanceClassAttrValue == classVal &&
-                    instanceAttrValue == pair.getSecond())
+                    instanceAttrValue == attrValPair.getSecond())
             {
                 numeratorCount++;
             }
         }
 
-        Integer numValuesAttr = pair.getFirst().getNominalValueMap().size();		
+        Integer numValuesAttr = attrValPair.getFirst().getNominalValueMap().size();		
 
         Double numerator = numeratorCount + (double) laplaceCount;
         Double denominator = denomCount + ((double) laplaceCount * 
@@ -337,49 +329,45 @@ public class TANBuilder extends NetworkBuilder
      * This method calculates P(X1 = x1, X2 = x2 | Y = y) where X1 and X2
      * are two attributes, and Y is the class attribute.
      * 
-     * @param pair1 an Attribute, Integer pair referring to the pair (X1, x1)
-     * @param pair2 an Attribute, Integer pair referring to the pair (X2, x2)
+     * @param attrValPair1 an Attribute, Integer pair referring to the pair (X1, x1)
+     * @param attrValPair2 an Attribute, Integer pair referring to the pair (X2, x2)
      * @param classVal the value of the class attribute, referring to y
      * @return the value of the calculated probability
      */
-    public Double jointProbability(Pair<Attribute, Integer> pair1,
-            Pair<Attribute, Integer> pair2,
+    public Double jointProbability(Pair<Attribute, Integer> attrValPair1,
+            Pair<Attribute, Integer> attrValPair2,
             Integer classVal)
     {
 
-        int classAttrId = data.getClassAttributeId();
+        Attribute classAttr = data.getClassAttribute();
 
         int numeratorCount = 0;
         int denomCount = data.getInstanceSet().getInstances().size();
 
         for (Instance instance : data.getInstanceSet().getInstances())
         {
-            // Get the IDs of the two non-class Attributes
-            Integer attrId1 = pair1.getFirst().getId();
-            Integer attrId2 = pair2.getFirst().getId();
+            Attribute attr1 = attrValPair1.getFirst();
+            Attribute attr2 = attrValPair2.getFirst();
 
-            // Get the value of the current instance's class attribute
             Integer instanceClassAttrValue = 
-                    instance.getAttributeValue(classAttrId).intValue();
+                    instance.getAttributeValue(classAttr).intValue();
 
-            // Get the value of the current instance's first attribute
-            Integer instanceAttrValue1 =
-                    instance.getAttributeValue(attrId1).intValue();
+            Integer instanceAttrVal1 =
+                    instance.getAttributeValue(attr1).intValue();
 
-            // Get the value of the current instance's first attribute
-            Integer instanceAttrValue2 =
-                    instance.getAttributeValue(attrId2).intValue();	
+            Integer instanceAttrVal2 =
+                    instance.getAttributeValue(attr2).intValue();	
 
             if (instanceClassAttrValue == classVal &&
-                    instanceAttrValue1 == pair1.getSecond() &&
-                    instanceAttrValue2 == pair2.getSecond())
+                    instanceAttrVal1 == attrValPair1.getSecond() &&
+                    instanceAttrVal2 == attrValPair2.getSecond())
             {
                 numeratorCount++;
             }
         }
 
-        Integer numValuesAttr1 = pair1.getFirst().getNominalValueMap().size();
-        Integer numValuesAttr2 = pair2.getFirst().getNominalValueMap().size();
+        Integer numValuesAttr1 = attrValPair1.getFirst().getNominalValueMap().size();
+        Integer numValuesAttr2 = attrValPair2.getFirst().getNominalValueMap().size();
         Integer numValuesClass = data.getClassAttribute()
                 .getNominalValueMap().size();
 

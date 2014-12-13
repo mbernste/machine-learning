@@ -32,7 +32,7 @@ public class BNStructure
     /**
      * The attributes represented by nodes
      */
-    private AttributeSet attributes;
+    private List<Attribute> attributes;
     
     /**
      * A mapping of attributes to the nodes representing these attributes
@@ -49,7 +49,7 @@ public class BNStructure
      */
     public BNStructure()
     {
-        attributes = new AttributeSet();
+        attributes = new ArrayList<>();
         nodeMap = new HashMap<Attribute, BNNode>();
         nodeList = new ArrayList<BNNode>();
     }
@@ -66,20 +66,12 @@ public class BNStructure
     }
     
     /**
-     * @return the attributes represented by nodes in the network
-     */
-    public AttributeSet getAttributeSet()
-    {
-        return this.attributes;
-    }
-    
-    /**
      * @return a list of all attributes that are represented by nodes in the
      * network
      */
     public List<Attribute> getAttributes()
     {
-        return this.attributes.getAttributes();
+        return this.attributes;
     }
     
     /**
@@ -355,7 +347,7 @@ public class BNStructure
      */
     public void addNode(BNNode newNode, DataSet data, Integer laplaceCount)
     {
-        attributes.addAttribute(newNode.getAttribute());
+        attributes.add(newNode.getAttribute());
         nodeMap.put(newNode.getAttribute(), newNode);
         nodeList.add(newNode);
         

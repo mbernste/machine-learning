@@ -1,66 +1,66 @@
 
 thal = fixed_defect [4 6]
-|   ca <= 0.500000 [4 0]: negative
-|   ca > 0.500000 [0 6]: positive
+|	ca <= 0.500000 [4 0]: negative
+|	ca > 0.500000 [0 6]: positive
 thal = normal [84 19]
-|   thalach <= 111.500000 [0 4]: positive
-|   thalach > 111.500000 [84 15]
-|   |   age <= 55.500000 [56 4]
-|   |   |   trestbps <= 113.500000 [9 3]
-|   |   |   |   oldpeak <= 0.300000 [3 3]
-|   |   |   |   |   cp = typ_angina [0 0]: negative
-|   |   |   |   |   cp = asympt [0 2]: positive
-|   |   |   |   |   cp = non_anginal [1 1]
-|   |   |   |   |   |   age <= 44.000000 [1 0]: negative
-|   |   |   |   |   |   age > 44.000000 [0 1]: positive
-|   |   |   |   |   cp = atyp_angina [2 0]: negative
-|   |   |   |   oldpeak > 0.300000 [6 0]: negative
-|   |   |   trestbps > 113.500000 [47 1]
-|   |   |   |   oldpeak <= 3.550000 [47 0]: negative
-|   |   |   |   oldpeak > 3.550000 [0 1]: positive
-|   |   age > 55.500000 [28 11]
-|   |   |   chol <= 248.500000 [14 1]
-|   |   |   |   oldpeak <= 2.800000 [14 0]: negative
-|   |   |   |   oldpeak > 2.800000 [0 1]: positive
-|   |   |   chol > 248.500000 [14 10]
-|   |   |   |   sex = female [13 3]
-|   |   |   |   |   cp = typ_angina [1 0]: negative
-|   |   |   |   |   cp = asympt [3 3]
-|   |   |   |   |   |   age <= 58.000000 [2 0]: negative
-|   |   |   |   |   |   age > 58.000000 [1 3]
-|   |   |   |   |   |   |   chol <= 362.000000 [0 3]: positive
-|   |   |   |   |   |   |   chol > 362.000000 [1 0]: negative
-|   |   |   |   |   cp = non_anginal [7 0]: negative
-|   |   |   |   |   cp = atyp_angina [2 0]: negative
-|   |   |   |   sex = male [1 7]
-|   |   |   |   |   age <= 65.500000 [0 5]: positive
-|   |   |   |   |   age > 65.500000 [1 2]
-|   |   |   |   |   |   age <= 66.500000 [1 0]: negative
-|   |   |   |   |   |   age > 66.500000 [0 2]: positive
+|	thalach <= 111.500000 [0 4]: positive
+|	thalach > 111.500000 [84 15]
+|	|	age <= 55.500000 [56 4]
+|	|	|	trestbps <= 113.500000 [9 3]
+|	|	|	|	oldpeak <= 0.300000 [3 3]
+|	|	|	|	|	cp = typ_angina [0 0]: negative
+|	|	|	|	|	cp = asympt [0 2]: positive
+|	|	|	|	|	cp = non_anginal [1 1]
+|	|	|	|	|	|	age <= 44.000000 [1 0]: negative
+|	|	|	|	|	|	age > 44.000000 [0 1]: positive
+|	|	|	|	|	cp = atyp_angina [2 0]: negative
+|	|	|	|	oldpeak > 0.300000 [6 0]: negative
+|	|	|	trestbps > 113.500000 [47 1]
+|	|	|	|	oldpeak <= 3.550000 [47 0]: negative
+|	|	|	|	oldpeak > 3.550000 [0 1]: positive
+|	|	age > 55.500000 [28 11]
+|	|	|	chol <= 248.500000 [14 1]
+|	|	|	|	oldpeak <= 2.800000 [14 0]: negative
+|	|	|	|	oldpeak > 2.800000 [0 1]: positive
+|	|	|	chol > 248.500000 [14 10]
+|	|	|	|	sex = female [13 3]
+|	|	|	|	|	cp = typ_angina [1 0]: negative
+|	|	|	|	|	cp = asympt [3 3]
+|	|	|	|	|	|	age <= 58.000000 [2 0]: negative
+|	|	|	|	|	|	age > 58.000000 [1 3]
+|	|	|	|	|	|	|	chol <= 362.000000 [0 3]: positive
+|	|	|	|	|	|	|	chol > 362.000000 [1 0]: negative
+|	|	|	|	|	cp = non_anginal [7 0]: negative
+|	|	|	|	|	cp = atyp_angina [2 0]: negative
+|	|	|	|	sex = male [1 7]
+|	|	|	|	|	age <= 65.500000 [0 5]: positive
+|	|	|	|	|	age > 65.500000 [1 2]
+|	|	|	|	|	|	age <= 66.500000 [1 0]: negative
+|	|	|	|	|	|	age > 66.500000 [0 2]: positive
 thal = reversable_defect [20 67]
-|   cp = typ_angina [3 1]
-|   |   oldpeak <= 0.700000 [0 1]: positive
-|   |   oldpeak > 0.700000 [3 0]: negative
-|   cp = asympt [5 53]
-|   |   oldpeak <= 0.650000 [5 10]
-|   |   |   chol <= 240.500000 [5 2]
-|   |   |   |   chol <= 192.000000 [1 2]
-|   |   |   |   |   age <= 62.000000 [0 2]: positive
-|   |   |   |   |   age > 62.000000 [1 0]: negative
-|   |   |   |   chol > 192.000000 [4 0]: negative
-|   |   |   chol > 240.500000 [0 8]: positive
-|   |   oldpeak > 0.650000 [0 43]: positive
-|   cp = non_anginal [9 10]
-|   |   oldpeak <= 1.900000 [9 5]
-|   |   |   trestbps <= 122.500000 [6 0]: negative
-|   |   |   trestbps > 122.500000 [3 5]
-|   |   |   |   chol <= 232.500000 [3 1]
-|   |   |   |   |   trestbps <= 129.000000 [0 1]: positive
-|   |   |   |   |   trestbps > 129.000000 [3 0]: negative
-|   |   |   |   chol > 232.500000 [0 4]: positive
-|   |   oldpeak > 1.900000 [0 5]: positive
-|   cp = atyp_angina [3 3]
-|   |   age <= 47.000000 [2 0]: negative
-|   |   age > 47.000000 [1 3]
-|   |   |   trestbps <= 109.000000 [1 0]: negative
-|   |   |   trestbps > 109.000000 [0 3]: positive
+|	cp = typ_angina [3 1]
+|	|	oldpeak <= 0.700000 [0 1]: positive
+|	|	oldpeak > 0.700000 [3 0]: negative
+|	cp = asympt [5 53]
+|	|	oldpeak <= 0.650000 [5 10]
+|	|	|	chol <= 240.500000 [5 2]
+|	|	|	|	chol <= 192.000000 [1 2]
+|	|	|	|	|	age <= 62.000000 [0 2]: positive
+|	|	|	|	|	age > 62.000000 [1 0]: negative
+|	|	|	|	chol > 192.000000 [4 0]: negative
+|	|	|	chol > 240.500000 [0 8]: positive
+|	|	oldpeak > 0.650000 [0 43]: positive
+|	cp = non_anginal [9 10]
+|	|	oldpeak <= 1.900000 [9 5]
+|	|	|	trestbps <= 122.500000 [6 0]: negative
+|	|	|	trestbps > 122.500000 [3 5]
+|	|	|	|	chol <= 232.500000 [3 1]
+|	|	|	|	|	trestbps <= 129.000000 [0 1]: positive
+|	|	|	|	|	trestbps > 129.000000 [3 0]: negative
+|	|	|	|	chol > 232.500000 [0 4]: positive
+|	|	oldpeak > 1.900000 [0 5]: positive
+|	cp = atyp_angina [3 3]
+|	|	age <= 47.000000 [2 0]: negative
+|	|	age > 47.000000 [1 3]
+|	|	|	trestbps <= 109.000000 [1 0]: negative
+|	|	|	trestbps > 109.000000 [0 3]: positive

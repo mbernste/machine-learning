@@ -54,7 +54,7 @@ public class VariableSet
         // Linear Search for a match in Attribute ID's
         for (Pair<Attribute, Integer> item : variables)
         {
-            if (item.getFirst().getId() == attr.getId())
+            if (item.getFirst().equals(attr))
             {
                 return true;
             }
@@ -84,7 +84,7 @@ public class VariableSet
          */
         for (Pair<Attribute, Integer> item : variables)
         {
-            if (item.getFirst().getId() == attr.getId())
+            if (item.getFirst().equals(attr))
             {
                 return item.getSecond();
             }

@@ -6,10 +6,8 @@ import java.util.Map.Entry;
 
 
 /**
- * Represents a single instance
+ * Represents an instance.
  * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
- *
  */
 public class Instance 
 {	
@@ -17,28 +15,16 @@ public class Instance
 	 * This instance's attribute value.  The map maps an attribute ID
 	 * to a valid value for that attribute
 	 */
-	private final Map<Integer, Double> attributes;
+	private final Map<Attribute, Double> attributesToValues;
 	
 	/**
 	 * Constructor
 	 */
 	public Instance()
 	{
-		attributes = new HashMap<>();
+		attributesToValues = new HashMap<>();
 	}
 	
-	/**
-	 * Get the value for an attribute with the given attribute ID.
-	 * 
-	 * @param attrId the attribute ID for the value we wish to retrieve
-	 * @return
-	 */
-	//TODO REFACTOR!
-	@Deprecated
-	public Double getAttributeValue(Integer attrId)
-	{
-		return attributes.get(attrId);
-	}
 	
 	/**
 	 * Get the value for an attribute.
@@ -48,7 +34,7 @@ public class Instance
 	 */
 	public Double getAttributeValue(Attribute attr)
 	{
-	    return attributes.get(attr.getId());
+	    return attributesToValues.get(attr);
 	}
 	
 	/**
@@ -57,9 +43,9 @@ public class Instance
 	 * @param attrId the attribute ID of the attribute being added
 	 * @param value the value of the corresponding attribute
 	 */
-	public void addAttributeInstance(Integer attrId, Double value)
+	public void addAttributeValue(Attribute attr, Double value)
 	{
-		attributes.put(attrId, value);
+		attributesToValues.put(attr, value);
 	}
 	
 	/**
@@ -69,20 +55,32 @@ public class Instance
 	 * @return
 	 */
 	@Override
-	public boolean equals(Object o){
-		Map<Integer, Double> other = ((Instance)o).attributes;
-		for(Entry<Integer, Double> attr: attributes.entrySet()){
-			if(!other.get(attr.getKey()).equals(attr.getValue())){
+	public boolean equals(Object o)
+	{
+		Map<Attribute, Double> other = ((Instance)o).attributesToValues;
+		for(Entry<Attribute, Double> attr: attributesToValues.entrySet())
+		{
+			if(!other.get(attr.getKey()).equals(attr.getValue()))
+			{
 				return false;
 			}
 		}
 		return true;
 	}
 	
-	public String toString(){
+	public String toString()
+	{
 		String result = "";
-		for(Entry<Integer, Double> entry: attributes.entrySet()){
-			result += "(" + entry.getKey() + " -> " + entry.getValue() + ") ";
+		for(Entry<Attribute, Double> entry: attributesToValues.entrySet())
+		{
+		    if (entry.getKey().getType() == Attribute.Type.NOMINAL)
+		    {
+		          result += "(" + entry.getKey().getName() + " = " + entry.getKey().getNominalValueName(entry.getValue().intValue()) + ") ";
+		    }
+		    else
+		    {
+		        result += "(" + entry.getKey().getName() + " = " + entry.getValue() + ") ";
+		    }
 		}
 		return result;
 	}

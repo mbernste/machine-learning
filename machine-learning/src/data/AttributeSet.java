@@ -1,33 +1,24 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.common.collect.ImmutableMap;
+
 /**
  * Stores a set of attributes.
- * 
- * @author Matthew Bernstein - matthewb@cs.wisc.edu
- * 
+ *  
  */
 public class AttributeSet 
 {
 	/**
-	 * Maps the name of an attribute to its unique integer ID
+	 * Maps the name of an attribute to the object
 	 */
-	Map<String, Integer> nameIdMapping;
-	
-	/**
-	 * All of the attributes in this attribute set
-	 */
-	List<Attribute> attributes;
-	
-	/**
-	 * Total number of attributes in this set
-	 */
-	private int attrCount = 0;
+	private final Map<String, Attribute> nameAttrMap;
 	
 	/**
 	 * The attribute that denotes the "class" or "concept"
@@ -37,88 +28,16 @@ public class AttributeSet
 	/**
 	 * Constructor
 	 */
-	public AttributeSet()
+	public AttributeSet(List<Attribute> attributes)
 	{
-		nameIdMapping = new HashMap<>();
-		attributes = new ArrayList<>();
-	}
-	
-	/**
-	 * Copy constructor 
-	 * 
-	 * @param original AttributeSet
-	 */
-	public AttributeSet(AttributeSet original) 
-	{
-	}
-	
-	/**
-	 * Print to the console a detailed outline of all the available attributes
-	 * and their integer id's
-	 */
-	public void printAttributeSet()
-	{
-		System.out.println("ATTRIBUTES: ");
-		for (Attribute attr : attributes)
-		{
-			System.out.println(attr.getName() + ", " + attr.getId());
-			if (attr.getType() == Attribute.Type.NOMINAL)
-			{
-				System.out.println("Nominal Values:");
-				Map<String, Integer> nominalValueEntryMap 
-												= attr.getNominalValueMap();
-				
-				for (Entry<String, Integer> element : nominalValueEntryMap.entrySet())
-				{
-					System.out.println(element.getKey() + ", " 
-														+ element.getValue());
-				}
-			}
-			else if (attr.getType() == Attribute.Type.CONTINUOUS)
-			{
-				System.out.println("Continuos");
-			}
-			System.out.print("\n");
-		}
-	}
-	
-	/**
-	 * Add an attribute to the set of attributes.
-	 * 
-	 * @param attrName - the name of the attribute
-	 * @param attrType - the type of attribute (i.e. nominal or continuous)
-	 * @param nominalValues - all nominal values if this is a nominal attribute. 
-	 * Set to null if this attribute is continuous
-	 */
-	public void addAttribute(String attrName, 
-							Attribute.Type attrType, 
-							String[] nominalValues)
-	{
-		nameIdMapping.put(attrName, attrCount);
-		attributes.add(new Attribute(attrName, attrCount, attrType, nominalValues));
-		attrCount++;
-	}
-	
-	/**
-	 * Add an already constructed attribute to the set of attributes.
-	 * 
-	 * @param newAttr the new attribute
-	 */
-	public void addAttribute(Attribute newAttr)
-	{
-	    attributes.add(newAttr);
-	    attrCount++;
-	}
-	
-	/**
-	 * Get an attribute by its attribute ID.
-	 * 
-	 * @param attrId - the attribute ID
-	 * @return the attribute with this ID
-	 */
-	public Attribute getAttributeById(Integer attrId)
-	{
-		return attributes.get(attrId);
+	    ImmutableMap.Builder<String, Attribute> builder = new ImmutableMap.Builder<>();
+	    
+	    for (Attribute attr : attributes)
+	    {
+	        builder.put(attr.getName(), attr);
+	    }
+	    
+	    this.nameAttrMap = builder.build();
 	}
 	
 	/**
@@ -129,8 +48,7 @@ public class AttributeSet
 	 */
 	public Attribute getAttributeByName(String attrName)
 	{
-		Integer attrId = nameIdMapping.get(attrName);
-		return attributes.get(attrId);
+		return nameAttrMap.get(attrName);
 	}
 	
 	/**
@@ -143,13 +61,7 @@ public class AttributeSet
 	 */
 	public Integer getNominalValueId(String attrName, String attrValue)
 	{
-		Integer attrId = nameIdMapping.get(attrName);
-		return attributes.get(attrId).getNominalValueId(attrValue);
-	}
-	
-	public Integer getNominalValueId(Integer attrId, String attrValue)
-	{
-		return attributes.get(attrId).getNominalValueId(attrValue);
+		return nameAttrMap.get(attrName).getNominalValueId(attrValue);
 	}
 	
 	/**
@@ -157,7 +69,7 @@ public class AttributeSet
 	 */
 	public List<Attribute> getAttributes()
 	{
-		return attributes;
+		return new ArrayList<>(nameAttrMap.values());
 	}
 	
 	/**
@@ -167,7 +79,7 @@ public class AttributeSet
 	 */
 	public void setClass(String attrName)
 	{
-		if (this.contains(attrName))
+		if (this.containsAttrWithName(attrName))
 		{
 			classAttribute = attrName;
 		}
@@ -176,15 +88,6 @@ public class AttributeSet
 			throw new RuntimeException("Trying to set an invalid attribute, " + 
 						attrName + " as the class attribute.");
 		}
-	}
-	
-	/**
-	 * @return the unique integer ID of the attribute denoted as the "class" 
-	 * or "concept" attribute
-	 */
-	public Integer getClassAttrId()
-	{
-		return nameIdMapping.get(classAttribute);
 	}
 	
 	/**
@@ -202,11 +105,9 @@ public class AttributeSet
 	 * @param attrName The name of the attribute for which we are checking is 
 	 * valid
 	 */
-	public Boolean contains(String attrName)
+	public Boolean containsAttrWithName(String attrName)
 	{
-		return nameIdMapping.containsKey(attrName);
+		return nameAttrMap.containsKey(attrName);
 	}
-	
-	
-	
+
 }

@@ -46,15 +46,15 @@ public abstract class DecisionTreeBuilder
 
 	public DecisionTree buildDecisionTree(DataSet data)
 	{
-		List<Attribute> availableAttributes = removeAttributeById(data.getAttributeSet().getAttributes(),
-				data.getClassAttributeId());
+		List<Attribute> availAttributes = new ArrayList<>(data.getAttributeSet().getAttributes());
+		availAttributes.remove(data.getClassAttribute());
 
 		DtNode root = makeSubTree( 
 				data, 
 				null,
 				null,
 				null,
-				availableAttributes);
+				availAttributes);
 		
 		decisionTree = new DecisionTree(root, data.getClassAttribute());
 		return decisionTree;	
@@ -99,18 +99,18 @@ public abstract class DecisionTreeBuilder
 				subsetData.setClassAttribute(data.getClassAttribute().getName());
 
 				/*
-				 *  Determine attributes that are still available after the split.  We only remove 
-				 *  the attribute if it is nominal.  
+				 *  Determine attributes that are still available after the split.  
+				 *  We only remove the attribute if it is nominal.  
 				 */
-				List<Attribute> newAvailableAttributes;
+				List<Attribute> newAvailAttrs = null;
 				if (branch.getAttribute().getType() == Attribute.Type.NOMINAL)
 				{
-					newAvailableAttributes = removeAttributeById(availAttrs,
-							bestSplit.getAttribute().getId());
+				    newAvailAttrs = new ArrayList<>(availAttrs);
+				    newAvailAttrs.remove(bestSplit.getAttribute());
 				}
 				else
 				{
-					newAvailableAttributes = availAttrs;
+				    newAvailAttrs = availAttrs;
 				}
 
 				/*
@@ -121,7 +121,7 @@ public abstract class DecisionTreeBuilder
 						bestSplit.getAttribute(),
 						branch.getValue(),
 						branch.getRelation(),
-						newAvailableAttributes);
+						newAvailAttrs);
 
 				newNode.addChild(child);
 			}
@@ -130,28 +130,4 @@ public abstract class DecisionTreeBuilder
 		return newNode;
 	}
 	
-	/**
-	 * A helper method for removing an attribute with a specific attribute ID
-	 * from an ArrayList of Attributes
-	 *  
-	 * @param currAttrs ArrayList of Attributes from which we wish to 
-	 * remove an Attribute
-	 * @param attrId the ID of the Attribute we wish to remove
-	 * @return
-	 */
-	private List<Attribute> removeAttributeById(List<Attribute> currAttrs, 
-	                                                 Integer attrId)
-	{
-		List<Attribute> newAttributes = new ArrayList<>();
-		
-		for (Attribute attr : currAttrs)
-		{
-			if (attr.getId() != attrId)
-			{
-				newAttributes.add(attr);
-			}
-		}
-		
-		return newAttributes;
-	}
 }

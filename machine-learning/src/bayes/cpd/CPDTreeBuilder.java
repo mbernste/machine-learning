@@ -120,18 +120,15 @@ public class CPDTreeBuilder
                 /*
                  *  Remove the attribute we just split on
                  */
-                ArrayList<Attribute> newAvailAttributes;
-                newAvailAttributes = removeAttributeById(availAttributes,
-                        split.getAttribute().getId());
-
-
+                availAttributes.remove(split.getAttribute());
+                
                 /*
                  *  Make the recursive call to make a subtree at each child node
                  */
                 CPDNode child = makeSubTree(subsetData,
                                             split.getAttribute(),
                                             branch.getValue().intValue(),
-                                            newAvailAttributes,
+                                            availAttributes,
                                             laplaceCount);
 
                 child.setParent(newNode);
@@ -174,30 +171,5 @@ public class CPDTreeBuilder
          *	criteria
          */
         return false;
-    }
-
-    /**
-     * A helper method for removing an attribute with a specific attribute ID
-     * from an ArrayList of Attributes
-     *  
-     * @param currAttributes ArrayList of Attributes from which we wish to 
-     * remove an Attribute
-     * @param attrId the ID of the Attribute we wish to remove
-     * @return the resultant Attributes
-     */
-    private ArrayList<Attribute> removeAttributeById(ArrayList<Attribute> currAttributes, 
-                                                     Integer attrId)
-    {
-        ArrayList<Attribute> newAttributes = new ArrayList<Attribute>();
-
-        for (Attribute attr : currAttributes)
-        {
-            if (attr.getId() != attrId)
-            {
-                newAttributes.add(attr);
-            }
-        }
-
-        return newAttributes;
     }
 }
