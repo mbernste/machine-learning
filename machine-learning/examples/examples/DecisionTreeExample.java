@@ -23,9 +23,8 @@ public class DecisionTreeExample
 		/*
 		 * Read data		
 		 */
-		ArffReader reader = new ArffReader();
-		DataSet trainingData = reader.readFile(trainArffPath);
-		DataSet testData = reader.readFile(testArffPath);
+		DataSet trainingData = ArffReader.readFile(trainArffPath);
+		DataSet testData = ArffReader.readFile(testArffPath);
 
 		/*
 		 * Specify the class attribute name
