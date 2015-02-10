@@ -31,6 +31,8 @@ Generic Graph Theory Algorithms:
     
     Bellman-Ford Algorithm
     
+    Floyd-Warshall Algorithm
+    
     Prim's Algorithm
     
     Cycle Detection
