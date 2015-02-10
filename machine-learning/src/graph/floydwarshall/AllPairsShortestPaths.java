@@ -40,9 +40,15 @@ public class AllPairsShortestPaths<T>
 		Integer destNodeIndex = indexToNode.getKey(destination);
 		
 		while (!currNodeIndex.equals(destNodeIndex))
-		{
-			Integer nextNode = nextNodeMatrix[currNodeIndex][destNodeIndex];
-			// path.appendNodeToPath(indexToNode.getValue(nextNode), edgeLength); // TODO FINISH THIS!
+		{	
+			Integer nextNodeIndex = nextNodeMatrix[currNodeIndex][destNodeIndex];
+			
+			Double currDistance = distanceMatrix[currNodeIndex][destNodeIndex];
+			Double nextNodeDistance = distanceMatrix[nextNodeIndex][destNodeIndex];
+			Double edgeWeight = currDistance - nextNodeDistance;
+			
+			path.appendNodeToPath(indexToNode.getValue(nextNodeIndex), edgeWeight); // TODO CALCULATE THE ACTUAL DISTANCE
+			currNodeIndex = nextNodeIndex;
 		}
 		
 		return path;

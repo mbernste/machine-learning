@@ -2,8 +2,10 @@ package examples;
 import java.util.Map;
 
 import graph.DirectedGraph;
+import graph.Path;
 import graph.bellmanford.BellmanFord;
-import graph.bellmanford.Path;
+import graph.floydwarshall.AllPairsShortestPaths;
+import graph.floydwarshall.FloydWarshall;
 
 
 public class GraphAlgorithmExamples 
@@ -12,6 +14,7 @@ public class GraphAlgorithmExamples
     public static void main(String[] args)
     {
         bellmanFordExample();
+        floydWarshallExample();
     }
     
     
@@ -34,6 +37,15 @@ public class GraphAlgorithmExamples
         {
             System.out.println(path);
         }  
+    }
+    
+    public static void floydWarshallExample()
+    {
+        DirectedGraph<String> graph = createToyGraph_NoNegativeCycles();
+
+        AllPairsShortestPaths<String> paths = FloydWarshall.runFloydWarshall(graph);
+        
+        System.out.println(paths.getPath("A", "B"));
     }
     
     /**

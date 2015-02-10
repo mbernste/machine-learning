@@ -147,7 +147,7 @@ public class BellmanFord
                {
                    // TODO FIX THERE IS A BUG HERE!!!
                    System.out.println("HERE!");
-                   return true;
+                   return false;
                }
             }
         }
