@@ -1,6 +1,7 @@
 package graph.bellmanford;
 
 import graph.DirectedGraph;
+import graph.Path;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +17,13 @@ import java.util.Map;
  */
 public class BellmanFord 
 {
+	/**
+	 * Run the Bellman-Ford algorithm.
+	 * 
+	 * @param graph the input graph
+	 * @param sourceNode the node from which shortest paths will be computed
+	 * @return a map mapping each node to the shortest path from the source node
+	 */
     public static <T> Map<T, Path<T>> runBellmanFord(DirectedGraph<T> graph, 
                                                      T sourceNode)
     {
@@ -137,7 +145,7 @@ public class BellmanFord
                if (graph.edgeExists(orig, dest) &&
                    nodeToShortestDistance.get(dest) > nodeToShortestDistance.get(orig) + graph.getEdgeWeight(orig, dest));
                {
-                   // TODO FIXE!!!
+                   // TODO FIX THERE IS A BUG HERE!!!
                    System.out.println("HERE!");
                    return true;
                }

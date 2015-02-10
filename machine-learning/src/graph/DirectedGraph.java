@@ -13,7 +13,7 @@ import java.util.Map;
  * @param <T> the type that represents each node
  */
 public class DirectedGraph<T> 
-{ 
+{ 	
     /**
      * Maps each object to a node ID
      */
@@ -32,7 +32,7 @@ public class DirectedGraph<T>
     public DirectedGraph()
     {
         this.nodeToId = new HashMap<>();
-        this.edges = new ArrayList<>();    
+        this.edges = new ArrayList<>();  
     }
     
     /**
@@ -62,7 +62,6 @@ public class DirectedGraph<T>
             str += node + "\t" + nodeToId.get(node) + "\n";
         }
         
-        
         str += "\nEdges\n";
         str += "\t";
         for (int i = 0; i < edges.size(); i++)
@@ -89,6 +88,7 @@ public class DirectedGraph<T>
         }
         return str;
     }
+
     
     /**
      * Add an edge to the graph.  If the nodes are not already present in the
@@ -127,6 +127,11 @@ public class DirectedGraph<T>
         return  this.edges.get(nodeToId.get(origin)).get(nodeToId.get(destination));
     }
     
+    /**
+     * @param origin the origin node
+     * @param destination the destination node
+     * @return true if an edge exists from the origin to the destination. false otherwise
+     */
     public boolean edgeExists(T origin, T destination)
     {
         return edges.get(nodeToId.get(origin)).get(nodeToId.get(destination)) != Double.POSITIVE_INFINITY;
@@ -135,8 +140,8 @@ public class DirectedGraph<T>
     /**
      * @return all the nodes in the graph
      */
-    public Collection<T> getNodes()
+    public List<T> getNodes()
     {
-        return this.nodeToId.keySet();
+        return new ArrayList<>(this.nodeToId.keySet());
     }
 }
