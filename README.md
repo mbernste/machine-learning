@@ -1,7 +1,7 @@
 machine-learning
 ================
 
-A Java library of machine learning algorithms.  These are my own implementations that I am working on for both practice and research purposes.
+A Java library of machine learning algorithms.  These are my own implementations that I am working on for practice.
 
 Decision Trees:
    
